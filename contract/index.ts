@@ -45,7 +45,14 @@ export class Contract {
     }, {});
   }
 
+  /**
+   * Public mapping from method name to function call builder
+   */
   public methods: MethodCallMap;
+
+  /**
+   * Internal list of contract method definitions
+   */
   private readonly methodDefinitions: Method[];
 
   constructor(contractName: string) {
@@ -55,6 +62,9 @@ export class Contract {
     this.methods = Contract.createMethodMap(this.methodDefinitions);
   }
 
+  /**
+   * Getter to list the available methods for a given contract
+   */
   listMethods(): MethodDefinitionMap {
     return this.methodDefinitions.reduce((acc: MethodDefinitionMap, methodDefinition: Method) => {
       acc[methodDefinition.getName()] = methodDefinition.define();

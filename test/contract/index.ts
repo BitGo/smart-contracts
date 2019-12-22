@@ -1,30 +1,52 @@
 import * as expect from 'expect';
-import * as fs from 'fs';
 import { Contract } from '../../';
-import { isValidJSON } from '../../util/json';
-import { getKnownSolidityTypes, getSolidityParameter } from '../testutil';
 import { Parameter } from '../../contract/json';
+import { MethodResponse } from '../../contract/method';
+import { getKnownSolidityTypes, getSolidityParameter } from '../testutil';
 
-const CONTRACT_DIR = 'abis/';
+const FUZZING_REPETITIONS = 10;
 
 describe('Contract', () => {
   describe('Static ABIs', () => {
-    it('ABIs should be a valid JSON ABI', () => {
+    /**
+     * Run `callback` on every contract that we have defined locally
+     * @param callback Function with tests to run on each contract
+     */
+    const testStaticContracts = (callback: (contract: Contract) => void) => {
       Contract.listContractTypes().forEach((abiFileName) => {
-        const jsonAbi: string = fs.readFileSync(CONTRACT_DIR + abiFileName + '.json', 'utf-8');
-        expect(isValidJSON(jsonAbi)).toBe(true);
+        callback(new Contract(abiFileName));
       });
-    });
+    };
+
+    /**
+     * Test every method on the given contract, using fuzzed inputs.
+     * Runs tests provided in `callback` on the responses from each fuzzed method
+     * @param contract the contract to run methods from
+     * @param callback Callback to run on the response from calling each method with fuzzed inputs
+     */
+    const testFuzzedContractMethods = (contract: Contract, callback: (response: MethodResponse) => void) => {
+      const allMethods = contract.listMethods();
+
+      Object.keys(allMethods).forEach((methodName: string) => {
+        const params: Parameter[] = allMethods[methodName].inputs;
+        const args = {};
+
+        params.forEach((param: Parameter) => {
+          args[param.name] = getSolidityParameter(param.type);
+        });
+
+        callback(contract.methods[methodName](args));
+      });
+    };
 
     it('Should instantiate correctly', () => {
-      Contract.listContractTypes().forEach((abiFileName) => {
-        const contract = new Contract(abiFileName);
+      testStaticContracts((contract) => {
+        expect(contract).toBeDefined();
       });
     });
 
     it('Should fail when given parameters to a function that requires them', () => {
-      Contract.listContractTypes().forEach((abiFileName) => {
-        const contract = new Contract(abiFileName);
+      testStaticContracts((contract) => {
         const allMethods = contract.listMethods();
         const methodsWithParameters = Object.keys(allMethods)
           .filter((methodName: string) => allMethods[methodName].inputs.length > 0);
@@ -36,8 +58,7 @@ describe('Contract', () => {
     });
 
     it('Should succeed when given parameters to a function that doesnt require them', () => {
-      Contract.listContractTypes().forEach((abiFileName) => {
-        const contract = new Contract(abiFileName);
+      testStaticContracts((contract) => {
         const allMethods = contract.listMethods();
         const methodsWithoutParameters = Object.keys(allMethods)
           .filter((methodName: string) => allMethods[methodName].inputs.length === 0);
@@ -52,22 +73,13 @@ describe('Contract', () => {
     });
 
     it('Should succeed when given expected parameters', () => {
-      Contract.listContractTypes().forEach((abiFileName) => {
-        const contract = new Contract(abiFileName);
-        const allMethods = contract.listMethods();
-
-        Object.keys(allMethods).forEach((methodName: string) => {
-          const params: Parameter[] = allMethods[methodName].inputs;
-          const args = {};
-
-          params.forEach((param: Parameter) => {
-            args[param.name] = getSolidityParameter(param.type);
+      for (let i = 0; i < FUZZING_REPETITIONS; i++) {
+        testStaticContracts((contract) => {
+          testFuzzedContractMethods(contract, ({ data }) => {
+            expect(data).toBeDefined();
           });
-
-          const { data } = contract.methods[methodName](args);
-          expect(data).toBeDefined();
         });
-      });
+      }
     });
   });
 });
