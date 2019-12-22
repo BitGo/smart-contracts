@@ -1,0 +1,60 @@
+{
+  "extends": "tslint:recommended",
+  "rules": {
+    "array-type": [true, "array"],
+    "interface-name": false,
+    "max-classes-per-file": [false, 10],
+    "max-line-length": false,
+    "member-access": false,
+    "no-consecutive-blank-lines": [true, 2],
+    "no-console": [
+      true,
+      "debug",
+      "info",
+      "time",
+      "timeEnd",
+      "trace"
+    ],
+    "no-empty": false,
+    "no-null-keyword": true,
+    "no-shadowed-variable": false,
+    "object-literal-shorthand": false,
+    "object-literal-sort-keys": false,
+    "ordered-imports": [
+      true,
+      {
+        "import-sources-order": "lowercase-first",
+        "module-source-path": "full",
+        "named-imports-order": "lowercase-first"
+      }
+    ],
+    "quotemark": [
+      true,
+      "single",
+      "avoid-escape"
+    ],
+    "semicolon": [
+      true,
+      "always",
+      "ignore-bound-class-methods"
+    ],
+    "typedef": [
+      true,
+      "call-signature",
+      "parameter"
+    ],
+    "variable-name": [
+      true,
+      "ban-keywords",
+      "check-format",
+      "allow-pascal-case",
+      "allow-snake-case"
+    ]
+  },
+  "linterOptions": {
+    "exclude": [
+      "**/migrations/*.ts"
+    ]
+  }
+}
+

@@ -1,0 +1,82 @@
+lib-cov
+*.seed
+*.log
+*.csv
+*.dat
+*.out
+*.pid
+*.gz
+*.swp
+
+pids
+logs
+results
+tmp
+env_file
+
+# Build
+public/css/main.css
+
+# Coverage reports
+coverage
+.nyc_output
+
+# API keys and secrets
+.env
+.platformProxyKey
+
+# Dependency directory
+node_modules
+bower_components
+
+# Editors
+.angulardoc.json
+.idea
+*.iml
+
+# OS metadata
+.DS_Store
+Thumbs.db
+
+# Ignore built ts files
+dist/**/*
+dist
+
+# Ignore editor settings
+.vscode
+
+# Sandbox folder for testing
+lab/
+
+# Debugging logs
+npm-debug.log
+lerna-debug.log
+
+# NPM lockfile
+yarn.lock
+
+# Symlinked postgres createDB.sh for packages
+packages/common/scripts/createDB.sh
+!packages/common/scripts/createDB.sh
+
+# Symlinked createTimescaleDB.sh for packages
+packages/common/scripts/createTimescaleDB.sh
+!packages/common/scripts/createTimescaleDB.sh
+
+# Cypress example files
+packages/cypress/fixtures/example.json
+
+# Cypress environment specific values
+packages/cypress.env.json
+
+# Cypress screenshots and videos
+packages/cypress/screenshots/
+packages/cypress/snapshots/**/__diff_output__
+packages/cypress/videos/
+
+# these files get created by the local UI runner
+packages/cypress/package.json
+packages/cypress/package-lock.json
+
+#copied files from client-all
+packages/client-all/src/assets/

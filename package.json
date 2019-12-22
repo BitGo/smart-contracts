@@ -1,0 +1,36 @@
+{
+  "name": "eth-contracts",
+  "version": "1.0.0",
+  "description": "A library to build Ethereum smart contract function calls.",
+  "main": "index.ts",
+  "scripts": {
+    "test": "mocha --exit -r ts-node/register --timeout 100000 --recursive 'test/**/*.ts'",
+    "build": "npm run build-ts",
+    "build-ts": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bitgo/eth-contracts.git"
+  },
+  "author": "",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/bitgo/eth-contracts/issues"
+  },
+  "homepage": "https://github.com/bitgo/eth-contracts#readme",
+  "dependencies": {
+    "ethereumjs-abi": "0.6.8",
+    "ethereumjs-util": "^6.2.0",
+    "typescript": "3.4.5"
+  },
+  "devDependencies": {
+    "@types/expect": "^24.3.0",
+    "@types/mocha": "5.2.7",
+    "expect": "^24.9.0",
+    "mocha": "6.2.2",
+    "ts-node": "^8.5.4",
+    "tslint": "5.11.0",
+    "tslint-config-prettier": "1.18.0",
+    "tslint-plugin-prettier": "2.0.1"
+  }
+}
