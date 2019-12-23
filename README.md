@@ -2,7 +2,8 @@
 
 A simple library for building Ethereum smart contract interactions. When offline, or away from a web3 wallet, smart 
 contract interaction is quite difficult. This is because it requires special transaction data that defines 
-a function call on a smart contract. This library 
+a function call on a smart contract. This library intends to improve this experience by providing a simple interface
+for common smart contract function calls. It also aims to be extensible to a wide variety of contracts.
 
 ## Installing
 
@@ -74,7 +75,7 @@ const types = new Contract('StandardERC20').listMethods();
 
 **methods()** -- get contract method builder objects
 ```js
-const types = new Contract('StandardERC20').listMethods();
+const types = new Contract('StandardERC20').methods();
 // response: { transfer: <function to build transfer>, approve: <function to build approve> }
 ```
 

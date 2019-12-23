@@ -72,7 +72,7 @@ describe('Contract', () => {
       });
     });
 
-    it('Should fail when given parameters to a function that requires them', () => {
+    it('Should fail when given no parameters to a function that requires them', () => {
       testStaticContracts((contract) => {
         const allMethods = contract.listMethods();
         const methodsWithParameters = Object.keys(allMethods)
