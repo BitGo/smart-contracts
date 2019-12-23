@@ -10,6 +10,7 @@ import { Method, MethodCall, MethodResponse } from './method';
 export class Contract {
   static readonly ABI_DIR = 'abis';
   static readonly CONFIG_DIR = 'config';
+  static readonly DEFAULT_INSTANCE_KEY = 'default';
 
   /**
    * List the names of the available ABI definitions.
@@ -78,6 +79,9 @@ export class Contract {
     this.contractName = contractName;
     const contractAbi = Contract.readContractAbi(this.contractName);
     this.contractInstances = Contract.readContractInstances(this.contractName);
+    if (this.contractInstances[Contract.DEFAULT_INSTANCE_KEY]) {
+      this.address(this.contractInstances[Contract.DEFAULT_INSTANCE_KEY]);
+    }
     const functions = contractAbi.filter((functionDefinition) => functionDefinition.type === 'function');
     this.methodDefinitions = functions.map((functionDefinition) => new Method(functionDefinition));
   }
@@ -128,7 +132,7 @@ export class Contract {
    * @param address The address to set it to
    */
   address(address: string): Contract {
-    this.instanceAddress = address;
+    this.instanceAddress = address.toLowerCase();
     return this;
   }
 
