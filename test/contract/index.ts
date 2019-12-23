@@ -1,20 +1,34 @@
 import * as expect from 'expect';
+import * as fs from 'fs';
 import { Contract } from '../../';
 import { Parameter } from '../../contract/json';
 import { MethodResponse } from '../../contract/method';
 import { getKnownSolidityTypes, getSolidityParameter } from '../testutil';
 
-const FUZZING_REPETITIONS = 10;
+const FUZZING_REPETITIONS = 5;
 
 describe('Contract', () => {
   describe('Static ABIs', () => {
+    let instanceConfig;
+
+    before(() => {
+      instanceConfig = JSON.parse(fs.readFileSync('config/instances.json', 'utf-8'));
+    });
+
     /**
      * Run `callback` on every contract that we have defined locally
      * @param callback Function with tests to run on each contract
      */
-    const testStaticContracts = (callback: (contract: Contract) => void) => {
+    const testStaticContracts = (callback: (contract: Contract, instanceName?: string) => void) => {
       Contract.listContractTypes().forEach((abiFileName) => {
-        callback(new Contract(abiFileName));
+        if (instanceConfig[abiFileName]) {
+          const abiConfig = instanceConfig[abiFileName];
+          const instanceNames = Object.keys(abiConfig);
+          const instanceName = instanceNames[Math.floor(Math.random() * instanceNames.length)];
+          callback(new Contract(abiFileName), instanceName);
+        } else {
+          callback(new Contract(abiFileName));
+        }
       });
     };
 
@@ -35,7 +49,7 @@ describe('Contract', () => {
           args[param.name] = getSolidityParameter(param.type);
         });
 
-        callback(contract.methods[methodName](args));
+        callback(contract.methods()[methodName](args));
       });
     };
 
@@ -52,7 +66,7 @@ describe('Contract', () => {
           .filter((methodName: string) => allMethods[methodName].inputs.length > 0);
 
         methodsWithParameters.forEach((methodName: string) => {
-          expect(() => contract.methods[methodName]({})).toThrow('Missing required parameter');
+          expect(() => contract.methods()[methodName]({})).toThrow('Missing required parameter');
         });
       });
     });
@@ -65,7 +79,7 @@ describe('Contract', () => {
 
         methodsWithoutParameters.forEach((methodName: string) => {
           getKnownSolidityTypes().forEach((type) => {
-            const { data } = contract.methods[methodName]({ unexpectedParam: getSolidityParameter(type) });
+            const { data } = contract.methods()[methodName]({ unexpectedParam: getSolidityParameter(type) });
             expect(data).toBeDefined();
           });
         });
@@ -75,8 +89,38 @@ describe('Contract', () => {
     it('Should succeed when given expected parameters', () => {
       for (let i = 0; i < FUZZING_REPETITIONS; i++) {
         testStaticContracts((contract) => {
-          testFuzzedContractMethods(contract, ({ data }) => {
+          testFuzzedContractMethods(contract, ({ data, amount, address }) => {
             expect(data).toBeDefined();
+            expect(amount).toBeDefined();
+            expect(address).toBeUndefined();
+          });
+        });
+      }
+    });
+
+    it('Should succeed with custom address instances', () => {
+      for (let i = 0; i < FUZZING_REPETITIONS; i++) {
+        testStaticContracts((contract) => {
+          const instanceAddress = getSolidityParameter('address');
+          contract = contract.address(instanceAddress);
+          testFuzzedContractMethods(contract, ({ data, address, amount }) => {
+            expect(data).toBeDefined();
+            expect(amount).toBeDefined();
+            expect(address).toEqual(instanceAddress);
+          });
+        });
+      }
+    });
+
+    it('Should succeed with instances referenced by name', () => {
+      for (let i = 0; i < FUZZING_REPETITIONS; i++) {
+        testStaticContracts((contract, instanceName) => {
+          const instanceAddress = instanceConfig[contract.getName()][instanceName];
+          contract = contract.instance(instanceName);
+          testFuzzedContractMethods(contract, ({ data, address, amount }) => {
+            expect(data).toBeDefined();
+            expect(amount).toBeDefined();
+            expect(address).toEqual(instanceAddress);
           });
         });
       }

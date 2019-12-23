@@ -2,19 +2,20 @@ import * as assert from 'assert';
 import * as fs from 'fs';
 import { isValidJSON } from '../util/json';
 import { ContractABI, MethodABI } from './json';
-import { Method, MethodCall } from './method';
+import { Method, MethodCall, MethodResponse } from './method';
 
 /**
  * A high-level wrapper for Solidity smart contract function calls
  */
 export class Contract {
   static readonly ABI_DIR = 'abis';
+  static readonly CONFIG_DIR = 'config';
 
   /**
    * List the names of the available ABI definitions.
    * These are stored locally as JSON ABI definition files
    */
-  static listContractTypes(): string[] {
+  public static listContractTypes(): string[] {
     return fs.readdirSync(Contract.ABI_DIR).map((fileName: string) => {
       assert(fileName.endsWith('.json'), `Malformed JSON abi filename: ${fileName}`);
       return fileName.replace('.json', '');
@@ -23,7 +24,7 @@ export class Contract {
 
   /**
    * Read in and parse an ABI file
-   * @param contractName The name of the contract to read the file from.
+   * @param contractName The name of the contract to read the file from
    *  There must be a file with this name locally, otherwise this function will throw
    * @return The parsed JSON abi definition of this contract
    */
@@ -35,31 +36,66 @@ export class Contract {
   }
 
   /**
-   * Create a mapping of method name to a function that will call it with given parameters
-   * @param methods Array of method objects from which to build the map
+   * Read in and parse config for instances of this contract type
+   * @param contractName The name of the contract to read the config for
+   * @return Mapping of names and deployed instance addresses of this contract type
    */
-  private static createMethodMap(methods: Method[]): MethodCallMap {
-    return methods.reduce((acc: MethodCallMap, method: Method) => {
-      acc[method.getName()] = method.getMethodCall();
-      return acc;
-    }, {});
-  }
+  private static readContractInstances(contractName: string): ContractInstances {
+    const config = fs.readFileSync(`${Contract.CONFIG_DIR}/instances.json`, 'utf-8');
+    assert(isValidJSON(config), `Invalid JSON: ${config}`);
+    const parsedConfig = JSON.parse(config);
+    assert(parsedConfig[contractName]);
 
-  /**
-   * Public mapping from method name to function call builder
-   */
-  public methods: MethodCallMap;
+    // Save them with the instance names lowercased, for easier lookup
+    const result = {};
+    Object.keys(parsedConfig[contractName]).forEach((instanceName) => {
+      result[instanceName.toLowerCase()] = parsedConfig[contractName][instanceName];
+    });
+    return result;
+  }
 
   /**
    * Internal list of contract method definitions
    */
   private readonly methodDefinitions: Method[];
 
+  /**
+   * Address of the contract instance
+   */
+  private instanceAddress: string;
+
+  /**
+   * The name of this contract type
+   */
+  private contractName: string;
+
+  /**
+   * Address of the contract instance
+   */
+  private contractInstances: ContractInstances;
+
   constructor(contractName: string) {
-    const contractAbi = Contract.readContractAbi(contractName);
+    this.contractName = contractName;
+    const contractAbi = Contract.readContractAbi(this.contractName);
+    this.contractInstances = Contract.readContractInstances(this.contractName);
     const functions = contractAbi.filter((functionDefinition) => functionDefinition.type === 'function');
     this.methodDefinitions = functions.map((functionDefinition) => new Method(functionDefinition));
-    this.methods = Contract.createMethodMap(this.methodDefinitions);
+  }
+
+  /**
+   * Public mapping from method name to function call builder
+   */
+  methods(): MethodCallMap {
+    return this.methodDefinitions.reduce((acc: MethodCallMap, method: Method) => {
+      acc[method.getName()] = (params: { [key: string]: any }): MethodResponse => {
+        const res: MethodResponse = method.getMethodCall()(params);
+        if (this.instanceAddress) {
+          res.address = this.instanceAddress;
+        }
+        return res;
+      };
+      return acc;
+    }, {});
   }
 
   /**
@@ -71,6 +107,33 @@ export class Contract {
       return acc;
     }, {});
   }
+
+  /**
+   * Get the name of this contract type
+   */
+  getName(): string {
+    return this.contractName;
+  }
+
+  /**
+   * Set the instance address for this contract to the given address
+   * @param address The address to set it to
+   */
+  address(address: string): Contract {
+    this.instanceAddress = address;
+    return this;
+  }
+
+  /**
+   * Set the instance address for this contract by name
+   * @param name The name of the deployed contract to set the address for
+   */
+  instance(name: string): Contract {
+    name = name.toLowerCase();
+    assert(this.contractInstances[name]);
+    this.instanceAddress = this.contractInstances[name];
+    return this;
+  }
 }
 
 interface MethodCallMap {
@@ -79,4 +142,8 @@ interface MethodCallMap {
 
 interface MethodDefinitionMap {
   [key: string]: MethodABI;
+}
+
+interface ContractInstances {
+  [key: string]: string;
 }

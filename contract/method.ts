@@ -34,6 +34,7 @@ export class Method {
 
       return {
         data: ethUtil.addHexPrefix(this.getMethodId() + abi.rawEncode(types, values).toString('hex')),
+        amount: '0',
       };
     };
   }
@@ -66,4 +67,6 @@ export type MethodCall = (params: { [key: string]: any }) => MethodResponse;
  */
 export interface MethodResponse {
   data: string;
+  address?: string;
+  amount?: string;
 }
