@@ -57,7 +57,6 @@ async function sendBitGoTx() {
 sendBitGoTx();
 ```
 
-
 ## Types
 
 #### Contract
