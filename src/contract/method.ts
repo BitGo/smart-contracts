@@ -27,7 +27,7 @@ export class Method {
       const types: string[] = [];
       const values: string[] = [];
       this.definition.inputs.forEach((input: Parameter) => {
-        ensure(params[input.name], `Missing required parameter: ${input.name}`);
+        ensure(params[input.name] !== undefined, `Missing required parameter: ${input.name}`);
         values.push(params[input.name]);
         types.push(input.type);
       });

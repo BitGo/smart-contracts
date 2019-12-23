@@ -18,6 +18,16 @@ const generateHexString = (length: number): () => string => {
   };
 };
 
+const generateHexStringArray = (strLength: number, arrLength: number): () => string[] => {
+  return () => {
+    const res: string[] = [];
+    for (let i = 0; i < arrLength; i++) {
+      res.push(generateHexString(strLength)());
+    }
+    return res;
+  }
+};
+
 const generateFromOptions = (options: any[]) => {
   return () => {
     return options[generateInteger(options.length)()];
@@ -43,6 +53,7 @@ const solidityTypes: { [key: string]: any } = {
   byte16: generateHexString(32),
   byte32: generateHexString(64),
   string: generateFromOptions(['asdfadsf', 'hello world', 'test']),
+  ['address[]']: generateHexStringArray(40, 1),
 };
 
 export function getKnownSolidityTypes(): string[] {

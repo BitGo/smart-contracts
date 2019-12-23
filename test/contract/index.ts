@@ -99,10 +99,9 @@ describe('Contract', () => {
         });
 
         it('Should succeed when given expected parameters', () => {
-          testFuzzedContractMethods(contract, ({ data, amount, address }) => {
+          testFuzzedContractMethods(contract, ({ data, amount }) => {
             expect(data).toBeDefined();
             expect(amount).toBeDefined();
-            expect(address).toBeUndefined();
           });
         });
 
