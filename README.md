@@ -1,20 +1,14 @@
 # Ethereum Contract SDK
 
 A simple library for building Ethereum smart contract interactions. When offline, or away from a web3 wallet, smart 
-contract interaction is quite difficult. This is because the interactions require special transaction data that defines 
-a function call on a smart contract. With this library, that transaction data can be trivially built with high-level, 
-readable code. 
+contract interaction is quite difficult. This is because it requires special transaction data that defines 
+a function call on a smart contract. This library 
 
 ## Installing
 
 ```bash
 npm i @bitgo/eth-contracts
 ```
-
-## Integration with BitGo SDK
-
-The output of this library is well formed as an argument to a BitGo SDK `sendMany` call. This makes it useful for 
-integration alongside the Bitgo SDK.
 
 ## Example Usage
 
@@ -33,9 +27,15 @@ const cDAI = new Contract('Compound').address('0x5d3a536e4d6dbd6114cc1ead35777ba
 const { data, amount, address } = cDAI.methods().mint({ mintAmount: '1000000000' });
 ```
 
-## Example Usage with BitGo
 
-```javascript
+## Integration with BitGo SDK
+
+The output of this library is well formed as an argument to a BitGo SDK `sendMany` call. This makes it useful for 
+integration alongside the Bitgo SDK.
+
+### Example Usage with BitGo
+
+```js
 import { Contract } from '@bitgo/eth-contracts';
 
 import { BitGo, Coin } from 'bitgo';
@@ -57,6 +57,46 @@ async function sendBitGoTx() {
 sendBitGoTx();
 ```
 
+
+## Types
+
+#### Contract
+**listContractTypes()** -- get the available contract types.
+```js
+const types = Contract.listContractTypes();
+// response: ['Compound', 'StandardERC20']
+```
+
+**listMethods()** -- get the available contract methods.
+```js
+const types = new Contract('StandardERC20').listMethods();
+// response: [{ name: 'transfer', inputs: [...], outputs: [...] }, { name: 'approve', ... }]
+```
+
+**methods()** -- get contract method builder objects
+```js
+const types = new Contract('StandardERC20').listMethods();
+// response: { transfer: <function to build transfer>, approve: <function to build approve> }
+```
+
+**getName()** -- get contract name
+```js
+const types = new Contract('StandardERC20').getName();
+// response: StandardERC20
+```
+
+**address()** -- set contract address
+```js
+const types = new Contract('StandardERC20').address('0x5d3a536e4d6dbd6114cc1ead35777bab948e3643');
+// response: Contract with address set
+```
+
+**instance()** -- set contract instance
+```js
+const types = new Contract('StandardERC20').instance('WBTC');
+// response: Contract with WBTC address set
+```
+
 ## Supported Protocols:
 
 This library supports a limited number of smart contract protocols, as it maintains solidity ABIs locally. 
@@ -70,4 +110,4 @@ feel free to submit a PR adding them. To do so, make the following changes:
 - Add the JSON ABI to `abis` directory, named `[ProtocolName].json`
 - Add the ProtocolName and addresses for various instances of the protocol in `config/instances.json`
     - For example, Compound protocol has cDAI, cUSDC, etc.
-- Add the protocol and instances to the README above
+- Add the protocol to the README above
