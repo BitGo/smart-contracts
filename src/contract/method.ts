@@ -1,6 +1,6 @@
-import * as assert from 'assert';
 import * as abi from 'ethereumjs-abi';
 import * as ethUtil from 'ethereumjs-util';
+import { ensure } from '../util/ensure';
 import { MethodABI, Parameter } from './json';
 
 export class Method {
@@ -24,10 +24,10 @@ export class Method {
    */
   getMethodCall(): MethodCall {
     return (params: { [key: string]: any }) => {
-      const types = [];
-      const values = [];
+      const types: string[] = [];
+      const values: string[] = [];
       this.definition.inputs.forEach((input: Parameter) => {
-        assert(params[input.name], `Missing required parameter: ${input.name}`);
+        ensure(params[input.name], `Missing required parameter: ${input.name}`);
         values.push(params[input.name]);
         types.push(input.type);
       });

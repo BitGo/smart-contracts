@@ -1,6 +1,7 @@
-import * as expect from 'expect';
+const expect = require('expect'); // tslint:disable-line
 import * as fs from 'fs';
 import { Contract } from '../../src';
+import { ContractInstances } from '../../src/contract';
 import { Parameter } from '../../src/contract/json';
 import { MethodResponse } from '../../src/contract/method';
 import { getKnownSolidityTypes, getSolidityParameter } from '../testutil';
@@ -9,7 +10,7 @@ const FUZZING_REPETITIONS = 5;
 
 describe('Contract', () => {
   describe('Static ABIs', () => {
-    let instanceConfig;
+    let instanceConfig: { [key: string]: ContractInstances };
 
     before(() => {
       instanceConfig = JSON.parse(fs.readFileSync('config/instances.json', 'utf-8'));
@@ -43,7 +44,7 @@ describe('Contract', () => {
 
       Object.keys(allMethods).forEach((methodName: string) => {
         const params: Parameter[] = allMethods[methodName].inputs;
-        const args = {};
+        const args: { [key: string]: any } = {};
 
         params.forEach((param: Parameter) => {
           args[param.name] = getSolidityParameter(param.type);
@@ -57,6 +58,12 @@ describe('Contract', () => {
       testStaticContracts((contract) => {
         expect(contract).toBeDefined();
       });
+    });
+
+    it('Should fail to instantiate an unknown contract name', () => {
+      const unknownContractName = 'FakeContractType';
+      expect(() => new Contract(unknownContractName)).toThrow();
+
     });
 
     it('Should fail when given parameters to a function that requires them', () => {
@@ -114,7 +121,7 @@ describe('Contract', () => {
 
     it('Should succeed with instances referenced by name', () => {
       for (let i = 0; i < FUZZING_REPETITIONS; i++) {
-        testStaticContracts((contract, instanceName) => {
+        testStaticContracts((contract: Contract, instanceName: string) => {
           const instanceAddress = instanceConfig[contract.getName()][instanceName];
           contract = contract.instance(instanceName);
           testFuzzedContractMethods(contract, ({ data, address, amount }) => {

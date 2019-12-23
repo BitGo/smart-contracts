@@ -1,5 +1,5 @@
-import * as assert from 'assert';
 import * as fs from 'fs';
+import { ensure } from '../util/ensure';
 import { isValidJSON } from '../util/json';
 import { ContractABI, MethodABI } from './json';
 import { Method, MethodCall, MethodResponse } from './method';
@@ -17,7 +17,7 @@ export class Contract {
    */
   public static listContractTypes(): string[] {
     return fs.readdirSync(Contract.ABI_DIR).map((fileName: string) => {
-      assert(fileName.endsWith('.json'), `Malformed JSON abi filename: ${fileName}`);
+      ensure(fileName.endsWith('.json'), `Malformed JSON abi filename: ${fileName}`);
       return fileName.replace('.json', '');
     });
   }
@@ -29,9 +29,9 @@ export class Contract {
    * @return The parsed JSON abi definition of this contract
    */
   private static readContractAbi(contractName: string): ContractABI {
-    assert(Contract.listContractTypes().includes(contractName), `Unknown contract: ${contractName}`);
+    ensure(Contract.listContractTypes().includes(contractName), `Unknown contract: ${contractName}`);
     const jsonAbi = fs.readFileSync(`${Contract.ABI_DIR}/${contractName}.json`, 'utf-8');
-    assert(isValidJSON(jsonAbi), `Invalid JSON: ${jsonAbi}`);
+    ensure(isValidJSON(jsonAbi), `Invalid JSON: ${jsonAbi}`);
     return JSON.parse(jsonAbi);
   }
 
@@ -42,13 +42,13 @@ export class Contract {
    */
   private static readContractInstances(contractName: string): ContractInstances {
     const config = fs.readFileSync(`${Contract.CONFIG_DIR}/instances.json`, 'utf-8');
-    assert(isValidJSON(config), `Invalid JSON: ${config}`);
+    ensure(isValidJSON(config), `Invalid JSON: ${config}`);
     const parsedConfig = JSON.parse(config);
-    assert(parsedConfig[contractName]);
+    ensure(parsedConfig[contractName], `Unknown contract: ${contractName}`);
 
     // Save them with the instance names lowercased, for easier lookup
-    const result = {};
-    Object.keys(parsedConfig[contractName]).forEach((instanceName) => {
+    const result: {[key: string]: string} = {};
+    Object.keys(parsedConfig[contractName]).forEach((instanceName: string) => {
       result[instanceName.toLowerCase()] = parsedConfig[contractName][instanceName];
     });
     return result;
@@ -130,7 +130,7 @@ export class Contract {
    */
   instance(name: string): Contract {
     name = name.toLowerCase();
-    assert(this.contractInstances[name]);
+    ensure(this.contractInstances[name], `Unknown instance: ${name}`);
     this.instanceAddress = this.contractInstances[name];
     return this;
   }
@@ -144,6 +144,6 @@ interface MethodDefinitionMap {
   [key: string]: MethodABI;
 }
 
-interface ContractInstances {
+export interface ContractInstances {
   [key: string]: string;
 }

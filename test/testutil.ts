@@ -1,14 +1,14 @@
-import * as assert from 'assert';
+import { ensure } from '../src/util/ensure';
 
 const generateInteger = (max: number) => {
   return () => {
     return Math.floor(Math.random() * max);
-  }
+  };
 };
 
 const generateHexString = (length: number): () => string => {
   return () => {
-    assert(length % 2 === 0, `Invalid hex length: ${length}`);
+    ensure(length % 2 === 0, `Invalid hex length: ${length}`);
     let result = '0x';
     for (let i = 0; i < length / 2; i++) {
       const byte = generateInteger(256)();
@@ -24,7 +24,7 @@ const generateFromOptions = (options: any[]) => {
   };
 };
 
-const solidityTypes = {
+const solidityTypes: { [key: string]: any } = {
   uint: generateInteger(2e8),
   uint8: generateInteger(2e8),
   uint16: generateInteger(2e8),
@@ -50,6 +50,6 @@ export function getKnownSolidityTypes(): string[] {
 }
 
 export function getSolidityParameter(type: string): any {
-  assert(solidityTypes[type], `Unknown type: ${type}`);
+  ensure(solidityTypes[type], `Unknown type: ${type}`);
   return solidityTypes[type]();
 }
