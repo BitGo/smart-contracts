@@ -9,7 +9,9 @@ import { getKnownSolidityTypes, getSolidityParameter } from '../testutil';
 const FUZZING_REPETITIONS = 5;
 
 describe('Contract', () => {
+
   describe('Static ABIs', () => {
+
     let instanceConfig: { [key: string]: ContractInstances };
 
     before(() => {
@@ -22,14 +24,7 @@ describe('Contract', () => {
      */
     const testStaticContracts = (callback: (contract: Contract, instanceName?: string) => void) => {
       Contract.listContractTypes().forEach((abiFileName) => {
-        if (instanceConfig[abiFileName]) {
-          const abiConfig = instanceConfig[abiFileName];
-          const instanceNames = Object.keys(abiConfig);
-          const instanceName = instanceNames[Math.floor(Math.random() * instanceNames.length)];
-          callback(new Contract(abiFileName), instanceName);
-        } else {
           callback(new Contract(abiFileName));
-        }
       });
     };
 
@@ -44,76 +39,74 @@ describe('Contract', () => {
 
       Object.keys(allMethods).forEach((methodName: string) => {
         const params: Parameter[] = allMethods[methodName].inputs;
-        const args: { [key: string]: any } = {};
 
-        params.forEach((param: Parameter) => {
-          args[param.name] = getSolidityParameter(param.type);
-        });
+        for (let i = 0; i < FUZZING_REPETITIONS; i++) {
+          const args: { [key: string]: any } = {};
+          params.forEach((param: Parameter) => {
+            args[param.name] = getSolidityParameter(param.type);
+          });
 
-        callback(contract.methods()[methodName](args));
+          callback(contract.methods()[methodName](args));
+        }
       });
     };
-
-    it('Should instantiate correctly', () => {
-      testStaticContracts((contract) => {
-        expect(contract).toBeDefined();
-      });
-    });
 
     it('Should fail to instantiate an unknown contract name', () => {
       const unknownContractName = 'FakeContractType';
       expect(() => new Contract(unknownContractName)).toThrow(`Unknown contract: ${unknownContractName}`);
     });
 
-    it('Should fail to instantiate an unknown instance name', () => {
-      const unknownInstanceName = 'fakeinstance';
-      testStaticContracts((contract) => {
-        expect(() => contract.instance(unknownInstanceName)).toThrow(`Unknown instance: ${unknownInstanceName}`);
-      });
-    });
 
-    it('Should fail when given no parameters to a function that requires them', () => {
-      testStaticContracts((contract) => {
-        const allMethods = contract.listMethods();
-        const methodsWithParameters = Object.keys(allMethods)
-          .filter((methodName: string) => allMethods[methodName].inputs.length > 0);
+    testStaticContracts((contract: Contract) => {
+      describe(`${contract.getName()}`, () => {
+        const getRandomInstanceName = () => {
+          const potentialInstances = instanceConfig[contract.getName()];
+          const instanceIndex = Math.floor(Math.random() * Object.keys(potentialInstances).length);
+          return Object.keys(potentialInstances)[instanceIndex];
+        };
 
-        methodsWithParameters.forEach((methodName: string) => {
-          expect(() => contract.methods()[methodName]({})).toThrow('Missing required parameter');
+        it('Should instantiate correctly', () => {
+          expect(contract).toBeDefined();
         });
-      });
-    });
 
-    it('Should succeed when given parameters to a function that doesnt require them', () => {
-      testStaticContracts((contract) => {
-        const allMethods = contract.listMethods();
-        const methodsWithoutParameters = Object.keys(allMethods)
-          .filter((methodName: string) => allMethods[methodName].inputs.length === 0);
+        it('Should fail to instantiate an unknown instance name', () => {
+          const unknownInstanceName = 'fakeinstance';
+          expect(() => contract.instance(unknownInstanceName)).toThrow(`Unknown instance: ${unknownInstanceName}`);
+        });
 
-        methodsWithoutParameters.forEach((methodName: string) => {
-          getKnownSolidityTypes().forEach((type) => {
-            const { data } = contract.methods()[methodName]({ unexpectedParam: getSolidityParameter(type) });
-            expect(data).toBeDefined();
+
+        it('Should fail when given no parameters to a function that requires them', () => {
+          const allMethods = contract.listMethods();
+          const methodsWithParameters = Object.keys(allMethods)
+            .filter((methodName: string) => allMethods[methodName].inputs.length > 0);
+
+          methodsWithParameters.forEach((methodName: string) => {
+            expect(() => contract.methods()[methodName]({})).toThrow('Missing required parameter');
           });
         });
-      });
-    });
 
-    it('Should succeed when given expected parameters', () => {
-      for (let i = 0; i < FUZZING_REPETITIONS; i++) {
-        testStaticContracts((contract) => {
+        it('Should succeed when given parameters to a function that doesnt require them', () => {
+          const allMethods = contract.listMethods();
+          const methodsWithoutParameters = Object.keys(allMethods)
+            .filter((methodName: string) => allMethods[methodName].inputs.length === 0);
+
+          methodsWithoutParameters.forEach((methodName: string) => {
+            getKnownSolidityTypes().forEach((type) => {
+              const { data } = contract.methods()[methodName]({ unexpectedParam: getSolidityParameter(type) });
+              expect(data).toBeDefined();
+            });
+          });
+        });
+
+        it('Should succeed when given expected parameters', () => {
           testFuzzedContractMethods(contract, ({ data, amount, address }) => {
             expect(data).toBeDefined();
             expect(amount).toBeDefined();
             expect(address).toBeUndefined();
           });
         });
-      }
-    });
 
-    it('Should succeed with custom address instances', () => {
-      for (let i = 0; i < FUZZING_REPETITIONS; i++) {
-        testStaticContracts((contract) => {
+        it('Should succeed with custom address instances', () => {
           const instanceAddress = getSolidityParameter('address');
           contract = contract.address(instanceAddress);
           testFuzzedContractMethods(contract, ({ data, address, amount }) => {
@@ -122,12 +115,9 @@ describe('Contract', () => {
             expect(address).toEqual(instanceAddress);
           });
         });
-      }
-    });
 
-    it('Should succeed with instances referenced by name', () => {
-      for (let i = 0; i < FUZZING_REPETITIONS; i++) {
-        testStaticContracts((contract: Contract, instanceName: string) => {
+        it('Should succeed with instances referenced by name', () => {
+          const instanceName = getRandomInstanceName();
           const instanceAddress = instanceConfig[contract.getName()][instanceName];
           contract = contract.instance(instanceName);
           testFuzzedContractMethods(contract, ({ data, address, amount }) => {
@@ -136,7 +126,7 @@ describe('Contract', () => {
             expect(address).toEqual(instanceAddress);
           });
         });
-      }
+      });
     });
   });
 });
