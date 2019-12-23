@@ -1,8 +1,8 @@
 import * as expect from 'expect';
 import * as fs from 'fs';
-import { Contract } from '../../';
-import { Parameter } from '../../contract/json';
-import { MethodResponse } from '../../contract/method';
+import { Contract } from '../../src';
+import { Parameter } from '../../src/contract/json';
+import { MethodResponse } from '../../src/contract/method';
 import { getKnownSolidityTypes, getSolidityParameter } from '../testutil';
 
 const FUZZING_REPETITIONS = 5;
