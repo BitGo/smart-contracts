@@ -116,6 +116,14 @@ export class Contract {
   }
 
   /**
+   * Get the address of this instance
+   */
+  getAddress(): string {
+    ensure(this.instanceAddress, `Instance address not set: ${this.instanceAddress}`);
+    return this.instanceAddress;
+  }
+
+  /**
    * Set the instance address for this contract to the given address
    * @param address The address to set it to
    */

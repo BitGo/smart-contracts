@@ -100,9 +100,8 @@ const types = new Contract('StandardERC20').instance('WBTC');
 ## Supported Protocols:
 
 This library supports a limited number of smart contract protocols, as it maintains solidity ABIs locally. 
-- Compound
-- StandardERC20
-    
+- Compound -- [Examples](./examples/Compound)
+- StandardERC20 -- [Examples](./examples/StandardERC20)
 
 ## Adding a new ABI type
 This library is quite extensible to new protocols -- if there are other contract types that you would like to use, 
