@@ -62,8 +62,14 @@ describe('Contract', () => {
 
     it('Should fail to instantiate an unknown contract name', () => {
       const unknownContractName = 'FakeContractType';
-      expect(() => new Contract(unknownContractName)).toThrow();
+      expect(() => new Contract(unknownContractName)).toThrow(`Unknown contract: ${unknownContractName}`);
+    });
 
+    it('Should fail to instantiate an unknown instance name', () => {
+      const unknownInstanceName = 'fakeinstance';
+      testStaticContracts((contract) => {
+        expect(() => contract.instance(unknownInstanceName)).toThrow(`Unknown instance: ${unknownInstanceName}`);
+      });
     });
 
     it('Should fail when given parameters to a function that requires them', () => {
