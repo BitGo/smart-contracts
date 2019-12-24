@@ -24,5 +24,13 @@
   },
   "CompoundComptroller": {
     "default": "0x3d9819210A31b4961b30EF54bE2aeD79B9c9Cd3B"
+  },
+  "DSProxyFactory": {
+    "default": "0x4678f0a6958e4d2bc4f1baf7bc52e8f3564f3fe4"
+  },
+  "DSProxyActionsDsr": {
+    "default": "0x07ee93aeea0a36fff2a9b95dd22bd6049ee54f26"
+  },
+  "DSProxy": {
   }
 }

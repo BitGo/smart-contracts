@@ -117,13 +117,15 @@ describe('Contract', () => {
 
         it('Should succeed with instances referenced by name', () => {
           const instanceName = getRandomInstanceName();
-          const instanceAddress = instanceConfig[contract.getName()][instanceName];
-          contract = contract.instance(instanceName);
-          testFuzzedContractMethods(contract, ({ data, address, amount }) => {
-            expect(data).toBeDefined();
-            expect(amount).toBeDefined();
-            expect(address).toEqual(instanceAddress);
-          });
+          if (instanceName) {
+            const instanceAddress = instanceConfig[contract.getName()][instanceName];
+            contract = contract.instance(instanceName);
+            testFuzzedContractMethods(contract, ({ data, address, amount }) => {
+              expect(data).toBeDefined();
+              expect(amount).toBeDefined();
+              expect(address).toEqual(instanceAddress);
+            });
+          }
         });
       });
     });

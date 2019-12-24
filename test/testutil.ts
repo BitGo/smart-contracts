@@ -44,6 +44,7 @@ const solidityTypes: { [key: string]: any } = {
   uint256: generateInteger(2e8),
   bool: generateFromOptions([true, false]),
   address: generateHexString(40),
+  bytes: generateHexString(32),
   byte: generateHexString(2),
   byte1: generateHexString(2),
   byte2: generateHexString(4),
