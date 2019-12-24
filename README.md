@@ -93,8 +93,8 @@ const types = new Contract('StandardERC20').address('0x5d3a536e4d6dbd6114cc1ead3
 
 **instance()** -- set contract instance
 ```js
-const types = new Contract('StandardERC20').instance('WBTC');
-// response: Contract with WBTC address set
+const types = new Contract('StandardERC20').instance('DAI');
+// response: Contract with DAI address set
 ```
 
 ## Supported Protocols:
@@ -102,6 +102,7 @@ const types = new Contract('StandardERC20').instance('WBTC');
 This library supports a limited number of smart contract protocols, as it maintains solidity ABIs locally. 
 - Compound -- [Examples](./examples/Compound)
 - StandardERC20 -- [Examples](./examples/StandardERC20)
+- MakerDAO -- [Examples](./examples/MakerDAO)
 
 ## Adding a new ABI type
 This library is quite extensible to new protocols -- if there are other contract types that you would like to use, 
@@ -110,3 +111,4 @@ feel free to submit a PR adding them. To do so, make the following changes:
 - Add the ProtocolName and addresses for various instances of the protocol in `config/instances.json`
     - For example, Compound protocol has cDAI, cUSDC, etc.
 - Add the protocol to the README above
+- Add some example usages in the `examples` directory
