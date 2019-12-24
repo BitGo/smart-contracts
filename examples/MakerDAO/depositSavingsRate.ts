@@ -4,10 +4,9 @@ import { Contract } from '../../src/contract';
 const makerProxyRegistry = new Contract('DSProxyFactory'); // there is only 1, so no need for instance
 const daiToken = new Contract('StandardERC20').instance('dai');
 
-const ownerAddress = '0xcf429eeaf118f4ab75ff0f2e37036243295ed2fd';
-
 // First we need to deploy a proxy contract that will simplify adding our DAI to the DSR
-let { data, amount, address } = makerProxyRegistry.methods().build.call({ owner: ownerAddress });
+// Note this step only needs to be done once per wallet, so if you have already done it, skip to the next step
+let { data, amount, address } = makerProxyRegistry.methods().build.call({ });
 console.log(`To create a Maker Proxy, send:`);
 console.log(`Data: ${data}`);
 console.log(`Amount: ${amount} ETH`);
@@ -19,10 +18,10 @@ console.log(`To: ${address}`);
 
 
 // Now we need to go get the address of the newly created proxy contract. The easiest way to do this is go to
-// Etherscan, viewing the transaction that was created above, click "Internal Transactions", and clicking the "to'
-// address from the first listed transaction
+// the Etherscan page for the Proxy Registry contract, here: https://etherscan.io/address/0x4678f0a6958e4d2bc4f1baf7bc52e8f3564f3fe4#readContract
+// Enter your wallet address in the `proxies` query, then press `Query`. It will return your proxy address
 
-const proxyAddress = '0xe5b62f8768e7c5ce5c43cd852d663fce5ad7ba14';
+const proxyAddress = 'PROXY ADDRESS';
 const daiSavingsRateProxy = new Contract('DSProxy').address(proxyAddress);
 
 
@@ -51,7 +50,7 @@ console.log(`To: ${address}`);
 
 
 // Now we can actually deposit it and get the DSR
-// This is a weird one, since we must build an internal transaction that the proxy we built in step 1 will call
+// We must build an internal transaction that the proxy we built in step 1 will call
 // In other words, we are telling our proxy to deposit DAI into the DSR on our behalf
 
 // The following two addresses are constants in the MakerDAO MCD ecosystem. You can look them up and verify on Etherscan
@@ -65,8 +64,6 @@ const { data: internalData, address: proxyActionsAddress } = dsProxyActionsDsrCo
 
 // Build the external call for our proxy to deposit to the DSR
 
-console.log(Buffer.from(internalData.slice(2), 'hex'));
-console.log(internalData);
 ({ data, amount, address } = daiSavingsRateProxy.methods()
   .execute.call({
     _target: proxyActionsAddress,
