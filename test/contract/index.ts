@@ -1,9 +1,10 @@
+import { MethodResponse } from '../../src/contract/method';
+
 const expect = require('expect'); // tslint:disable-line
 import * as fs from 'fs';
 import { Contract } from '../../src';
 import { ContractInstances } from '../../src/contract';
-import { Parameter } from '../../src/contract/json';
-import { MethodResponse } from '../../src/contract/method';
+import { MethodABI, Parameter } from '../../src/contract/json';
 import { getKnownSolidityTypes, getSolidityParameter } from '../testutil';
 
 const FUZZING_REPETITIONS = 5;
@@ -37,8 +38,9 @@ describe('Contract', () => {
     const testFuzzedContractMethods = (contract: Contract, callback: (response: MethodResponse) => void) => {
       const allMethods = contract.listMethods();
 
-      Object.keys(allMethods).forEach((methodName: string) => {
-        const params: Parameter[] = allMethods[methodName].inputs;
+      allMethods.forEach((methodDefinition: MethodABI) => {
+        const params = methodDefinition.inputs;
+        const name = methodDefinition.name;
 
         for (let i = 0; i < FUZZING_REPETITIONS; i++) {
           const args: { [key: string]: any } = {};
@@ -46,7 +48,7 @@ describe('Contract', () => {
             args[param.name] = getSolidityParameter(param.type);
           });
 
-          callback(contract.methods()[methodName](args));
+          callback(contract.methods()[name].call(args));
         }
       });
     };
@@ -76,23 +78,30 @@ describe('Contract', () => {
 
 
         it('Should fail when given no parameters to a function that requires them', () => {
-          const allMethods = contract.listMethods();
-          const methodsWithParameters = Object.keys(allMethods)
-            .filter((methodName: string) => allMethods[methodName].inputs.length > 0);
+          // Since methods can overload each other we have to double check that it actually has only no params
+          const methodsWithoutParameters: Set<string> = new Set();
+          const methodsWithParameters: MethodABI[] = contract.listMethods()
+            .filter((method: MethodABI) => {
+              const noParams = method.inputs.length === 0;
+              if (noParams) {
+                methodsWithoutParameters.add(method.name);
+              }
+              return !noParams;
+            })
+            .filter((method: MethodABI) => !methodsWithoutParameters.has(method.name));
 
-          methodsWithParameters.forEach((methodName: string) => {
-            expect(() => contract.methods()[methodName]({})).toThrow('Missing required parameter');
+          methodsWithParameters.forEach((method: MethodABI) => {
+            expect(() => contract.methods()[method.name].call({})).toThrow('Missing required parameter');
           });
         });
 
         it('Should succeed when given parameters to a function that doesnt require them', () => {
-          const allMethods = contract.listMethods();
-          const methodsWithoutParameters = Object.keys(allMethods)
-            .filter((methodName: string) => allMethods[methodName].inputs.length === 0);
+          const methodsWithoutParameters = contract.listMethods()
+            .filter((method: MethodABI) => method.inputs.length === 0);
 
-          methodsWithoutParameters.forEach((methodName: string) => {
+          methodsWithoutParameters.forEach((method: MethodABI) => {
             getKnownSolidityTypes().forEach((type) => {
-              const { data } = contract.methods()[methodName]({ unexpectedParam: getSolidityParameter(type) });
+              const { data } = contract.methods()[method.name].call({ unexpectedParam: getSolidityParameter(type) });
               expect(data).toBeDefined();
             });
           });

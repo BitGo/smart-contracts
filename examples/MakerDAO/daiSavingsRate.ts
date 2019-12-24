@@ -1,3 +1,4 @@
+import * as ethUtil from 'ethereumjs-util';
 import { Contract } from '../../src/contract';
 
 const makerProxyRegistry = new Contract('DSProxyFactory'); // there is only 1, so no need for instance
@@ -6,9 +7,8 @@ const daiToken = new Contract('StandardERC20').instance('dai');
 const ownerAddress = '0xcf429eeaf118f4ab75ff0f2e37036243295ed2fd';
 
 // First we need to deploy a proxy contract that will simplify adding our DAI to the DSR
-let { data, amount, address } = makerProxyRegistry.methods().build({ owner: ownerAddress });
-
-console.log(`To enter create a Maker Proxy, send:`);
+let { data, amount, address } = makerProxyRegistry.methods().build.call({ owner: ownerAddress });
+console.log(`To create a Maker Proxy, send:`);
 console.log(`Data: ${data}`);
 console.log(`Amount: ${amount} ETH`);
 console.log(`To: ${address}`);
@@ -35,7 +35,7 @@ const daiSavingsRateProxy = new Contract('DSProxy').address(proxyAddress);
 const depositAmount = 1e18; // 1 DAI
 
 ({ data, amount, address } = daiToken.methods()
-  .approve({
+  .approve.call({
     _spender: proxyAddress,
     _value: depositAmount.toString(10),
   }));
@@ -61,14 +61,16 @@ const mcdPot = '0x197e90f9fad81970ba7976f33cbd77088e5d7cf7';
 // Build the internal "deposit into DSR" data
 const dsProxyActionsDsrContract = new Contract('DSProxyActionsDsr');
 const { data: internalData, address: proxyActionsAddress } = dsProxyActionsDsrContract.methods()
-  .join({ daiJoin, pot: mcdPot, wad: depositAmount.toString(10) });
+  .join.call({ daiJoin, pot: mcdPot, wad: depositAmount.toString(10) });
 
 // Build the external call for our proxy to deposit to the DSR
 
+console.log(Buffer.from(internalData.slice(2), 'hex'));
+console.log(internalData);
 ({ data, amount, address } = daiSavingsRateProxy.methods()
-  .execute({
+  .execute.call({
     _target: proxyActionsAddress,
-    _data: internalData,
+    _data: ethUtil.toBuffer(internalData),
   }));
 
 console.log(`\nTo deposit ${depositAmount} DAI into the DSR`);

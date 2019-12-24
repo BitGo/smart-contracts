@@ -8,7 +8,7 @@ const underlyingTokenContract = new Contract('StandardERC20').instance(repayToke
 const compoundTokenContract = new Contract('Compound').instance(compoundTokenName);
 
 // First we need to approve the amount of DAI for the compound DAI contract to control
-let { data, amount, address } = underlyingTokenContract.methods().approve(
+let { data, amount, address } = underlyingTokenContract.methods().approve.call(
   {
     _spender: compoundTokenContract.getAddress(),
     _value: repayAmount.toString(10),
@@ -20,7 +20,7 @@ console.log(`Amount: ${amount} ETH`);
 console.log(`To: ${address}`);
 
 // Then we can tell the compound contract that we want to repay
-({ data, amount, address } = compoundTokenContract.methods().repayBorrow({ repayAmount: repayAmount.toString(10) }));
+({ data, amount, address } = compoundTokenContract.methods().repayBorrow.call({ repayAmount: repayAmount.toString(10) }));
 
 console.log(`\nTo repay ${repayAmount} ${repayTokenName} from compound, send:`);
 console.log(`Data: ${data}`);

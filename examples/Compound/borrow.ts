@@ -12,7 +12,8 @@ const compoundComptroller = new Contract('CompoundComptroller'); // there is onl
 const compoundCollateralTokenContract = new Contract('Compound').instance(collateralTokenName);
 
 // First we need to "enter the market" for our collateral token. This assumes that we already have some cTokens to use
-let { data, amount, address } = compoundComptroller.methods().enterMarkets({ cTokens: [compoundCollateralTokenContract.getAddress()] });
+let { data, amount, address } = compoundComptroller.methods()
+  .enterMarkets.call({ cTokens: [compoundCollateralTokenContract.getAddress()] });
 
 console.log(`\nTo enter ${collateralTokenName} as collateral for borrowing, send:`);
 console.log(`Data: ${data}`);
@@ -22,7 +23,8 @@ console.log(`To: ${address}`);
 // Once the above tx is confirmed, we can borrow our desired underlying asset
 const compoundTokenContract = new Contract('Compound').instance(compoundTokenName);
 
-({ data, amount, address } = compoundTokenContract.methods().borrow({ borrowAmount: borrowAmount.toString(10) }));
+({ data, amount, address } = compoundTokenContract.methods()
+  .borrow.call({ borrowAmount: borrowAmount.toString(10) }));
 
 console.log(`\nTo borrow ${borrowAmount} ${borrowTokenName} from compound, send:`);
 console.log(`Data: ${data}`);

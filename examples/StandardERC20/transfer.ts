@@ -6,7 +6,7 @@ const tokenAmount = 1e18; // 1 DAI
 
 const daiContract = new Contract('StandardERC20').instance(tokenName);
 
-const { data, amount, address } = daiContract.methods().transfer({ _to: recipient, _value: tokenAmount.toString(10) });
+const { data, amount, address } = daiContract.methods().transfer.call({ _to: recipient, _value: tokenAmount.toString(10) });
 
 console.log(`To transfer ${tokenAmount} ${tokenName} to ${recipient}:\n`);
 console.log(`Data: ${data}`);

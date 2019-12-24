@@ -18,14 +18,14 @@ The basic usage enables users to specify contracts by name and build transaction
 ```js
 import { Contract } from '@bitgo/eth-contracts';
 const cDAI = new Contract('Compound').instance('cDAI');
-const { data, amount, address } = cDAI.methods().mint({ mintAmount: '1000000000' });
+const { data, amount, address } = cDAI.methods().mint.call({ mintAmount: '1000000000' });
 ```
 
 Users can specify an instance of the contract protocol by address instead of name
 ```js
 import { Contract } from '@bitgo/eth-contracts';
 const cDAI = new Contract('Compound').address('0x5d3a536e4d6dbd6114cc1ead35777bab948e3643');
-const { data, amount, address } = cDAI.methods().mint({ mintAmount: '1000000000' });
+const { data, amount, address } = cDAI.methods().mint.call({ mintAmount: '1000000000' });
 ```
 
 
@@ -49,7 +49,7 @@ async function sendBitGoTx() {
     const cDAI = new Contract('Compound').instance('cDAI');
     
     const transaction = await bitGoWallet.sendMany({
-      recipients: cDAI.methods().mint({ mintAmount: '1000000000' }),
+      recipients: cDAI.methods().mint.call({ mintAmount: '1000000000' }),
       walletPassphrase: 'password'
     })
       
@@ -76,7 +76,7 @@ const types = new Contract('StandardERC20').listMethods();
 **methods()** -- get contract method builder objects
 ```js
 const types = new Contract('StandardERC20').methods();
-// response: { transfer: <function to build transfer>, approve: <function to build approve> }
+// response: { transfer: { call: <function to build transfer> }, approve: { call: <function to build approve> } }
 ```
 
 **getName()** -- get contract name
