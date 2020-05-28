@@ -55,6 +55,7 @@
     "exclude": [
       "**/migrations/*.ts"
     ]
-  }
+  },
+  "indent": [true, "spaces", 4]
 }
 

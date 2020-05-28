@@ -31,6 +31,9 @@
   "DSProxyActionsDsr": {
     "default": "0x07ee93aeea0a36fff2a9b95dd22bd6049ee54f26"
   },
+  "DSProxyActions": {
+    "default": "0x82ecd135dce65fbc6dbdd0e4237e0af93ffd5038"
+  },
   "DSProxy": {
   }
 }
