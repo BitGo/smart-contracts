@@ -2,7 +2,8 @@
   "name": "eth-contracts",
   "version": "1.0.0",
   "description": "A library to build Ethereum smart contract function calls.",
-  "main": "index.ts",
+  "main": "dist/index.js",
+  "types": "dist/types/index.d.ts",
   "scripts": {
     "test": "mocha --exit -r ts-node/register --timeout 100000 --recursive 'test/**/*.ts'",
     "build": "npm run build-ts",
