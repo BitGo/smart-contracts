@@ -6,6 +6,14 @@ const generateInteger = (max: number) => {
   };
 };
 
+const generateSignedInteger = (max: number) => {
+    return () => {
+        const unsigned = generateInteger(max)();
+        const sign = generateInteger(2)();
+        return sign ? unsigned : -1 * unsigned;
+    }
+};
+
 const generateHexString = (length: number): () => string => {
   return () => {
     ensure(length % 2 === 0, `Invalid hex length: ${length}`);
@@ -42,6 +50,7 @@ const solidityTypes: { [key: string]: any } = {
   uint64: generateInteger(2e8),
   uint128: generateInteger(2e8),
   uint256: generateInteger(2e8),
+  int256: generateSignedInteger(2e8),
   bool: generateFromOptions([true, false]),
   address: generateHexString(40),
   bytes: generateHexString(32),
@@ -53,6 +62,7 @@ const solidityTypes: { [key: string]: any } = {
   byte8: generateHexString(16),
   byte16: generateHexString(32),
   byte32: generateHexString(64),
+  bytes32: generateHexString(64),
   string: generateFromOptions(['asdfadsf', 'hello world', 'test']),
   ['address[]']: generateHexStringArray(40, 1),
 };
