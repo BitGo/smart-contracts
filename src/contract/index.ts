@@ -1,4 +1,5 @@
 import * as fs from 'fs';
+import * as path from 'path';
 import { ensure } from '../util/ensure';
 import { isValidJSON } from '../util/json';
 import { ContractABI, MethodABI } from './json';
@@ -8,8 +9,8 @@ import { MethodContainerMap, MethodManager } from './method/manager';
  * A high-level wrapper for Solidity smart contract function calls
  */
 export class Contract {
-  static readonly ABI_DIR = 'abis';
-  static readonly CONFIG_DIR = 'config';
+  static readonly ABI_DIR = '../../abis';
+  static readonly CONFIG_DIR = '../../config';
   static readonly DEFAULT_INSTANCE_KEY = 'default';
 
   /**
@@ -17,7 +18,7 @@ export class Contract {
    * These are stored locally as JSON ABI definition files
    */
   public static listContractTypes(): string[] {
-    return fs.readdirSync(Contract.ABI_DIR).map((fileName: string) => {
+    return fs.readdirSync(path.join( __dirname, Contract.ABI_DIR)).map((fileName: string) => {
       ensure(fileName.endsWith('.json'), `Malformed JSON abi filename: ${fileName}`);
       return fileName.replace('.json', '');
     });
@@ -30,7 +31,7 @@ export class Contract {
    */
   private static readContractAbi(contractName: string): ContractABI {
     ensure(Contract.listContractTypes().includes(contractName), `Unknown contract: ${contractName}`);
-    const jsonAbi = fs.readFileSync(`${Contract.ABI_DIR}/${contractName}.json`, 'utf-8');
+    const jsonAbi = fs.readFileSync(path.join( __dirname, `${Contract.ABI_DIR}/${contractName}.json`), 'utf-8');
     ensure(isValidJSON(jsonAbi), `Invalid JSON: ${jsonAbi}`);
     return JSON.parse(jsonAbi);
   }
@@ -40,7 +41,7 @@ export class Contract {
    * @param contractName The name of the contract to read the config for
    */
   private static readContractInstances(contractName: string): ContractInstances {
-    const config = fs.readFileSync(`${Contract.CONFIG_DIR}/instances.json`, 'utf-8');
+    const config = fs.readFileSync(require.resolve(`${Contract.CONFIG_DIR}/instances.json`), 'utf-8');
     ensure(isValidJSON(config), `Invalid JSON: ${config}`);
     const parsedConfig = JSON.parse(config);
     ensure(parsedConfig[contractName], `Unknown contract: ${contractName}`);
