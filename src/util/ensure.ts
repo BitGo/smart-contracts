@@ -7,4 +7,4 @@ export function ensure(test: any, msg: string): void {
   if (!test) {
     throw new Error(msg);
   }
-};
+}

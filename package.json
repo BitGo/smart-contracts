@@ -6,7 +6,9 @@
   "scripts": {
     "test": "mocha --exit -r ts-node/register --timeout 100000 --recursive 'test/**/*.ts'",
     "build": "npm run build-ts",
-    "build-ts": "tsc"
+    "build-ts": "tsc",
+    "lint": "node_modules/tslint/bin/tslint -c tslint.json -p tsconfig.json",
+    "lint-fix": "node_modules/tslint/bin/tslint -c tslint.json -p tsconfig.json --fix"
   },
   "repository": {
     "type": "git",
