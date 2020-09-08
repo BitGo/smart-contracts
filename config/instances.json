@@ -38,5 +38,8 @@
     "default": "0x373238337Bfe1146fb49989fc222523f83081dDb"
   },
   "DSProxy": {
+  },
+  "WorkLock": {
+    "default": "0xe9778E69a961e64d3cdBB34CF6778281d34667c2"
   }
 }

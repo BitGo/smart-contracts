@@ -103,6 +103,7 @@ This library supports a limited number of smart contract protocols, as it mainta
 - Compound -- [Examples](./examples/Compound)
 - StandardERC20 -- [Examples](./examples/StandardERC20)
 - MakerDAO -- [Examples](./examples/MakerDAO)
+- NuCypher WorkLock -- [Examples](./examples/WorkLock)
 
 ## Adding a new ABI type
 This library is quite extensible to new protocols -- if there are other contract types that you would like to use, 
