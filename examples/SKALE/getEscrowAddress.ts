@@ -12,7 +12,7 @@ async function sendBitGoTx(): Promise<void> {
     const walletPassphrase = 'password';
 
     const proxyAddress = '0xB575c158399227b6ef4Dcfb05AA3bCa30E12a7ba';
-    const Allocator = new Contract('Allocator').address(proxyAddress);
+    const Allocator = new Contract('SkaleAllocator').address(proxyAddress);
 
     /**
      * Get the Escrow wallet address that is linked to the investor's Bitgo wallet address

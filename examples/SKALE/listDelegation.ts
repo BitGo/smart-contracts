@@ -12,7 +12,7 @@ async function sendBitGoTx(): Promise<void> {
     const walletPassphrase = 'password';
 
     const proxyAddress = '0x06dD71dAb27C1A3e0B172d53735f00Bf1a66Eb79';
-    const DelegationController = new Contract('DelegationController').address(proxyAddress);
+    const DelegationController = new Contract('SkaleDelegationController').address(proxyAddress);
 
     let delegations = [];
     /**

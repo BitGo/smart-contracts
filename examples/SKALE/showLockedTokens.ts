@@ -13,7 +13,7 @@ async function sendBitGoTx(): Promise<void> {
 
     const delegatorWalletAddress = 'delegator wallet address';
     const proxyAddress = '0x1F2157Bf5C820f68826ef1DC71824816Ee795f41';
-    const TokenState = new Contract('TokenState').address(proxyAddress);
+    const TokenState = new Contract('SkaleTokenState').address(proxyAddress);
     
     /**
      * List the amount of the tokens that are locked within the token holder (delegator)

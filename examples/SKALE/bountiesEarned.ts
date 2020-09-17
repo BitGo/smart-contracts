@@ -12,7 +12,7 @@ async function sendBitGoTx(): Promise<void> {
     const walletPassphrase = 'password';
 
     const proxyAddress = '0x2a42Ccca55FdE8a9CA2D7f3C66fcddE99B4baB90';
-    const Distributor = new Contract('Distributor').address(proxyAddress);
+    const Distributor = new Contract('SkaleDistributor').address(proxyAddress);
 
     //parameter needed for checking the earned bounties
     const idOfValidator = "validator id";

@@ -18,7 +18,7 @@ async function sendBitGoTx(): Promise<void> {
     const descriptionAboutDelegation = "description or summary about the delegation";
 
     const proxyAddress = '0x06dD71dAb27C1A3e0B172d53735f00Bf1a66Eb79';
-    const DelegationController = new Contract('DelegationController').address(proxyAddress);
+    const DelegationController = new Contract('SkaleDelegationController').address(proxyAddress);
 
     /**
      * Sending a proposal to delegate SKL tokens to the validator.

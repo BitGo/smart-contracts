@@ -16,7 +16,7 @@ async function sendBitGoTx(): Promise<void> {
     const addressOfReceivingDelegator = "token holder address";
 
     const proxyAddress = '0x4eE5F270572285776814e32952446e9B7Ee15C86';
-    const Distributor = new Contract('Distributor').address(proxyAddress);
+    const Distributor = new Contract('SkaleDistributor').address(proxyAddress);
 
     /**
      * Allows token holder (delegator) to withdraw bounty from a specific validator.

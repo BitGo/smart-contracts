@@ -12,7 +12,7 @@ async function sendBitGoTx(): Promise<void> {
     const walletPassphrase = 'password';
 
     const proxyAddress = '0x840C8122433A5AA7ad60C1Bcdc36AB9DcCF761a5';
-    const ValidatorService = new Contract('ValidatorService').address(proxyAddress);
+    const ValidatorService = new Contract('SkaleValidatorService').address(proxyAddress);
 
     /**
      * List all of the trusted validators that are registered within the SKALE Network.

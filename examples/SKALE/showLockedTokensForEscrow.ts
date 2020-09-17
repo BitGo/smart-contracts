@@ -17,7 +17,7 @@ async function sendBitGoTx(): Promise<void> {
     const walletPassphrase = 'password';
 
     const proxyAddress = '0xB575c158399227b6ef4Dcfb05AA3bCa30E12a7ba';
-    const Allocator = new Contract('Allocator').address(proxyAddress);
+    const Allocator = new Contract('SkaleAllocator').address(proxyAddress);
 
     /**
      * Get the Escrow wallet address that is linked to the delegator's Bitgo wallet address
@@ -28,7 +28,7 @@ async function sendBitGoTx(): Promise<void> {
     let escrowAddress = await bitGoWallet.send({ data, amount, address, walletPassphrase });
 
     const tokenStateAddress = '0x1F2157Bf5C820f68826ef1DC71824816Ee795f41';
-    const TokenState = new Contract('TokenState').address(tokenStateAddress);
+    const TokenState = new Contract('SkaleTokenState').address(tokenStateAddress);
     
     /**
      * List the amount of the tokens that are locked within the token holder's Escrow

@@ -12,7 +12,7 @@ async function sendBitGoTx(): Promise<void> {
     const walletPassphrase = 'password';
 
     const proxyAddress = '0xB575c158399227b6ef4Dcfb05AA3bCa30E12a7ba';
-    const Allocator = new Contract('Allocator').address(proxyAddress);
+    const Allocator = new Contract('SkaleAllocator').address(proxyAddress);
 
     /**
      * Get the Escrow wallet address that is linked to the delegator's Bitgo wallet address
@@ -23,7 +23,7 @@ async function sendBitGoTx(): Promise<void> {
     let escrowAddress = await bitGoWallet.send({ data, amount, address, walletPassphrase });
 
     const delegationControllerAddress = '0x06dD71dAb27C1A3e0B172d53735f00Bf1a66Eb79';
-    const DelegationController = new Contract('DelegationController').address(delegationControllerAddress);
+    const DelegationController = new Contract('SkaleDelegationController').address(delegationControllerAddress);
     let delegations = [];
     /**
      * List all of the delegations for th token holder's Escrow contract.
