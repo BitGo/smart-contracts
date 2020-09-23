@@ -6,7 +6,7 @@ import { Contract } from '../../src/contract';
 const collateralTokenName = 'cDAI';
 const borrowTokenName = 'USDC';
 const compoundTokenName = 'cUSDC';
-const borrowAmount = 1e5;
+const borrowAmount = 3e5;
 
 const compoundComptroller = new Contract('CompoundComptroller'); // there is only 1, so no need for instance
 const compoundCollateralTokenContract = new Contract('Compound').instance(collateralTokenName);

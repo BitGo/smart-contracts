@@ -41,5 +41,11 @@
   },
   "WorkLock": {
     "default": "0xe9778E69a961e64d3cdBB34CF6778281d34667c2"
+  },
+  "StakingEscrow": {
+    "default": "0xbbD3C0C794F40c4f993B03F65343aCC6fcfCb2e2"
+  },
+  "UniswapRouter": {
+    "default": "0x7a250d5630b4cf539739df2c5dacb4c659f2488d"
   }
 }
