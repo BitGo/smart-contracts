@@ -20,7 +20,7 @@ let amountETHMin = Math.floor(ethAmount * tolerance)
 let { data, amount, address } = uniswapRouterContract.methods()
   .addLiquidityETH.call({ deadline: deadline, token: token, amountTokenDesired: amountTokenDesired, amountTokenMin: amountTokenMin, amountETHMin: amountETHMin, to: to });
 
-console.log(`\nTo addLiquidityETH ${deadline} ${token} ${amountTokenDesired} ${amountTokenMin} ${amountETHMin} ${to}, send:`);
+console.log(`\nTo addLiquidityETH ${token} ${amountTokenDesired} ${amountTokenMin} ${amountETHMin} ${to} ${deadline}, send:`);
 console.log(`Data: ${data}`);
-console.log(`Amount: ${ethAmount} ETH`);
+console.log(`Amount: ${ethAmount}`);
 console.log(`To: ${address}`);
