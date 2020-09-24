@@ -25,7 +25,7 @@ describe('Contract', () => {
      */
     const testStaticContracts = (callback: (contract: Contract, instanceName?: string) => void) => {
       Contract.listContractTypes().forEach((abiFileName) => {
-          callback(new Contract(abiFileName));
+        callback(new Contract(abiFileName));
       });
     };
 

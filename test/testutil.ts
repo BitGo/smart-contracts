@@ -7,11 +7,11 @@ const generateInteger = (max: number) => {
 };
 
 const generateSignedInteger = (max: number) => {
-    return () => {
-        const unsigned = generateInteger(max)();
-        const sign = generateInteger(2)();
-        return sign ? unsigned : -1 * unsigned;
-    }
+  return () => {
+    const unsigned = generateInteger(max)();
+    const sign = generateInteger(2)();
+    return sign ? unsigned : -1 * unsigned;
+  };
 };
 
 const generateHexString = (length: number): () => string => {
@@ -33,7 +33,7 @@ const generateHexStringArray = (strLength: number, arrLength: number): () => str
       res.push(generateHexString(strLength)());
     }
     return res;
-  }
+  };
 };
 
 const generateFromOptions = (options: any[]) => {
