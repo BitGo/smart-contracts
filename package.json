@@ -8,7 +8,7 @@
     "test": "mocha --exit -r ts-node/register --timeout 100000 --recursive 'test/**/*.ts'",
     "build": "npm run build-ts",
     "build-ts": "tsc",
-    "lint": "TIMING=1 eslint --ext .js,.ts --cache .",
+    "lint": "TIMING=1 eslint --ignore-pattern dist/ --ext .ts --cache .",
     "lint-fix": "TIMING=1 eslint --fix  --ignore-pattern dist/ --ext .ts --cache ."
   },
   "repository": {
