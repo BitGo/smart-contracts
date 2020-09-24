@@ -38,5 +38,22 @@
     "default": "0x373238337Bfe1146fb49989fc222523f83081dDb"
   },
   "DSProxy": {
+  },
+  "SkaleDelegationController": {
+    "default": "0x06dD71dAb27C1A3e0B172d53735f00Bf1a66Eb79"
+  },
+  "SkaleDistributor": {
+    "default": "0x2a42Ccca55FdE8a9CA2D7f3C66fcddE99B4baB90"
+  },
+  "SkaleAllocator": {
+    "default": "0xB575c158399227b6ef4Dcfb05AA3bCa30E12a7ba"
+  },
+  "SkaleTokenState": {
+    "default": "0x1F2157Bf5C820f68826ef1DC71824816Ee795f41"
+  },
+  "SkaleEscrow": {
+  },
+  "SkaleValidatorService": {
+    "default": "0x840C8122433A5AA7ad60C1Bcdc36AB9DcCF761a5"
   }
 }
