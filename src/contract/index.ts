@@ -139,3 +139,5 @@ export class Contract {
 export interface ContractInstances {
   [key: string]: string;
 }
+
+export { MethodResponse } from './method';

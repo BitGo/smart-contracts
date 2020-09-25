@@ -8,8 +8,8 @@
     "test": "mocha --exit -r ts-node/register --timeout 100000 --recursive 'test/**/*.ts'",
     "build": "npm run build-ts",
     "build-ts": "tsc",
-    "lint": "node_modules/tslint/bin/tslint -c tslint.json -p tsconfig.json",
-    "lint-fix": "node_modules/tslint/bin/tslint -c tslint.json -p tsconfig.json --fix"
+    "lint": "TIMING=1 eslint --ignore-pattern dist/ --ext .ts --cache .",
+    "lint-fix": "TIMING=1 eslint --fix  --ignore-pattern dist/ --ext .ts --cache ."
   },
   "repository": {
     "type": "git",
@@ -20,6 +20,9 @@
   },
   "homepage": "https://github.com/bitgo/eth-contracts#readme",
   "dependencies": {
+    "@typescript-eslint/eslint-plugin": "^4.2.0",
+    "@typescript-eslint/parser": "^4.2.0",
+    "eslint": "^7.9.0",
     "ethereumjs-abi": "0.6.8",
     "ethereumjs-util": "6.2.0",
     "typescript": "3.4.5"
@@ -31,9 +34,6 @@
     "bitgo": "11.1.1",
     "expect": "24.9.0",
     "mocha": "6.2.2",
-    "ts-node": "8.5.4",
-    "tslint": "5.11.0",
-    "tslint-config-prettier": "1.18.0",
-    "tslint-plugin-prettier": "2.0.1"
+    "ts-node": "8.5.4"
   }
 }
