@@ -55,5 +55,7 @@
   },
   "SkaleValidatorService": {
     "default": "0x840C8122433A5AA7ad60C1Bcdc36AB9DcCF761a5"
+  },
+  "DepositContract": {
   }
 }
