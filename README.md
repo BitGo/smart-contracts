@@ -28,6 +28,21 @@ const cDAI = new Contract('Compound').address('0x5d3a536e4d6dbd6114cc1ead35777ba
 const { data, amount, address } = cDAI.methods().mint.call({ mintAmount: '1000000000' });
 ```
 
+The decoder can parse call data and output a human-readable explanation of a given contract call.
+```js
+import { Decoder } from '@bitgo/eth-contracts';
+const decoder = new Decoder();
+decoder.decode(Buffer.from('a9059cbb00000000000000000000000010d4f942617a231eb1430c88fe43c8c2050437d90000000000000000000000000000000000000000000000000000000000002710', 'hex'));
+{ methodId: '0xa9059cbb',
+  name: 'transfer',
+  args:
+   [ { name: '_to',
+       type: 'address',
+       value: '0x10d4f942617a231eb1430c88fe43c8c2050437d9' },
+     { name: '_value', type: 'uint256', value: 10000 } ],
+  contractName: 'StandardERC20' }
+```
+
 
 ## Integration with BitGo SDK
 
