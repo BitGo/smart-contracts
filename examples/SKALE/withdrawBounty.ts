@@ -18,9 +18,9 @@ async function sendBitGoTx(): Promise<void> {
   const Distributor = new Contract('SkaleDistributor').address(proxyAddress);
 
   /**
-     * Allows token holder (delegator) to withdraw bounty from a specific validator.
-     * This needs to be called per validator in order to recieve all of the bounties.
-     */
+   * Allows token holder (delegator) to withdraw bounty from a specific validator.
+   * This needs to be called per validator in order to recieve all of the bounties.
+   */
   const { data, amount, address } = Distributor.methods().withdrawBounty.call({
     validatorId: idOfValidator,
     address: addressOfReceivingDelegator,

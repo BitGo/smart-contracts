@@ -20,8 +20,8 @@ async function sendBitGoTx(): Promise<void> {
   const DelegationController = new Contract('SkaleDelegationController').address(proxyAddress);
 
   /**
-     * Sending a proposal to delegate SKL tokens to the validator.
-     */
+   * Sending a proposal to delegate SKL tokens to the validator.
+   */
   const { data, amount, address } = DelegationController.methods().delegate.call({
     validatorId: idOfValidator,
     amount: amounttoDelegate,

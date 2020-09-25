@@ -14,8 +14,8 @@ async function sendBitGoTx(): Promise<void> {
   const Allocator = new Contract('SkaleAllocator').address(proxyAddress);
 
   /**
-     * Get the Escrow wallet address that is linked to the delegator's Bitgo wallet address
-     */
+   * Get the Escrow wallet address that is linked to the delegator's Bitgo wallet address
+   */
   let { data, amount, address } = Allocator.methods().getEscrowAddress.call({
     beneficiary: bitGoWallet.getAddress(),
   });
@@ -29,12 +29,12 @@ async function sendBitGoTx(): Promise<void> {
 
 
   /**
-     * Request to undelegate from the delegator's Escrow account.
-     *
-     * After the epoch starts all delegations that are accepted turns to DELEGATED state.
-     * Token holders (delegators) can request undelegation once the delegation is in the DELEGATED state
-     * But only their delegations will be “undelegated” once their delegation period is over.
-     */
+   * Request to undelegate from the delegator's Escrow account.
+   *
+   * After the epoch starts all delegations that are accepted turns to DELEGATED state.
+   * Token holders (delegators) can request undelegation once the delegation is in the DELEGATED state
+   * But only their delegations will be “undelegated” once their delegation period is over.
+   */
   ({ data, amount, address } = Escrow.methods().requestUndelegation.call({
     delegationId: idOfDelegation,
   }));

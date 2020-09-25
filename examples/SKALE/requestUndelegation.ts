@@ -17,10 +17,10 @@ async function sendBitGoTx(): Promise<void> {
   const DelegationController = new Contract('SkaleDelegationController').address(proxyAddress);
 
   /**
-     * After the epoch starts all delegations that are accepted turns to DELEGATED state.
-     * Token holders (delegators) can request undelegation once the delegation is in the DELEGATED state
-     * But only their delegations will be “undelegated” once their delegation period is over.
-     */
+   * After the epoch starts all delegations that are accepted turns to DELEGATED state.
+   * Token holders (delegators) can request undelegation once the delegation is in the DELEGATED state
+   * But only their delegations will be “undelegated” once their delegation period is over.
+   */
   const { data, amount, address } = DelegationController.methods().requestUndelegation.call({
     delegationId: idOfDelegation,
   });

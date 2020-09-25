@@ -14,8 +14,8 @@ async function sendBitGoTx(): Promise<void> {
   const Allocator = new Contract('SkaleAllocator').address(proxyAddress);
 
   /**
-     * Get the Escrow wallet address that is linked to the delegator's Bitgo wallet address
-     */
+   * Get the Escrow wallet address that is linked to the delegator's Bitgo wallet address
+   */
   let { data, amount, address } = Allocator.methods().getEscrowAddress.call({
     beneficiary: bitGoWallet.getAddress(),
   });
@@ -25,18 +25,18 @@ async function sendBitGoTx(): Promise<void> {
   const DelegationController = new Contract('SkaleDelegationController').address(delegationControllerAddress);
   const delegations = [];
   /**
-     * List all of the delegations for th token holder's Escrow contract.
-     * This will return the states of each of the delegation requests sent.
-     *
-     * First get Total amount of delegations for the holder
-     */
+   * List all of the delegations for th token holder's Escrow contract.
+   * This will return the states of each of the delegation requests sent.
+   *
+   * First get Total amount of delegations for the holder
+   */
   const delegationsTotal = ({ data, amount, address } = DelegationController.methods().getDelegationsByHolderLength.call({
     holder: escrowAddress,
   }));
 
   /**
-     * Then get the delegation ids for the total amount of delegations.
-     */
+   * Then get the delegation ids for the total amount of delegations.
+   */
   for (let index = 0; index < parseInt(delegationsTotal.data, 10); index++) {
     const delegation = { info: {}, state: {} };
 
@@ -49,11 +49,12 @@ async function sendBitGoTx(): Promise<void> {
       delegationId: delegationId,
     }));
 
-    /** Get the state of the delegation (PROPOSED, ACCEPTED, CANCELED, etc). State is returned as an integer
-        * where 0 = PROPOSED, 1 = ACCEPTED, etc
-        * States can be found below
-        //https://github.com/skalenetwork/skale-manager/blob/develop/contracts/delegation/DelegationController.sol#L64
-        */
+    /**
+     * Get the state of the delegation (PROPOSED, ACCEPTED, CANCELED, etc). State is returned as an integer
+     * where 0 = PROPOSED, 1 = ACCEPTED, etc
+     * States can be found below
+     *  //https://github.com/skalenetwork/skale-manager/blob/develop/contracts/delegation/DelegationController.sol#L64
+     */
     const delegationState = ({ data, amount, address } = DelegationController.methods().getState.call({
       delegationId: delegationId,
     }));

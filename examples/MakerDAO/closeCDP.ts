@@ -5,9 +5,11 @@ import { Contract } from '../../src/contract';
 const daiToken = new Contract('StandardERC20').instance('dai');
 
 async function sendBitGoTx(): Promise<void> {
-  // This assume you already have a CDP at Maker from our example createCDP
-  // It also assume you already have a CDP setup
-  // step 1 - Approve the number of tokens you would like the proxy to access
+  /*
+   * This assume you already have a CDP at Maker from our example createCDP
+   * It also assume you already have a CDP setup
+   * step 1 - Approve the number of tokens you would like the proxy to access
+   */
 
   const bitGo = new BitGo({ env: 'prod' });
   const baseCoin = bitGo.coin('eth');
@@ -31,14 +33,18 @@ async function sendBitGoTx(): Promise<void> {
 
   // Note this step only needs to be done once based on the amount you approve
 
-  // ============================================ //
-  // ============================================ //
+  /*
+   * ============================================ //
+   * ============================================ //
+   */
 
   // step 2 - Deposit Dai and withdraw ETH
 
-  // Now we need to go get the cdp id of the cdp that you created. The easiest way to do this is go to
-  // the Etherscan page for the Dai manager contract, here: https://etherscan.io/address/0x5ef30b9986345249bc32d8928b7ee64de9435e39#readContract
-  // Enter your proxy address in the 'last' query, then press `Query`. It will return your cdpid
+  /*
+   * Now we need to go get the cdp id of the cdp that you created. The easiest way to do this is go to
+   * the Etherscan page for the Dai manager contract, here: https://etherscan.io/address/0x5ef30b9986345249bc32d8928b7ee64de9435e39#readContract
+   * Enter your proxy address in the 'last' query, then press `Query`. It will return your cdpid
+   */
   const cdp = '1913';
 
   // The following two addresses are constants in the MakerDAO MCD ecosystem. You can look them up and verify on Etherscan

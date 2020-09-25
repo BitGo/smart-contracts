@@ -14,8 +14,8 @@ async function sendBitGoTx(): Promise<void> {
   const Allocator = new Contract('SkaleAllocator').address(proxyAddress);
 
   /**
-     * Get the Escrow wallet address that is linked to the delegator's Bitgo wallet address
-     */
+   * Get the Escrow wallet address that is linked to the delegator's Bitgo wallet address
+   */
   let { data, amount, address } = Allocator.methods().getEscrowAddress.call({
     beneficiary: bitGoWallet.getAddress(),
   });
@@ -29,12 +29,12 @@ async function sendBitGoTx(): Promise<void> {
 
 
   /**
-     * Request to cancel PENDING delegation from the delegator's Escrow account.
-     *
-     * This allows the delegator to cancel the PENDING delegation before the validator approves
-     * or before the start of the next Epoch.
-     * If a delegation is already in the DELEGATED or COMPLETED state, this method can not be called.
-     */
+   * Request to cancel PENDING delegation from the delegator's Escrow account.
+   *
+   * This allows the delegator to cancel the PENDING delegation before the validator approves
+   * or before the start of the next Epoch.
+   * If a delegation is already in the DELEGATED or COMPLETED state, this method can not be called.
+   */
   ({ data, amount, address } = Escrow.methods().cancelPendingDelegation.call({
     delegationId: idOfDelegation,
   }));

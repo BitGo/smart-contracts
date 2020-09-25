@@ -15,9 +15,9 @@ import { isValidJSON } from '../util/json';
 export class Decoder {
 
   /**
-     * Read in and parse all methods from all defined contract abis
-     * @return A mapping of method IDs (in hex string format) to the method ID object
-     */
+   * Read in and parse all methods from all defined contract abis
+   * @return A mapping of method IDs (in hex string format) to the method ID object
+   */
   private static loadMethods(): MethodIdMapping {
     const result: MethodIdMapping = {};
 
@@ -51,10 +51,10 @@ export class Decoder {
   }
 
   /**
-     * Decode the given function call data, returning a readable explanation of the call
-     * @param data The data to decode
-     * @return An explanation of the call, including the function name and arguments passed
-     */
+   * Decode the given function call data, returning a readable explanation of the call
+   * @param data The data to decode
+   * @return An explanation of the call, including the function name and arguments passed
+   */
   public decode(data: Buffer): FunctionCallExplanation {
     const methodId = bufferToHex(data.slice(0, 4));
     const abiEncodedArguments = data.slice(4);

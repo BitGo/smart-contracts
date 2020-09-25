@@ -14,8 +14,8 @@ async function sendBitGoTx(): Promise<void> {
   const ValidatorService = new Contract('SkaleValidatorService').address(proxyAddress);
 
   /**
-     * List all of the trusted validators that are registered within the SKALE Network.
-     */
+   * List all of the trusted validators that are registered within the SKALE Network.
+   */
   const { data, amount, address } = ValidatorService.methods().getTrustedValidators.call({});
   const transaction = await bitGoWallet.send({ data, amount, address, walletPassphrase });
   console.dir(transaction);

@@ -16,21 +16,27 @@ async function sendBitGoTx(): Promise<void> {
   const walletPassphrase = 'password';
 
 
-  // First we need to deploy a proxy contract that will simplify adding our DAI to the DSR
-  // Note this step only needs to be done once per wallet, so if you have already done it, skip to the next step
+  /*
+   * First we need to deploy a proxy contract that will simplify adding our DAI to the DSR
+   * Note this step only needs to be done once per wallet, so if you have already done it, skip to the next step
+   */
 
   let { data, amount, address } = makerProxyRegistry.methods().build.call({});
   let transaction = await bitGoWallet.send({ data, amount, address, walletPassphrase });
   console.dir(transaction);
 
-  // ============================================ //
-  // ============================================ //
+  /*
+   * ============================================ //
+   * ============================================ //
+   */
 
   // step 2 - Create CDP and withdraw DAI
 
-  // Now we need to go get the address of the newly created proxy contract. The easiest way to do this is go to
-  // the Etherscan page for the Proxy Registry contract, here: https://etherscan.io/address/0x4678f0a6958e4d2bc4f1baf7bc52e8f3564f3fe4#readContract
-  // Enter your wallet address in the `proxies` query, then press `Query`. It will return your proxy address
+  /*
+   * Now we need to go get the address of the newly created proxy contract. The easiest way to do this is go to
+   * the Etherscan page for the Proxy Registry contract, here: https://etherscan.io/address/0x4678f0a6958e4d2bc4f1baf7bc52e8f3564f3fe4#readContract
+   * Enter your wallet address in the `proxies` query, then press `Query`. It will return your proxy address
+   */
 
   const proxyAddress = '0x17458bbdd96d6c19645457f5fae87ed5a07ad8fd';
 

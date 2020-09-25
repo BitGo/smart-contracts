@@ -15,9 +15,9 @@ async function sendBitGoTx(): Promise<void> {
   const TokenState = new Contract('SkaleTokenState').address(proxyAddress);
 
   /**
-     * List the amount of the tokens that are locked within the token holder (delegator)
-     * wallet.
-     */
+   * List the amount of the tokens that are locked within the token holder (delegator)
+   * wallet.
+   */
   const { data, amount, address } = TokenState.methods().getAndUpdateLockedAmount.call({ holder: delegatorWalletAddress });
   const transaction = await bitGoWallet.send({ data, amount, address, walletPassphrase });
   console.dir(transaction);

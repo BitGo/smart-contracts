@@ -17,10 +17,10 @@ async function sendBitGoTx(): Promise<void> {
   const DelegationController = new Contract('SkaleDelegationController').address(proxyAddress);
 
   /**
-     * This allows the delegator to cancel the PENDING delegation before the validator approves 
-     * or before the start of the next Epoch.
-     * If a delegation is already in the DELEGATED or COMPLETED state, this method can not be called.
-     */
+   * This allows the delegator to cancel the PENDING delegation before the validator approves 
+   * or before the start of the next Epoch.
+   * If a delegation is already in the DELEGATED or COMPLETED state, this method can not be called.
+   */
   const { data, amount, address } = DelegationController.methods().cancelPendingDelegation.call({
     delegationId: idOfDelegation,
   });

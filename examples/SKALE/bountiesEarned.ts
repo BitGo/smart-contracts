@@ -17,10 +17,10 @@ async function sendBitGoTx(): Promise<void> {
   const idOfValidator = 'validator id';
 
   /**
-     * Retrieve the amount of earned bounties for the provided by token holder (delgator).
-     * This will return the bounties earned since the last withdraw for a specific delegation to a validator.
-     * This needs to be called for each validator that a token holder (delegator) is delegating to.
-     */
+   * Retrieve the amount of earned bounties for the provided by token holder (delgator).
+   * This will return the bounties earned since the last withdraw for a specific delegation to a validator.
+   * This needs to be called for each validator that a token holder (delegator) is delegating to.
+   */
   const { data, amount, address } = Distributor.methods().getAndUpdateEarnedBountyAmount.call({
     validatorId: idOfValidator,
   });

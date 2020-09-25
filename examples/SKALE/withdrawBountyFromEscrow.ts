@@ -14,8 +14,8 @@ async function sendBitGoTx(): Promise<void> {
   const Allocator = new Contract('SkaleAllocator').address(proxyAddress);
 
   /**
-     * Get the Escrow wallet address that is linked to the delegator's Bitgo wallet address
-     */
+   * Get the Escrow wallet address that is linked to the delegator's Bitgo wallet address
+   */
   let { data, amount, address } = Allocator.methods().getEscrowAddress.call({
     beneficiary: bitGoWallet.getAddress(),
   });
@@ -28,11 +28,11 @@ async function sendBitGoTx(): Promise<void> {
   const idOfValidator = 'validator id';
 
   /**
-     * Withdraw bounty for delegator's Escrow account.
-     *
-     * Allows token holder (delegator) to withdraw bounty from a specific validator.
-     * This needs to be called per validator in order to recieve all of the bounties.
-     */
+   * Withdraw bounty for delegator's Escrow account.
+   *
+   * Allows token holder (delegator) to withdraw bounty from a specific validator.
+   * This needs to be called per validator in order to recieve all of the bounties.
+   */
   ({ data, amount, address } = Escrow.methods().withdrawBounty.call({
     validatorId: idOfValidator,
     address: bitGoWallet.getAddress(),

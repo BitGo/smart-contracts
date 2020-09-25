@@ -34,7 +34,7 @@
     "quote-props": ["error", "as-needed"],
     "no-console": "off",
     "no-cond-assign": "error",
-    "no-empty": ["warn", { "allowEmptyCatch": false }],
+    "no-empty": ["error", { "allowEmptyCatch": false }],
     "no-inner-declarations": "off",
     "no-useless-escape": "off",
     "func-names": "off",
@@ -68,6 +68,7 @@
     "space-before-blocks": ["error"],
     "space-infix-ops": ["error"],
     "no-multiple-empty-lines": ["error", { "max": 2, "maxEOF": 1 }],
+    "multiline-comment-style": ["error", "starred-block"],
     "func-name-matching": ["error", { "includeCommonJSModuleExports": false }],
     "no-dupe-keys": "error",
     "no-irregular-whitespace": "error",
@@ -79,9 +80,6 @@
     "@typescript-eslint/no-unused-vars": ["error", {
       "vars": "all",
       "varsIgnorePattern": "^_",
-      /* TODO: enable this rule and fix errors
-      "args": "after-used",
-      */
       "args": "none",
       "argsIgnorePattern": "^_"
       /* TODO: enable this rule and fix errors

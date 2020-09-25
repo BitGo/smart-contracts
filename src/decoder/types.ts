@@ -11,7 +11,7 @@ enum Primitive {
 
 function formatBool(value: Buffer): boolean {
   const intBool = bufferToInt(value);
-  return intBool == 1;
+  return intBool === 1;
 }
 
 function formatArray(values: any[], subtype: string): any[] {

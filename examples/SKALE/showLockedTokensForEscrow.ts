@@ -14,8 +14,8 @@ async function sendBitGoTx(): Promise<void> {
   const Allocator = new Contract('SkaleAllocator').address(proxyAddress);
 
   /**
-     * Get the Escrow wallet address that is linked to the delegator's Bitgo wallet address
-     */
+   * Get the Escrow wallet address that is linked to the delegator's Bitgo wallet address
+   */
   let { data, amount, address } = Allocator.methods().getEscrowAddress.call({
     beneficiary: bitGoWallet.getAddress(),
   });
@@ -25,9 +25,9 @@ async function sendBitGoTx(): Promise<void> {
   const TokenState = new Contract('SkaleTokenState').address(tokenStateAddress);
 
   /**
-     * List the amount of the tokens that are locked within the token holder's Escrow
-     * contract.
-     */
+   * List the amount of the tokens that are locked within the token holder's Escrow
+   * contract.
+   */
   ({ data, amount, address } = TokenState.methods().getAndUpdateLockedAmount.call({
     holder: escrowAddress,
   }));

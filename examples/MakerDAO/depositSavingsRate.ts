@@ -8,8 +8,10 @@ const ownerAddress = '0x0000000000000000000000000000000000000000';
 // TODO: Set the desired amount of DAI to deposit in base units, so 1e18 is 1 DAI
 const depositAmount = 1e18;
 
-// ============================================ //
-// ============================================ //
+/*
+ * ============================================ //
+ * ============================================ //
+ */
 
 // First We need to approve ownership of some of our DAI to the DSR Manager
 
@@ -25,8 +27,10 @@ console.log(`Amount: ${amount} ETH`);
 console.log(`To: ${address}`);
 
 
-// ============================================ //
-// ============================================ //
+/*
+ * ============================================ //
+ * ============================================ //
+ */
 
 
 // Now we can actually deposit it and get the DSR

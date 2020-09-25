@@ -5,8 +5,10 @@ const dsrManager = new Contract('DsrManager');
 // TODO: Set your own address here -- this is the address who can withdraw DAI from the DSR
 const ownerAddress = '0x0000000000000000000000000000000000000000';
 
-// ============================================ //
-// ============================================ //
+/*
+ * ============================================ //
+ * ============================================ //
+ */
 
 // Withdraw all DAI From the DSR
 

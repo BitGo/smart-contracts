@@ -13,8 +13,8 @@ async function sendBitGoTx(): Promise<void> {
   const Allocator = new Contract('SkaleAllocator').address(proxyAddress);
 
   /**
-     * Get the Escrow wallet address that is linked to the investor's Bitgo wallet address
-     */
+   * Get the Escrow wallet address that is linked to the investor's Bitgo wallet address
+   */
   const { data, amount, address } = Allocator.methods().getEscrowAddress.call({
     beneficiary: bitGoWallet.getAddress(),
   });

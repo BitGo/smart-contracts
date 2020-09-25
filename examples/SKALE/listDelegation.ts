@@ -14,18 +14,18 @@ async function sendBitGoTx(): Promise<void> {
 
   const delegations = [];
   /**
-     * List all of the delegations for th token holder (delegator).
-     * This will return the states of each of the delegation requests sent.
-     *
-     * First get Total amount of delegations for the holder
-     */
+   * List all of the delegations for th token holder (delegator).
+   * This will return the states of each of the delegation requests sent.
+   *
+   * First get Total amount of delegations for the holder
+   */
   let { data, amount, address } = DelegationController.methods().getDelegationsByHolderLength.call({
     holder: bitGoWallet.getAddress(),
   });
 
   /**
-     * Then get the delegation ids for the total amount of delegations.
-     */
+   * Then get the delegation ids for the total amount of delegations.
+   */
   for (let index = 0; index < parseInt(data, 10); index++) {
     const delegation = { info: {}, state: {} };
 
@@ -38,11 +38,12 @@ async function sendBitGoTx(): Promise<void> {
       delegationId: delegationId,
     }));
 
-    /** Get the state of the delegation (PROPOSED, ACCEPTED, CANCELED, etc). State is returned as an integer
-        * where 0 = PROPOSED, 1 = ACCEPTED, etc
-        * States can be found below
-        //https://github.com/skalenetwork/skale-manager/blob/develop/contracts/delegation/DelegationController.sol#L64
-        */
+    /**
+     * Get the state of the delegation (PROPOSED, ACCEPTED, CANCELED, etc). State is returned as an integer
+     * where 0 = PROPOSED, 1 = ACCEPTED, etc
+     * States can be found below
+     *  //https://github.com/skalenetwork/skale-manager/blob/develop/contracts/delegation/DelegationController.sol#L64
+     */
     const delegationState = ({ data } = DelegationController.methods().getState.call({
       delegationId: delegationId,
     }));

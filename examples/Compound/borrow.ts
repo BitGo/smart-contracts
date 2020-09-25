@@ -1,7 +1,9 @@
 import { Contract } from '../../src/contract';
 
-// Note that to borrow, you must have a certain amount of assets lent to the compound protocol.
-// You must also explicitly enable those assets to be used as collateral
+/*
+ * Note that to borrow, you must have a certain amount of assets lent to the compound protocol.
+ * You must also explicitly enable those assets to be used as collateral
+ */
 
 const collateralTokenName = 'cDAI';
 const borrowTokenName = 'USDC';
