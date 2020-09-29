@@ -38,10 +38,6 @@ bower_components
 .DS_Store
 Thumbs.db
 
-# Ignore built ts files
-dist/**/*
-dist
-
 # Ignore editor settings
 .vscode
 
