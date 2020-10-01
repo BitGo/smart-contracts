@@ -1,12 +1,17 @@
 import { Contract } from '../../src/contract';
   
-const tokenName = 'UNI-USDC';
-const tokenAmount = 428043827671 //0.00000044 * 1e18;
+const tokenName = 'UNI-V2-ETH-DAI';
+const tokenAmount = 908657350098029009
 
 const poolContract = new Contract('UNIPool').instance(tokenName);
+let pool = poolContract.methods().stake.call({ amount: tokenAmount.toString(10) });
 
-const { data, amount, address } = poolContract.methods().stake.call({ amount: tokenAmount });
+const tokenContract = new Contract('StandardERC20').instance(tokenName);
+let approve = tokenContract.methods().approve.call({ _spender: pool.address, _value: tokenAmount.toString(10) });
 
-console.log(`To stake ${tokenAmount}:\n`);
-console.log(`Data: ${data}`);
-console.log(`To: ${address}`);
+console.log(`---- To approve ${tokenName} ${tokenAmount}:\n`);
+console.log(`${approve.data}`);
+console.log(`${approve.address}\n`);
+console.log(`------ and stake -------\n`);
+console.log(`${pool.data}`);
+console.log(`${pool.address}`);
