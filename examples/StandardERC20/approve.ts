@@ -1,8 +1,8 @@
 import { Contract } from '../../src/contract';
 
-const tokenName = 'DAI';
-const recipient = '0xadd62287c10d90f65fd3bf8bf94183df115c030a';
-const tokenAmount = 1e18; // 1 DAI
+const tokenName = 'UNI';
+const recipient = '0x793F2aA4Cd841A2a64a8AB928ce6011662f565Fe';
+const tokenAmount = 546345703250364; // 1 DAI
 
 const daiContract = new Contract('StandardERC20').instance(tokenName);
 
