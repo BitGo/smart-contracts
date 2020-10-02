@@ -16,7 +16,7 @@ const testCases: TestCase[] = [
       methodId: '0xa9059cbb',
       args: [
         { name: '_to', type: 'address', value: '0x10d4f942617a231eb1430c88fe43c8c2050437d9' },
-        { name: '_value', type: 'uint256', value: 10000 },
+        { name: '_value', type: 'uint256', value: '10000' },
       ],
     },
   },
@@ -39,6 +39,27 @@ const testCases: TestCase[] = [
       methodId: '0xeb0dff66',
       args: [
         { name: 'dst', type: 'address', value: '0xf7aba9b064a12330a00eafaa930e2fe8e76e65f0' },
+      ],
+    },
+  },
+  {
+    data: '0x39125215000000000000000000000000b19fb72b55f5374a062ddcba874e566b1d93f5d3000000000000000000000000000000000000000000000000016345785d8a000000000000000000000000000000000000000000000000000000000000000000c0000000000000000000000000000000000000000000000000000000005f7cde11000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000e0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000416508bd6fc3da79ff7e5b84ff79f50e48112579d7b5190caeb92fd7cb4d2ac0f362f431480770e9bbe7e1437d7c21b49a64e03e5f1cfb0eaf3f84f2435b972fdc1b00000000000000000000000000000000000000000000000000000000000000',
+    expected: {
+      contractName: 'WalletSimple',
+      name: 'sendMultiSig',
+      methodId: '0x39125215',
+      args: [
+        { name: 'toAddress',
+          type: 'address',
+          value: '0xb19fb72b55f5374a062ddcba874e566b1d93f5d3' },
+        { name: 'value', type: 'uint256', value: '100000000000000000' },
+        { name: 'data', type: 'bytes', value: '0x' },
+        { name: 'expireTime', type: 'uint256', value: '1602018833' },
+        { name: 'sequenceId', type: 'uint256', value: '1' },
+        { name: 'signature',
+          type: 'bytes',
+          value:
+                '0x6508bd6fc3da79ff7e5b84ff79f50e48112579d7b5190caeb92fd7cb4d2ac0f362f431480770e9bbe7e1437d7c21b49a64e03e5f1cfb0eaf3f84f2435b972fdc1b' },
       ],
     },
   },

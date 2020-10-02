@@ -1,4 +1,5 @@
 import { bufferToHex, bufferToInt, addHexPrefix } from 'ethereumjs-util';
+import BigNumber from 'bignumber.js';
 import { ensure } from '../util/ensure';
 
 enum Primitive {
@@ -81,7 +82,9 @@ export function formatValue(value: any, type: string): any {
       case Primitive.Bytes:
         return bufferToHex(value);
       case Primitive.Int:
-        return bufferToInt(value);
+        // value is a Buffer
+        const bigNumberValue = new BigNumber(value.toString('hex'), 16);
+        return bigNumberValue.toFixed();
       case Primitive.String:
         return value.toString();
     }
