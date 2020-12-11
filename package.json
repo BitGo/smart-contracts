@@ -9,7 +9,8 @@
     "build": "npm run build-ts",
     "build-ts": "tsc",
     "lint": "TIMING=1 eslint --ignore-pattern dist/ --ext .ts --cache .",
-    "lint-fix": "TIMING=1 eslint --fix  --ignore-pattern dist/ --ext .ts --cache ."
+    "lint-fix": "TIMING=1 eslint --fix  --ignore-pattern dist/ --ext .ts --cache .",
+    "prepublishOnly": "npm run build"
   },
   "repository": {
     "type": "git",
