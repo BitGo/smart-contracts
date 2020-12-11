@@ -1,5 +1,5 @@
 {
-  "name": "eth-contracts",
+  "name": "@bitgo/eth-contracts",
   "version": "1.0.0",
   "description": "A library to build Ethereum smart contract function calls.",
   "main": "dist/index.js",
