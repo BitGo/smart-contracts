@@ -1,0 +1,6 @@
+examples/
+test/
+.eslintrc.json
+.drone.yml
+tsconfig.json
+
