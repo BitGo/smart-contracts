@@ -1,5 +1,5 @@
-import { MethodABI, Parameter } from '../json';
-import { Method, MethodResponse } from './';
+import { MethodABI, Parameter } from '../contract/json';
+import { Method, MethodResponse } from '.';
 
 /**
  * Wrapper class for methods with the same name

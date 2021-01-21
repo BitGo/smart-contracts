@@ -1,6 +1,6 @@
 import { bufferToHex, bufferToInt, addHexPrefix } from 'ethereumjs-util';
 import BigNumber from 'bignumber.js';
-import { ensure } from '../util/ensure';
+import { ensure } from '../../util/ensure';
 
 enum Primitive {
     Address,

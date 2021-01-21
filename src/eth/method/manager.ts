@@ -1,5 +1,5 @@
-import { MethodABI } from '../json';
-import { Method } from './';
+import { MethodABI } from '../contract/json';
+import { Method } from '.';
 import { MethodContainer } from './container';
 
 /**

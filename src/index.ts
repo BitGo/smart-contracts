@@ -1,2 +1,2 @@
-export { Contract, MethodResponse } from './contract';
-export { Decoder, FunctionCallExplanation } from './decoder';
+export { Contract, MethodResponse } from './eth/contract/contract';
+export { Decoder, FunctionCallExplanation } from './eth/decoder';

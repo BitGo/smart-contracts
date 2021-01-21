@@ -1,4 +1,4 @@
-import { Contract } from '../../src/contract';
+import { Contract } from '../../../src/contract';
 
 const tokenName = 'DAI';
 const recipient = '0xadd62287c10d90f65fd3bf8bf94183df115c030a';

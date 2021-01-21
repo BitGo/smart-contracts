@@ -1,7 +1,7 @@
 import * as abi from 'ethereumjs-abi';
 import * as ethUtil from 'ethereumjs-util';
 import { ensure } from '../../util/ensure';
-import { MethodABI, Parameter } from '../json';
+import { MethodABI, Parameter } from '../contract/json';
 
 export class Method {
   private readonly definition: MethodABI;

@@ -4,10 +4,10 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 import { formatValue } from './types';
-import { Contract } from '../contract';
+import { Contract } from '../contract/contract';
 import { ContractABI, MethodABI, Parameter } from '../contract/json';
-import { ensure } from '../util/ensure';
-import { isValidJSON } from '../util/json';
+import { ensure } from '../../util/ensure';
+import { isValidJSON } from '../../util/json';
 
 /**
  * A class to decode contract calls and explain their purpose
@@ -22,6 +22,7 @@ export class Decoder {
     const result: MethodIdMapping = {};
 
     for (const contractName of Contract.listContractTypes()) {
+      // TODO: add ABI Dir
       const abi = fs.readFileSync(path.join( __dirname, `${Contract.ABI_DIR}/${contractName}.json`), 'utf-8');
       ensure(isValidJSON(abi), `Invalid JSON: ${abi}`);
       const jsonAbi: ContractABI = JSON.parse(abi);
