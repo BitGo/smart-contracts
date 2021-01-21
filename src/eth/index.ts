@@ -1,0 +1,1 @@
+export { contractFactory } from './contractFactory';
