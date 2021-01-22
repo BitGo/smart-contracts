@@ -33,8 +33,8 @@ export class Contract extends BaseContract {
    */
   private readonly methodDefinitions: MethodManager;
 
-  constructor(contractName: string, chainName:string) {
-    super(contractName, chainName);
+  constructor(contractName: string) {
+    super(contractName);
     this.contractInstances = Contract.readContractInstances(this.contractName);
     if (this.contractInstances[Contract.DEFAULT_INSTANCE_KEY]) {
       this.address(this.contractInstances[Contract.DEFAULT_INSTANCE_KEY]);

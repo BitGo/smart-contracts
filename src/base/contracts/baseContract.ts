@@ -2,9 +2,8 @@ import * as path from 'path';
 import * as fs from 'fs';
 import { ensure } from '../../util/ensure';
 import { isValidJSON } from '../../util/json';
-/*
- * import { ContractABI, MethodABI } from './json';
- */
+import { ContractABI, MethodABI } from '../../eth/contract/json';
+
 // import { MethodContainerMap, MethodManager } from '../method/manager';
 
 /**
@@ -22,11 +21,6 @@ export abstract class BaseContract {
   protected readonly contractName: string;
 
   /**
-   * The chain Name of this contract type
-   */
-  protected readonly chainName: string;
-
-  /**
    * Address of the contract instance
    */
   protected instanceAddress: string;
@@ -36,9 +30,8 @@ export abstract class BaseContract {
    */
   protected contractInstances: ContractInstances;
 
-  constructor(contractName:string, chainName: string) {
+  constructor(contractName:string,) {
     this.contractName = contractName;
-    this.chainName = chainName;
   }
 
   /**
