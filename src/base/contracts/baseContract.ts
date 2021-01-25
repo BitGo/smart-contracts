@@ -2,7 +2,6 @@ import * as path from 'path';
 import * as fs from 'fs';
 import { ensure } from '../../util/ensure';
 import { isValidJSON } from '../../util/json';
-import { ContractABI, MethodABI } from '../../eth/contract/json';
 
 // import { MethodContainerMap, MethodManager } from '../method/manager';
 
