@@ -1,8 +1,4 @@
-import * as path from 'path';
-import * as fs from 'fs';
-import { ensure } from '../../util/ensure';
-import { isValidJSON } from '../../util/json';
-import { ContractABI, MethodABI, Parameter } from '../../eth/contract/json';
+import { BaseFunctionCallExplanation, BaseMethodIdMapping } from './iface';
 
 // import { MethodContainerMap, MethodManager } from '../method/manager';
 
@@ -15,12 +11,12 @@ export abstract class BaseDecoder {
    * Read in and parse all methods from all defined contract abis
    * @return A mapping of method IDs (in hex string format) to the method ID object
    */
-  protected abstract loadMethods() : MethodIdMapping;
+  protected abstract loadMethods() : BaseMethodIdMapping;
   
   /**
    * Maps 8-byte method IDs to the ABI of the method that they represent
    */
-  protected readonly methodsById: MethodIdMapping;
+  protected readonly methodsById: BaseMethodIdMapping;
   
   constructor() {
     this.methodsById = this.loadMethods();
@@ -31,28 +27,8 @@ export abstract class BaseDecoder {
    * @param data The data to decode
    * @return An explanation of the call, including the function name and arguments passed
    */
-  abstract decode(data: Buffer): FunctionCallExplanation;
+  abstract decode(data: Buffer): BaseFunctionCallExplanation;
 
 }
 
-
-interface MethodData {
-  abi: MethodABI;
-  contractName: string;
-}
-
-interface MethodIdMapping {
-    [key: string]: MethodData;
-}
-
-interface FunctionArgument extends Parameter {
-    value: any;
-}
-
-export interface FunctionCallExplanation {
-    methodId: string;
-    contractName: string;
-    name: string;
-    args: FunctionArgument[];
-}
 

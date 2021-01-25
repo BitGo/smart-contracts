@@ -1,5 +1,5 @@
 export { Contract, MethodResponse } from './eth/contract/contract';
-export { Decoder, FunctionCallExplanation } from './eth/decoder/decoder';
+export { Decoder } from './eth/decoder/decoder';
 
 import { baseContractFactory } from './base/baseContractFactory';
 import * as Eth from './eth';
@@ -21,7 +21,7 @@ export const supportedCoins = Object.keys(factoryMap);
  * @param chainName One of the {@code supportedCoins}
  * @returns An instance of a {@code TransactionBuilder}
  */
-export function getContractFactory(chainName: string): baseContractFactory {
+export function getContractsFactory(chainName: string): baseContractFactory {
   const factoryClass = factoryMap[chainName];
   if (!factoryClass) {
     throw new Error(`Coin ${chainName} not supported`);

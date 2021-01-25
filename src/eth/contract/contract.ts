@@ -3,8 +3,8 @@ import * as path from 'path';
 import { BaseContract } from '../../base/contracts/baseContract';
 import { ensure } from '../../util/ensure';
 import { isValidJSON } from '../../util/json';
-import { ContractABI, MethodABI } from './json';
 import { MethodContainerMap, MethodManager } from '../method/manager';
+import { EthContractABI, EthMethodABI } from '../../base/iface';
 
 /**
  * A high-level wrapper for Solidity smart contract function calls
@@ -21,7 +21,7 @@ export class Contract extends BaseContract {
    * @param contractName The name of the contract to read the file from
    *  There must be a file with this name locally, otherwise this function will throw
    */
-  private static readContractAbi(contractName: string): ContractABI {
+  private static readContractAbi(contractName: string): EthContractABI {
     ensure(Contract.listContractTypes().includes(contractName), `Unknown contract: ${contractName}`);
     const jsonAbi = fs.readFileSync(path.join( __dirname, `${this.ABI_DIR}/${contractName}.json`), 'utf-8');
     ensure(isValidJSON(jsonAbi), `Invalid JSON: ${jsonAbi}`);
@@ -56,7 +56,7 @@ export class Contract extends BaseContract {
   /**
    * Getter to list the available methods for a given contract
    */
-  listMethods(): MethodABI[] {
+  listMethods(): EthMethodABI[] {
     return this.methodDefinitions.explain();
   }
 

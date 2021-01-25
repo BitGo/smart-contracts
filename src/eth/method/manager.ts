@@ -1,6 +1,6 @@
-import { MethodABI } from '../contract/json';
 import { Method } from '.';
 import { MethodContainer } from './container';
+import { EthMethodABI } from '../../base/iface';
 
 /**
  * Manages all of the methods for a given contract
@@ -8,9 +8,9 @@ import { MethodContainer } from './container';
 export class MethodManager {
   private readonly methods: MethodContainerMap;
 
-  constructor(methodAbis: MethodABI[]) {
+  constructor(methodAbis: EthMethodABI[]) {
     this.methods = {};
-    methodAbis.map((functionDefinition: MethodABI) => {
+    methodAbis.map((functionDefinition: EthMethodABI) => {
       const method = new Method(functionDefinition);
       if (this.methods[method.getName()] === undefined) {
         this.methods[method.getName()] = new MethodContainer();
@@ -37,8 +37,8 @@ export class MethodManager {
   /**
    * Describe the interfaces for all methods
    */
-  explain(): MethodABI[] {
-    let result: MethodABI[] = [];
+  explain(): EthMethodABI[] {
+    let result: EthMethodABI[] = [];
     Object.keys(this.methods).forEach((methodName: string) => {
       const methodContainer = this.methods[methodName];
       result = result.concat(methodContainer.explain());

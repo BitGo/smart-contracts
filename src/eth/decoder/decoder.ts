@@ -5,10 +5,12 @@ import * as path from 'path';
 
 import { formatValue } from './types';
 import { Contract } from '../contract/contract';
-import { ContractABI, MethodABI, Parameter } from '../contract/json';
 import { ensure } from '../../util/ensure';
 import { isValidJSON } from '../../util/json';
 import { BaseDecoder } from '../../base/decoder/baseDecoder';
+import { EthContractABI, } from '../../base/iface';
+import { FunctionArgument, FunctionCallExplanation, MethodIdMapping} from './iface';
+
 
 /**
  * A class to decode contract calls and explain their purpose
@@ -25,7 +27,7 @@ export class Decoder extends BaseDecoder {
       // TODO: add ABI Dir
       const abi = fs.readFileSync(path.join( __dirname, `${Contract.ABI_DIR}/${contractName}.json`), 'utf-8');
       ensure(isValidJSON(abi), `Invalid JSON: ${abi}`);
-      const jsonAbi: ContractABI = JSON.parse(abi);
+      const jsonAbi: EthContractABI = JSON.parse(abi);
 
       for (const methodAbi of jsonAbi) {
         if (methodAbi.inputs) {
@@ -41,6 +43,9 @@ export class Decoder extends BaseDecoder {
 
     return result;
   }
+
+  /** @inheritdoc */
+  protected readonly methodsById: MethodIdMapping;
 
   /**
    * Maps 8-byte method IDs to the ABI of the method that they represent
@@ -78,24 +83,4 @@ export class Decoder extends BaseDecoder {
       contractName,
     };
   }
-}
-
-interface MethodData {
-  abi: MethodABI;
-  contractName: string;
-}
-
-interface MethodIdMapping {
-    [key: string]: MethodData;
-}
-
-interface FunctionArgument extends Parameter {
-    value: any;
-}
-
-export interface FunctionCallExplanation {
-    methodId: string;
-    contractName: string;
-    name: string;
-    args: FunctionArgument[];
 }

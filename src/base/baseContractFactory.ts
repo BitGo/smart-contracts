@@ -1,18 +1,19 @@
 import { BaseContract } from "./contracts/baseContract";
-
-
+import { BaseDecoder } from "./decoder/baseDecoder";
 
 export abstract class baseContractFactory {
-  protected readonly _chainName: string;
+  /**
+   * Returns a specific Contract
+   * @param {string} contractName Contract type, this match with the config/instances.json file
+   * @returns {BaseContract}
+   */
+  public abstract getContract(contractName: string): BaseContract;
 
-  protected constructor(_chainName: string) {
-    this._chainName = _chainName;
-  }
-
-  public abstract getContract(chainName: string): BaseContract;
-
-  public abstract getDecoder() : any;
-
+  /**
+   * Returns a specific Decoder
+   * @returns {BaseDecoder}
+   */
+  public abstract getDecoder() : BaseDecoder;
 }
 
 

@@ -5,10 +5,6 @@ import { Decoder } from "./decoder/decoder";
 
 
 export class contractFactory extends baseContractFactory {
-  constructor(_chainName: string) {
-    super(_chainName);
-  }
-
   /** @inheritdoc */
   getContract(contractName: string): Contract {
     return new Contract(contractName);

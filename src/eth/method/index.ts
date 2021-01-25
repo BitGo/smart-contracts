@@ -1,12 +1,12 @@
 import * as abi from 'ethereumjs-abi';
 import * as ethUtil from 'ethereumjs-util';
+import { EthMethodABI, EthParameter } from '../../base/iface';
 import { ensure } from '../../util/ensure';
-import { MethodABI, Parameter } from '../contract/json';
 
 export class Method {
-  private readonly definition: MethodABI;
+  private readonly definition: EthMethodABI;
 
-  constructor(methodAbi: MethodABI) {
+  constructor(methodAbi: EthMethodABI) {
     this.definition = methodAbi;
   }
 
@@ -23,7 +23,7 @@ export class Method {
   call(params: { [key: string]: any }): MethodResponse {
     const types: string[] = [];
     const values: string[] = [];
-    this.definition.inputs.forEach((input: Parameter) => {
+    this.definition.inputs.forEach((input: EthParameter) => {
       ensure(params[input.name] !== undefined, `Missing required parameter: ${input.name}`);
       values.push(params[input.name]);
       types.push(input.type);
@@ -46,7 +46,7 @@ export class Method {
   /**
    * Get the JSON ABI definition of this method
    */
-  explain(): MethodABI {
+  explain(): EthMethodABI {
     return this.definition;
   }
 }

@@ -1,5 +1,5 @@
-import { MethodABI, Parameter } from '../contract/json';
 import { Method, MethodResponse } from '.';
+import { EthMethodABI, EthParameter } from '../../base/iface';
 
 /**
  * Wrapper class for methods with the same name
@@ -33,7 +33,7 @@ export class MethodContainer {
   /**
    * Describe the interface for methods
    */
-  explain(): MethodABI[] {
+  explain(): EthMethodABI[] {
     return this.methods.map((method) => method.explain());
   }
 
@@ -47,7 +47,7 @@ export class MethodContainer {
 
     // Separate the methods that define each given argument as a parameter from those that don't
     this.methods.forEach((method: Method) => {
-      const inputNames = method.explain().inputs.map((input: Parameter) => input.name);
+      const inputNames = method.explain().inputs.map((input: EthParameter) => input.name);
       const givenButUndefined = Object.keys(args).filter((paramName: string) => inputNames.includes(paramName));
       if (givenButUndefined.length > 1) {
         badMatchMethods.push(method);
