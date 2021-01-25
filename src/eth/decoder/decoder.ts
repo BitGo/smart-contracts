@@ -8,17 +8,17 @@ import { Contract } from '../contract/contract';
 import { ContractABI, MethodABI, Parameter } from '../contract/json';
 import { ensure } from '../../util/ensure';
 import { isValidJSON } from '../../util/json';
+import { BaseDecoder } from '../../base/decoder/baseDecoder';
 
 /**
  * A class to decode contract calls and explain their purpose
  */
-export class Decoder {
-
+export class Decoder extends BaseDecoder {
   /**
    * Read in and parse all methods from all defined contract abis
    * @return A mapping of method IDs (in hex string format) to the method ID object
    */
-  private static loadMethods(): MethodIdMapping {
+  protected loadMethods(): MethodIdMapping {
     const result: MethodIdMapping = {};
 
     for (const contractName of Contract.listContractTypes()) {
@@ -45,10 +45,9 @@ export class Decoder {
   /**
    * Maps 8-byte method IDs to the ABI of the method that they represent
    */
-  private readonly methodsById: MethodIdMapping;
 
   constructor() {
-    this.methodsById = Decoder.loadMethods();
+    super();
   }
 
   /**

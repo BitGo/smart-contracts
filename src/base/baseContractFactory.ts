@@ -1,4 +1,4 @@
-import { BaseContract } from "./baseContract";
+import { BaseContract } from "./contracts/baseContract";
 
 
 

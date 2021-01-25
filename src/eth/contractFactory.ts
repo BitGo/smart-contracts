@@ -1,7 +1,7 @@
 import { BaseContract } from "../base/contracts/baseContract";
-import { baseContractFactory } from "../base/contracts/baseContractFactory";
+import { baseContractFactory } from "../base/baseContractFactory";
 import { Contract } from '../eth/contract/contract';
-import { Decoder } from "./decoder";
+import { Decoder } from "./decoder/decoder";
 
 
 export class contractFactory extends baseContractFactory {
@@ -15,7 +15,7 @@ export class contractFactory extends baseContractFactory {
   }
 
   /** @inheritDoc */
-  getDecoder(): any {
-    return false
+  getDecoder(): Decoder {
+    return new Decoder()
   }
 }
