@@ -1,13 +1,13 @@
-export { Contract, MethodResponse } from './eth/contract/contract';
-export { Decoder } from './eth/decoder/decoder';
-
 import { baseContractFactory } from './base/baseContractFactory';
 import * as Eth from './eth';
 export { Eth };
-
+import * as Trx from './trx';
+export { Trx };
 
 const factoryMap : any = {
   eth: Eth.contractFactory,
+  trx: Trx.contractFactory,
+
 };
 
 /**

@@ -1,5 +1,6 @@
-export type ContractABI = MethodABI[];
 export type EthContractABI = EthMethodABI[];
+export type TrxContractABI = TrxMethodABI[];
+
 
 export interface MethodABI {
   name: string;
@@ -19,4 +20,15 @@ export interface EthMethodABI extends MethodABI {
 
 export interface EthParameter extends Parameter {
   name: string;
+}
+
+export interface TrxMethodABI extends MethodABI {
+  constant?: boolean;
+  payable?: boolean;
+  inputs?: TrxParameter[];
+  outputs?: TrxParameter[];
+}
+
+export interface TrxParameter extends Parameter {
+  name?: string;
 }
