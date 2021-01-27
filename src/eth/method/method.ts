@@ -2,14 +2,14 @@ import { BaseMethod, BaseMethodResponse } from '../../base/method/baseMethod';
 import * as abi from 'ethereumjs-abi';
 import * as ethUtil from 'ethereumjs-util';
 import { ensure } from '../../util/ensure';
-import { EthMethodABI, EthParameter } from '../../base/iface';
+import { EthMethodABI, Parameter } from '../../base/iface';
 
 export class Method extends BaseMethod<EthMethodABI> {
   /** @inheritdoc */
   call(params: { [key: string]: any }): MethodResponse {
     const types: string[] = [];
     const values: string[] = [];
-    this.definition.inputs.forEach((input: EthParameter) => {
+    this.definition.inputs.forEach((input: Parameter) => {
       ensure(params[input.name] !== undefined, `Missing required parameter: ${input.name}`);
       values.push(params[input.name]);
       types.push(input.type);

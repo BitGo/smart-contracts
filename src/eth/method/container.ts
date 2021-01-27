@@ -1,7 +1,7 @@
 
 import { BaseMethodContainer } from '../../base/method/baseContainer';
 import { Method, MethodResponse } from './method';
-import { EthMethodABI, EthParameter } from '../../base/iface';
+import { EthMethodABI, Parameter } from '../../base/iface';
 export class MethodContainer extends BaseMethodContainer<EthMethodABI> {
   /** @inheritdoc */
   call(args: { [key: string]: any }): MethodResponse {
@@ -10,7 +10,7 @@ export class MethodContainer extends BaseMethodContainer<EthMethodABI> {
 
     // Separate the methods that define each given argument as a parameter from those that don't
     this.methods.forEach((method: Method) => {
-      const inputNames = method.explain().inputs.map((input: EthParameter) => input.name);
+      const inputNames = method.explain().inputs.map((input: Parameter) => input.name);
       const givenButUndefined = Object.keys(args).filter((paramName: string) => inputNames.includes(paramName));
       if (givenButUndefined.length > 1) {
         badMatchMethods.push(method);

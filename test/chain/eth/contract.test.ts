@@ -4,7 +4,7 @@ import { Contract, MethodResponse } from '../../../src/eth/contract/contract';
 import { ContractInstances } from '../../../src/base/contracts/baseContract';
 import { getContractsFactory } from '../../../src';
 
-import { EthMethodABI, EthParameter } from '../../../src/base/iface';
+import { EthMethodABI, Parameter } from '../../../src/base/iface';
 import { getKnownSolidityTypes, getSolidityParameter } from '../../testutil';
 
 const FUZZING_REPETITIONS = 5;
@@ -45,7 +45,7 @@ describe('Contract', () => {
 
         for (let i = 0; i < FUZZING_REPETITIONS; i++) {
           const args: { [key: string]: any } = {};
-          params.forEach((param: EthParameter) => {
+          params.forEach((param: Parameter) => {
             args[param.name] = getSolidityParameter(param.type);
           });
 

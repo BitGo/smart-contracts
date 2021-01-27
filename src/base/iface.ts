@@ -9,27 +9,20 @@ export interface MethodABI {
 }
 
 export interface Parameter {
+  name: string;
   type: string;
 }
 
 export interface EthMethodABI extends MethodABI {
   constant: boolean;
   payable: boolean;
-  inputs: EthParameter[];
-  outputs?: EthParameter[];
-}
-
-export interface EthParameter extends Parameter {
-  name: string;
+  inputs: Parameter[];
+  outputs?: Parameter[];
 }
 
 export interface TrxMethodABI extends MethodABI {
   constant?: boolean;
   payable?: boolean;
-  inputs?: TrxParameter[];
-  outputs?: TrxParameter[];
-}
-
-export interface TrxParameter extends Parameter {
-  name?: string;
+  inputs?: Parameter[];
+  outputs?: Parameter[];
 }
