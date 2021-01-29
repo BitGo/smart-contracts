@@ -2,7 +2,7 @@ import fs from 'fs';
 import { ensure } from '../../util/ensure';
 import { isValidJSON } from '../../util/json';
 import { Instance } from './contracts';
-import {Method, MethodClass, MethodDefinition, Methods, MethodsClass, MethodsImp} from '../methods/methods';
+import { Method, MethodClass, MethodDefinition, MethodsClass, Methods } from '../methods/methods';
 import path from 'path';
 
 /**
@@ -16,7 +16,7 @@ function listContractTypes(abiDirPath: string): string[] {
   });
 }
 
-export class ContractReader<M extends Method, T extends MethodsImp<M>> {
+export class ContractReader<M extends Method, T extends Methods<M>> {
   protected readonly abiDirPath: string;
   protected readonly configDirPath: string;
   protected readonly defaultInstanceKey: string;

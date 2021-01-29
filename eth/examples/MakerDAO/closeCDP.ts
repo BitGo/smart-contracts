@@ -1,6 +1,6 @@
 import { BitGo } from 'bitgo';
 import * as ethUtil from 'ethereumjs-util';
-import { getContractsFactory } from '../../../src/index';
+import { getContractsFactory } from '../../../src/index2';
 
 const daiToken = getContractsFactory('eth').getContract('StandardERC20').instance('dai');
 
@@ -21,7 +21,8 @@ async function sendBitGoTx(): Promise<void> {
 
   // your proxy
   const proxyAddress = '0x17458bbdd96d6c19645457f5fae87ed5a07ad8fd';
-  const daiSavingsRateProxy = getContractsFactory('eth').getContract('DSProxy').address(proxyAddress);
+  const daiSavingsRateProxy = getContractsFactory('eth').getContract('DSProxy').instance();
+  daiSavingsRateProxy.address = proxyAddress;
 
   let { data, amount, address } = daiToken.methods().approve.call(
     {
@@ -52,7 +53,7 @@ async function sendBitGoTx(): Promise<void> {
   const ethJoin = '0x2f0b23f53734252bda2277357e97e1517d6b042a';
   const manager = '0x5ef30b9986345249bc32d8928b7ee64de9435e39';
 
-  const dsProxyActionsContract = getContractsFactory('eth').getContract('DSProxyActions');
+  const dsProxyActionsContract = getContractsFactory('eth').getContract('DSProxyActions').instance();
 
   const { data: internalData, address: proxyActionsAddress } = dsProxyActionsContract.methods()
         .wipeAndFreeETH.call({ manager, ethJoin, daiJoin, cdp, wadC: withdrawAmount.toString(10), wadD: depositAmount.toString(10) });

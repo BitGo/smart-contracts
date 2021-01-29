@@ -1,4 +1,4 @@
-import { getContractsFactory } from '../../../src/index';
+import { getContractsFactory } from '../../../src/index2';
 
 const underlyingTokenName = 'DAI';
 const compoundTokenName = 'cDAI';
@@ -8,22 +8,22 @@ const underlyingTokenContract = getContractsFactory('eth').getContract('Standard
 const compoundTokenContract = getContractsFactory('eth').getContract('Compound').instance(compoundTokenName);
 
 // First we need to approve the amount of DAI for the compound DAI contract to control
-let { data, amount, address } = underlyingTokenContract.methods().approve.call(
+let { data, amount } = underlyingTokenContract.methods().approve.call(
   {
-    _spender: compoundTokenContract.getAddress(),
+    _spender: compoundTokenContract.address,
     _value: lendAmount.toString(10),
   });
 
 console.log(`To approve ${lendAmount} ${underlyingTokenName} to compound token contract, send:`);
 console.log(`Data: ${data}`);
 console.log(`Amount: ${amount} ETH`);
-console.log(`To: ${address}`);
+console.log(`To: ${underlyingTokenContract.address}`);
 
 
 // Then, once the above tx is confirmed, we can mint our new cTokens
-({ data, amount, address } = compoundTokenContract.methods().mint.call({ mintAmount: lendAmount.toString(10) }));
+({ data, amount } = compoundTokenContract.methods().mint.call({ mintAmount: lendAmount.toString(10) }));
 
 console.log(`\nTo exchange ${lendAmount} ${underlyingTokenName} for compound tokens, send:`);
 console.log(`Data: ${data}`);
 console.log(`Amount: ${amount} ETH`);
-console.log(`To: ${address}`);
+console.log(`To: ${compoundTokenContract.address}`);

@@ -1,9 +1,11 @@
-import { CallExplanation, Decoder, EthFactory, Factory } from './base2/ifaces';
+import { CallExplanation, Decoder } from './base2/ifaces';
 import * as Eth from './eth';
 export { Eth };
 import * as Trx from './trx';
 import { Contract } from './base2/contracts/contracts';
 import { Method } from './base2/methods/methods';
+import { EthFactory } from './eth2/factory';
+import { Factory } from './base2/factory';
 export { Trx };
 
 
