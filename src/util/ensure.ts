@@ -8,3 +8,10 @@ export function ensure(test: any, msg: string): void {
     throw new Error(msg);
   }
 }
+
+export function ensureExist<T>(element: T | undefined, msg: string): T {
+  if (!element) {
+    throw new Error(msg);
+  }
+  return element;
+}
