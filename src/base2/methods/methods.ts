@@ -1,7 +1,3 @@
-import * as abi from 'ethereumjs-abi';
-import { ensure } from '../../util/ensure';
-import * as ethUtil from 'ethereumjs-util';
-
 export type MethodsClass<M extends Method, T extends Methods<M>> = new(methods: M[]) => T;
 export type MethodClass<T extends Method> = new(...args: any[]) => T;
 
@@ -22,6 +18,9 @@ export interface Method {
   explain(): MethodDefinition;
 }
 
+/**
+ * This represents the set of methods that conform a contract instance
+ */
 export class Methods<M extends Method> {
   container: BaseMethodContainerMap<M>;
 

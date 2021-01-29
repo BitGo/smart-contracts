@@ -18,4 +18,3 @@ export interface CallExplanation {
 export interface FunctionCallExplanation extends CallExplanation {
   args: any[];
 }
-
