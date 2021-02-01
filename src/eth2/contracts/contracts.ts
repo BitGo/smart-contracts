@@ -2,7 +2,7 @@ import { EthMethod } from '../../eth2/methods/methods';
 import { ContractReader } from '../../base2/contracts/contractInstances';
 import { ensureExist } from '../../util/ensure';
 import { Contract, Instance } from '../../base2/contracts/contracts';
-import { Methods } from '../../base2/methods/methods';
+import {Methods, MethodsImpl} from '../../base2/methods/methods';
 
 export class EthContract implements Contract<EthMethod> {
   static readonly ABI_DIR = '../../../eth/abis';
@@ -13,7 +13,7 @@ export class EthContract implements Contract<EthMethod> {
 
   constructor(readonly name: string) {
     this._contractReader = new ContractReader<EthMethod
-      , Methods<EthMethod>>(EthContract.ABI_DIR, EthContract.CONFIG_DIR, this.DEFAULT_INSTANCE_KEY, Methods, EthMethod);
+      , Methods<EthMethod>>(EthContract.ABI_DIR, EthContract.CONFIG_DIR, this.DEFAULT_INSTANCE_KEY, MethodsImpl, EthMethod);
     this._contractInstances = this._contractReader.readContractInstances(name);
   }
 

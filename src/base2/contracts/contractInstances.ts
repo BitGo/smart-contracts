@@ -1,7 +1,7 @@
 import fs from 'fs';
 import { ensure } from '../../util/ensure';
 import { isValidJSON } from '../../util/json';
-import { Instance } from './contracts';
+import {Instance, InstanceImpl} from './contracts';
 import { Method, MethodClass, MethodDefinition, MethodsClass, Methods } from '../methods/methods';
 import path from 'path';
 
@@ -72,7 +72,7 @@ export class ContractReader<M extends Method, T extends Methods<M>> {
     const result: Instance<M, T>[] = [];
     Object.keys(parsedConfig).forEach((instanceName: string) => {
       const address: string = parsedConfig[instanceName];
-      result.push(new Instance<M, T>(instanceName.toLowerCase(), address, new this._methodsClass(methodList)));
+      result.push(new InstanceImpl<M, T>(instanceName.toLowerCase(), address, new this._methodsClass(methodList)));
     });
     return result;
   }

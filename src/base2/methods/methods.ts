@@ -11,6 +11,10 @@ export interface MethodDefinition {
   type: string;
 }
 
+export interface MethodResponse {
+  data: string;
+}
+
 export interface Method {
   id: string;
   name: string;
@@ -21,7 +25,14 @@ export interface Method {
 /**
  * This represents the set of methods that conform a contract instance
  */
-export class Methods<M extends Method> {
+export interface Methods<M extends Method> {
+  container: BaseMethodContainerMap<M>;
+
+  call(params: { [key: string]: any }): MethodResponse;
+  explain(): MethodDefinition[];
+}
+
+export class MethodsImpl<M extends Method> implements Methods<M> {
   container: BaseMethodContainerMap<M>;
 
   constructor(methodAbis: M[]) {

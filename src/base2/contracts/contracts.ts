@@ -11,7 +11,15 @@ export interface Contract<T extends Method> {
 /**
  * This represents the concrete contract on the network
  */
-export class Instance<M extends Method, T extends Methods<M>> {
+export interface Instance<M extends Method, T extends Methods<M>> {
+  name: string;
+  address: string;
+  methodsHandler: T
+
+  methods(): BaseMethodContainerMap<M>;
+}
+
+export class InstanceImpl<M extends Method, T extends Methods<M>> implements Instance<M, T> {
   name: string;
   address: string;
   methodsHandler: T;
