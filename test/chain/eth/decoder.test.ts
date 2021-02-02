@@ -1,9 +1,7 @@
 import { getContractsFactory } from '../../../src';
-
-const expect = require('expect'); // tslint:disable-line
+import { Decoder, FunctionCallExplanation } from '../../../src/base/decoder/decoder';
 import { stripHexPrefix } from '../../../src/util/string';
-import { Decoder } from '../../../src/eth/decoder/decoder';
-import { FunctionCallExplanation } from '../../../src/eth/decoder/iface';
+const expect = require('expect');
 
 interface TestCase {
   data: string;
@@ -79,7 +77,7 @@ const failCases: string[] = [
 describe('Decoder', () => {
   const chainName = 'eth';
   const ethFactory = getContractsFactory(chainName);
-  let decoder: Decoder;
+  let decoder: Decoder<FunctionCallExplanation>;
 
   before(() => {
     decoder = ethFactory.getDecoder();
