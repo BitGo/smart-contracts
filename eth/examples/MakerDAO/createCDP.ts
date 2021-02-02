@@ -1,6 +1,6 @@
 import { BitGo } from 'bitgo';
 import * as ethUtil from 'ethereumjs-util';
-import { getContractsFactory } from '../../../src/index2';
+import { getContractsFactory } from '../../../src/index';
 
 const makerProxyRegistry = getContractsFactory('eth').getContract('DSProxyFactory').instance();
 

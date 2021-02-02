@@ -1,8 +1,8 @@
-import { EthMethod } from '../../eth2/methods/methods';
-import { ContractReader } from '../../base2/contracts/contractInstances';
+import { EthMethod } from '../methods/methods';
+import { ContractReader } from '../../base/contracts/contractInstances';
 import { ensureExist } from '../../util/ensure';
-import { Contract, Instance } from '../../base2/contracts/contracts';
-import { Methods, MethodsImpl } from '../../base2/methods/methods';
+import { Contract, Instance } from '../../base/contracts/contracts';
+import { Methods, MethodsImpl } from '../../base/methods/methods';
 
 export class EthContract implements Contract<EthMethod> {
   static readonly ABI_DIR = '../../../eth/abis';

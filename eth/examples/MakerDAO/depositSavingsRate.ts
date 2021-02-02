@@ -1,4 +1,4 @@
-import { getContractsFactory } from '../../../src/index2';
+import { getContractsFactory } from '../../../src/index';
 
 const daiToken = getContractsFactory('eth').getContract('StandardERC20').instance('dai');
 const dsrManager = getContractsFactory('eth').getContract('DsrManager').instance();

@@ -1,4 +1,4 @@
-import { getContractsFactory } from '../../../src/index2';
+import { getContractsFactory } from '../../../src/index';
 
 const compoundTokenName = 'cDAI';
 const redeemAmount = 49e8; // 49 cDAI

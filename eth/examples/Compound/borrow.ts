@@ -1,4 +1,4 @@
-import { getContractsFactory } from '../../../src/index2';
+import { getContractsFactory } from '../../../src/index';
 
 /*
  * Note that to borrow, you must have a certain amount of assets lent to the compound protocol.

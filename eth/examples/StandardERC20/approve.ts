@@ -1,4 +1,4 @@
-import { getContractsFactory } from '../../../src/index2';
+import { getContractsFactory } from '../../../src/index';
 
 const tokenName = 'DAI';
 const recipient = '0xadd62287c10d90f65fd3bf8bf94183df115c030a';

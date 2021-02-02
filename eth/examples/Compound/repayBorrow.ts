@@ -1,4 +1,4 @@
-import { getContractsFactory } from '../../../src/index2';
+import { getContractsFactory } from '../../../src/index';
 
 const repayTokenName = 'USDC';
 const compoundTokenName = 'cUSDC';

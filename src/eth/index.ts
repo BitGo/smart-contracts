@@ -1,1 +1,0 @@
-export { contractFactory } from './contractFactory';

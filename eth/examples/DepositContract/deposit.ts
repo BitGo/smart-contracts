@@ -1,4 +1,4 @@
-import { getContractsFactory } from '../../../src/index2';
+import { getContractsFactory } from '../../../src/index';
 
 const depositContractAddress = '0x'; // this is not yet known
 const validatorKey = '0x0000';

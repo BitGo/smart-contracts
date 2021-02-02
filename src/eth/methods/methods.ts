@@ -1,7 +1,7 @@
 import * as abi from 'ethereumjs-abi';
 import { ensure } from '../../util/ensure';
 import * as ethUtil from 'ethereumjs-util';
-import { Method, MethodDefinition, Parameter } from '../../base2/methods/methods';
+import { Method, MethodDefinition, Parameter } from '../../base/methods/methods';
 
 export class EthMethod implements Method {
   private _id: string;

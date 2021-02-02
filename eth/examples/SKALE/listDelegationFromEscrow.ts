@@ -1,5 +1,5 @@
 import { BitGo } from 'bitgo';
-import { getContractsFactory } from '../../../src/index2';
+import { getContractsFactory } from '../../../src/index';
 
 
 async function sendBitGoTx(): Promise<void> {

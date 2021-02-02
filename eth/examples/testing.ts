@@ -1,5 +1,5 @@
-const { EthContract } = require('./contracts/contracts');
-const { EthDecoder } = require('./decoder/decoder');
+const { EthContract } = require('../../src/eth/contracts/contracts');
+const { EthDecoder } = require('../../src/eth/decoder/decoder');
 
 
 const tokenName = 'DAI';
