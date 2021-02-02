@@ -3,7 +3,6 @@ import { bufferToHex } from 'ethereumjs-util';
 import { Decoder, FunctionCallExplanation } from '../../base2/decoder/decoder';
 import { formatValue } from './types';
 import { ensure } from '../../util/ensure';
-import { BaseMethodContainerMap } from '../../base2/methods/methods';
 import { EthMethod } from '../methods/methods';
 import { listContractTypes } from '../../base2/contracts/contractInstances';
 import { EthContract } from '../contracts/contracts';

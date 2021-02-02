@@ -37,7 +37,6 @@ function main() {
   console.log('DAI decoded', decodeDAI);
 
 
-
 }
 
 main();
