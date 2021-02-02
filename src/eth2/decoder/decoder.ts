@@ -42,9 +42,7 @@ export class EthDecoder implements Decoder<FunctionCallExplanation> {
       }
 
     }
-
     return result;
-
   }
 
   constructor() {
@@ -55,25 +53,21 @@ export class EthDecoder implements Decoder<FunctionCallExplanation> {
 
 
   public decode(data: Buffer): FunctionCallExplanation {
-    // get the method id and @arguments 
-    const methodId = bufferToHex(data.slice(0, 4)); // GOT methodId
+    const methodId = bufferToHex(data.slice(0, 4));
     const abiEncodedArguments = data.slice(4);
     ensure(this.methodsById[methodId], `Unknown method: ${methodId}`);
 
-    // get contract name , name and inputs
-    const { contractName, abi: { name, inputs } } = this.methodsById[methodId]; // GOT contractname and name
+    const { contractName, abi: { name, inputs } } = this.methodsById[methodId];
     const types = inputs.map((input) => input.type);
 
-    // get decode @arguments
     const decodedArguments = rawDecode(types, abiEncodedArguments);
 
-    // build and parse @arguments
     const args = [];
     for (let i = 0; i < inputs.length; i++) {
       const { name, type } = inputs[i];
       const decodedArgument = decodedArguments[i];
       args.push({ name, type, value: formatValue(decodedArgument, type) });
-    } // GOT args
+    }
 
     return {
       methodId,
