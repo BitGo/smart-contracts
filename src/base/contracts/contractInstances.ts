@@ -76,7 +76,7 @@ export class ContractReader<M extends Method, T extends Methods<M>> {
       result.push(new InstanceImpl<M, T>(instanceName.toLowerCase(), new this._methodsClass(methodList), address));
     });
 
-    // If any parsed config exists for the contract instances create a default one
+    // If no exists a default intance create one
     if (!Object.keys(parsedConfig).some((instanceName: string) => instanceName === 'default')) {
       result.push(new InstanceImpl<M, T>('default', new this._methodsClass(methodList)));
     }
