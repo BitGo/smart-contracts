@@ -13,7 +13,7 @@ export interface Contract<T extends Method> {
  */
 export interface Instance<M extends Method, T extends Methods<M>> {
   name: string;
-  address: string;
+  address?: string;
   methodsHandler: T
 
   methods(): BaseMethodContainerMap<M>;
@@ -21,10 +21,10 @@ export interface Instance<M extends Method, T extends Methods<M>> {
 
 export class InstanceImpl<M extends Method, T extends Methods<M>> implements Instance<M, T> {
   name: string;
-  address: string;
+  address?: string;
   methodsHandler: T;
 
-  constructor(name: string, address: string, methodsHandler: T) {
+  constructor(name: string, methodsHandler: T, address?: string) {
     this.name = name;
     this.address = address;
     this.methodsHandler = methodsHandler;
