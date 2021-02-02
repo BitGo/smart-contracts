@@ -71,13 +71,13 @@ export class ContractReader<M extends Method, T extends Methods<M>> {
     const methodList: M[] = this.parseMethods(contract);
     const result: Instance<M, T>[] = [];
 
-    if (Object.keys(parsedConfig).length > 0) {
-      Object.keys(parsedConfig).forEach((instanceName: string) => {
-        const address: string = parsedConfig[instanceName];
-        result.push(new InstanceImpl<M, T>(instanceName.toLowerCase(), new this._methodsClass(methodList), address));
-      });
-    } else {
-      // If any parsed config exists for the contract instances create a default one
+    Object.keys(parsedConfig).forEach((instanceName: string) => {
+      const address: string = parsedConfig[instanceName];
+      result.push(new InstanceImpl<M, T>(instanceName.toLowerCase(), new this._methodsClass(methodList), address));
+    });
+
+    // If any parsed config exists for the contract instances create a default one
+    if (!Object.keys(parsedConfig).some((instanceName: string) => instanceName === 'default')) {
       result.push(new InstanceImpl<M, T>('default', new this._methodsClass(methodList)));
     }
     return result;
