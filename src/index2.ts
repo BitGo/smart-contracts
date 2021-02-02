@@ -1,4 +1,4 @@
-import { CallExplanation, Decoder } from './base2/ifaces';
+import { Decoder, FunctionCallExplanation } from './base2/decoder/decoder';
 import * as Eth from './eth';
 export { Eth };
 import * as Trx from './trx';
@@ -25,7 +25,7 @@ export const supportedCoins = Object.keys(factoryMap);
  * @param chainName One of the {@code supportedCoins}
  * @returns An instance of a {@code TransactionBuilder}
  */
-export function getContractsFactory(chainName: string): Factory<Contract<Method>, Decoder<CallExplanation>> {
+export function getContractsFactory(chainName: string): Factory<Contract<Method>, Decoder<FunctionCallExplanation>> {
   const factoryClass = factoryMap[chainName];
   if (!factoryClass) {
     throw new Error(`Coin ${chainName} not supported`);
