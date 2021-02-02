@@ -1,13 +1,12 @@
 import { EthContract } from './contracts/contracts';
-import { Decoder, EthDecoder, FunctionCallExplanation } from '../base2/ifaces';
+import { EthDecoder } from './decoder/decoder';
 import { Factory } from '../base2/factory';
-
 export class EthFactory implements Factory<EthContract, EthDecoder> {
   getContract(name: string): EthContract {
     return new EthContract(name);
   }
 
-  getDecoder(): Decoder<FunctionCallExplanation> {
+  getDecoder(): EthDecoder {
     return new EthDecoder();
   }
 }

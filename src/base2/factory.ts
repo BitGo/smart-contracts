@@ -1,5 +1,5 @@
 import { Contract } from './contracts/contracts';
-import { Decoder } from './ifaces';
+import { Decoder } from './decoder/decoder';
 
 /**
  * This gives the user the ability to get contract and decoder instances for each supported chain

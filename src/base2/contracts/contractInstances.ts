@@ -9,7 +9,7 @@ import path from 'path';
  * List the names of the available ABI definitions.
  * These are stored locally as JSON ABI definition files
  */
-function listContractTypes(abiDirPath: string): string[] {
+export function listContractTypes(abiDirPath: string): string[] {
   return fs.readdirSync(path.join( __dirname, abiDirPath)).map((fileName: string) => {
     ensure(fileName.endsWith('.json'), `Malformed JSON abi filename: ${fileName}`);
     return fileName.replace('.json', '');
