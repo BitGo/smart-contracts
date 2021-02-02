@@ -1,5 +1,5 @@
 import { BitGo } from 'bitgo';
-import { getContractsFactory } from '../../../src/index';
+import { getContractsFactory } from '../../../src/index2';
 
 
 async function sendBitGoTx(): Promise<void> {
@@ -11,18 +11,20 @@ async function sendBitGoTx(): Promise<void> {
   const walletPassphrase = 'password';
 
   const proxyAddress = '0xB575c158399227b6ef4Dcfb05AA3bCa30E12a7ba';
-  const Allocator = getContractsFactory('eth').getContract('SkaleAllocator').address(proxyAddress);
+  const Allocator = getContractsFactory('eth').getContract('SkaleAllocator').instance();
+  Allocator.address = proxyAddress;
 
   /**
    * Get the Escrow wallet address that is linked to the delegator's Bitgo wallet address
    */
-  let { data, amount, address } = Allocator.methods().getEscrowAddress.call({
+  let { data, amount } = Allocator.methods().getEscrowAddress.call({
     beneficiary: bitGoWallet.getAddress(),
   });
-  const escrowAddress = await bitGoWallet.send({ data, amount, address, walletPassphrase });
+  const escrowAddress = await bitGoWallet.send({ data, amount, address: Allocator.address, walletPassphrase });
 
   //Retrieve Escrow contract for delegator
-  const Escrow = getContractsFactory('eth').getContract('SkaleEscrow').address(escrowAddress);
+  const Escrow = getContractsFactory('eth').getContract('SkaleEscrow').instance();
+  Escrow.address = escrowAddress;
 
   //parameter needed for cancel delegation request
   const idOfDelegation = 'ID of delegation to cancel';
@@ -35,10 +37,10 @@ async function sendBitGoTx(): Promise<void> {
    * or before the start of the next Epoch.
    * If a delegation is already in the DELEGATED or COMPLETED state, this method can not be called.
    */
-  ({ data, amount, address } = Escrow.methods().cancelPendingDelegation.call({
+  ({ data, amount } = Escrow.methods().cancelPendingDelegation.call({
     delegationId: idOfDelegation,
   }));
-  const transaction = await bitGoWallet.send({ data, amount, address, walletPassphrase });
+  const transaction = await bitGoWallet.send({ data, amount, address: Escrow.address, walletPassphrase });
   console.dir(transaction);
 
 

@@ -1,5 +1,5 @@
 import { BitGo } from 'bitgo';
-import { getContractsFactory } from '../../../src/index';
+import { getContractsFactory } from '../../../src/index2';
 
 
 async function sendBitGoTx(): Promise<void> {
@@ -10,15 +10,16 @@ async function sendBitGoTx(): Promise<void> {
   const bitGoWallet = await baseCoin.wallets().get({ id: 'wallet id' });
 
   const proxyAddress = '0xB575c158399227b6ef4Dcfb05AA3bCa30E12a7ba';
-  const Allocator = getContractsFactory('eth').getContract('SkaleAllocator').address(proxyAddress);
+  const Allocator = getContractsFactory('eth').getContract('SkaleAllocator').instance();
+  Allocator.address = proxyAddress;
 
   /**
    * Get the Escrow wallet address that is linked to the investor's Bitgo wallet address
    */
-  const { data, amount, address } = Allocator.methods().getEscrowAddress.call({
+  const { data, amount } = Allocator.methods().getEscrowAddress.call({
     beneficiary: bitGoWallet.getAddress(),
   });
-
+  const address = Allocator.address;
   console.log(data, amount, address);
 
 }

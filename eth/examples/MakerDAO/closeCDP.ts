@@ -24,12 +24,13 @@ async function sendBitGoTx(): Promise<void> {
   const daiSavingsRateProxy = getContractsFactory('eth').getContract('DSProxy').instance();
   daiSavingsRateProxy.address = proxyAddress;
 
-  let { data, amount, address } = daiToken.methods().approve.call(
+  let { data, amount } = daiToken.methods().approve.call(
     {
       _spender: proxyAddress,
       _value: depositAmount.toString(10),
     });
-  let transaction = await bitGoWallet.send({ data, amount, address, walletPassphrase });
+
+  let transaction = await bitGoWallet.send({ data, amount, address: daiToken.address, walletPassphrase });
   console.dir(transaction);
 
   // Note this step only needs to be done once based on the amount you approve
@@ -59,7 +60,7 @@ async function sendBitGoTx(): Promise<void> {
         .wipeAndFreeETH.call({ manager, ethJoin, daiJoin, cdp, wadC: withdrawAmount.toString(10), wadD: depositAmount.toString(10) });
 
   // Build the external call for our proxy to deposit dai and withdaw eth
-  ({ data, amount, address } = daiSavingsRateProxy.methods()
+  ({ data, amount } = daiSavingsRateProxy.methods()
         .execute.call({
           _target: proxyActionsAddress,
           _data: ethUtil.toBuffer(internalData),
@@ -68,7 +69,7 @@ async function sendBitGoTx(): Promise<void> {
 
   transaction = await bitGoWallet.send({
     data,
-    address,
+    address: daiSavingsRateProxy.address,
     amount,
     walletPassphrase,
   });

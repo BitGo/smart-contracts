@@ -1,4 +1,4 @@
-import { getContractsFactory } from '../../../src/index';
+import { getContractsFactory } from '../../../src/index2';
 
 const repayTokenName = 'USDC';
 const compoundTokenName = 'cUSDC';
@@ -10,7 +10,7 @@ const compoundTokenContract = getContractsFactory('eth').getContract('Compound')
 // First we need to approve the amount of DAI for the compound DAI contract to control
 let { data, amount, address } = underlyingTokenContract.methods().approve.call(
   {
-    _spender: compoundTokenContract.getAddress(),
+    _spender: compoundTokenContract.address,
     _value: repayAmount.toString(10),
   });
 
@@ -25,4 +25,4 @@ console.log(`To: ${address}`);
 console.log(`\nTo repay ${repayAmount} ${repayTokenName} from compound, send:`);
 console.log(`Data: ${data}`);
 console.log(`Amount: ${amount} ETH`);
-console.log(`To: ${address}`);
+console.log(`To: ${compoundTokenContract.address}`);

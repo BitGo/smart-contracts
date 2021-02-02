@@ -1,5 +1,5 @@
 import { BitGo } from 'bitgo';
-import { getContractsFactory } from '../../../src/index';
+import { getContractsFactory } from '../../../src/index2';
 
 
 async function sendBitGoTx(): Promise<void> {
@@ -11,7 +11,8 @@ async function sendBitGoTx(): Promise<void> {
   const walletPassphrase = 'password';
 
   const proxyAddress = '0x2a42Ccca55FdE8a9CA2D7f3C66fcddE99B4baB90';
-  const Distributor = getContractsFactory('eth').getContract('SkaleDistributor').address(proxyAddress);
+  const Distributor = getContractsFactory('eth').getContract('SkaleDistributor').instance();
+  Distributor.address = proxyAddress;
 
   //parameter needed for checking the earned bounties
   const idOfValidator = 'validator id';
@@ -21,10 +22,13 @@ async function sendBitGoTx(): Promise<void> {
    * This will return the bounties earned since the last withdraw for a specific delegation to a validator.
    * This needs to be called for each validator that a token holder (delegator) is delegating to.
    */
-  const { data, amount, address } = Distributor.methods().getAndUpdateEarnedBountyAmount.call({
+  const { data, amount } = Distributor.methods().getAndUpdateEarnedBountyAmount.call({
     validatorId: idOfValidator,
   });
-  const transaction = await bitGoWallet.send({ data, amount, address, walletPassphrase });
+  console.log({ data, amount, to: Distributor.address });
+
+
+  const transaction = await bitGoWallet.send({ data, amount, address: Distributor.address, walletPassphrase });
   console.dir(transaction);
 
 }

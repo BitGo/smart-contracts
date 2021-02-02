@@ -1,7 +1,7 @@
 import fs from 'fs';
 import { ensure } from '../../util/ensure';
 import { isValidJSON } from '../../util/json';
-import {Instance, InstanceImpl} from './contracts';
+import { Instance, InstanceImpl } from './contracts';
 import { Method, MethodClass, MethodDefinition, MethodsClass, Methods } from '../methods/methods';
 import path from 'path';
 
@@ -70,10 +70,16 @@ export class ContractReader<M extends Method, T extends Methods<M>> {
   private parse(parsedConfig: {[key: string]: string}, contract: MethodDefinition[]): Instance<M, T>[] {
     const methodList: M[] = this.parseMethods(contract);
     const result: Instance<M, T>[] = [];
-    Object.keys(parsedConfig).forEach((instanceName: string) => {
-      const address: string = parsedConfig[instanceName];
-      result.push(new InstanceImpl<M, T>(instanceName.toLowerCase(), address, new this._methodsClass(methodList)));
-    });
+
+    if (Object.keys(parsedConfig).length > 0) {
+      Object.keys(parsedConfig).forEach((instanceName: string) => {
+        const address: string = parsedConfig[instanceName];
+        result.push(new InstanceImpl<M, T>(instanceName.toLowerCase(), address, new this._methodsClass(methodList)));
+      });
+    } else {
+      // If any parsed config exists for the contract instances create a default one
+      result.push(new InstanceImpl<M, T>('default', '', new this._methodsClass(methodList)));
+    }
     return result;
   }
 

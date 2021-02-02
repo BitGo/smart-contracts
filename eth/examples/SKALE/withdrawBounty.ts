@@ -1,5 +1,5 @@
 import { BitGo } from 'bitgo';
-import { getContractsFactory } from '../../../src/index';
+import { getContractsFactory } from '../../../src/index2';
 
 
 async function sendBitGoTx(): Promise<void> {
@@ -15,17 +15,18 @@ async function sendBitGoTx(): Promise<void> {
   const addressOfReceivingDelegator = 'token holder address';
 
   const proxyAddress = '0x4eE5F270572285776814e32952446e9B7Ee15C86';
-  const Distributor = getContractsFactory('eth').getContract('SkaleDistributor').address(proxyAddress);
+  const Distributor = getContractsFactory('eth').getContract('SkaleDistributor').instance();
+  Distributor.address = proxyAddress;
 
   /**
    * Allows token holder (delegator) to withdraw bounty from a specific validator.
    * This needs to be called per validator in order to recieve all of the bounties.
    */
-  const { data, amount, address } = Distributor.methods().withdrawBounty.call({
+  const { data, amount } = Distributor.methods().withdrawBounty.call({
     validatorId: idOfValidator,
     address: addressOfReceivingDelegator,
   });
-  const transaction = await bitGoWallet.send({ data, amount, address, walletPassphrase });
+  const transaction = await bitGoWallet.send({ data, amount, address: Distributor.address, walletPassphrase });
   console.dir(transaction);
 
 }

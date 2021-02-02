@@ -1,8 +1,8 @@
 import { BitGo } from 'bitgo';
 import * as ethUtil from 'ethereumjs-util';
-import { getContractsFactory } from '../../../src/index';
+import { getContractsFactory } from '../../../src/index2';
 
-const makerProxyRegistry = getContractsFactory('eth').getContract('DSProxyFactory'); // there is only 1, so no need for instance
+const makerProxyRegistry = getContractsFactory('eth').getContract('DSProxyFactory').instance();
 
 async function sendBitGoTx(): Promise<void> {
   // step 1 - setup your bitgo wallet and deploy your proxy
@@ -21,8 +21,8 @@ async function sendBitGoTx(): Promise<void> {
    * Note this step only needs to be done once per wallet, so if you have already done it, skip to the next step
    */
 
-  let { data, amount, address } = makerProxyRegistry.methods().build.call({});
-  let transaction = await bitGoWallet.send({ data, amount, address, walletPassphrase });
+  let { data, amount } = makerProxyRegistry.methods().build.call({});
+  let transaction = await bitGoWallet.send({ data, amount, address: makerProxyRegistry.address, walletPassphrase });
   console.dir(transaction);
 
   /*
@@ -40,7 +40,8 @@ async function sendBitGoTx(): Promise<void> {
 
   const proxyAddress = '0x17458bbdd96d6c19645457f5fae87ed5a07ad8fd';
 
-  const daiSavingsRateProxy = getContractsFactory('eth').getContract('DSProxy').address(proxyAddress);
+  const daiSavingsRateProxy = getContractsFactory('eth').getContract('DSProxy').instance();
+  daiSavingsRateProxy.address = proxyAddress;
 
   // The following addresses are constants in the MakerDAO MCD ecosystem. You can look them up and verify on Etherscan
   const daiJoin = '0x9759a6ac90977b93b58547b4a71c78317f391a28';
@@ -49,13 +50,13 @@ async function sendBitGoTx(): Promise<void> {
   const jug = '0x19c0976f590d67707e62397c87829d896dc0f1f1';
 
   const ilk = new Buffer('4554482d41000000000000000000000000000000000000000000000000000000', 'hex');
-  const dsProxyActionsContract = getContractsFactory('eth').getContract('DSProxyActions');
+  const dsProxyActionsContract = getContractsFactory('eth').getContract('DSProxyActions').instance();
 
-  const { data: internalData, address: proxyActionsAddress } = dsProxyActionsContract.methods()
+  const { data: internalData } = dsProxyActionsContract.methods()
         .openLockETHAndDraw.call({ manager, jug, ethJoin, daiJoin, ilk, wadD: withdrawAmount.toString(10) });
-    // Build the external call for our proxy to create the cdp
-
-  ({ data, amount, address } = daiSavingsRateProxy.methods()
+  const proxyActionsAddress = dsProxyActionsContract.address;
+  // Build the external call for our proxy to create the cdp
+  ({ data, amount } = daiSavingsRateProxy.methods()
         .execute.call({
           _target: proxyActionsAddress,
           _data: ethUtil.toBuffer(internalData),
@@ -64,7 +65,7 @@ async function sendBitGoTx(): Promise<void> {
   // send the transaction through BitGo
   transaction = await bitGoWallet.send({
     data,
-    address,
+    address: daiSavingsRateProxy.address,
     amount: depositAmount.toString(10),
     walletPassphrase,
   });

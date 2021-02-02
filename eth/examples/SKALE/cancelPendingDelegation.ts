@@ -1,5 +1,5 @@
 import { BitGo } from 'bitgo';
-import { getContractsFactory } from '../../../src/index';
+import { getContractsFactory } from '../../../src/index2';
 
 
 async function sendBitGoTx(): Promise<void> {
@@ -14,17 +14,18 @@ async function sendBitGoTx(): Promise<void> {
   const idOfDelegation = 'ID of delegation to cancel';
 
   const proxyAddress = '0x06dD71dAb27C1A3e0B172d53735f00Bf1a66Eb79';
-  const DelegationController = getContractsFactory('eth').getContract('SkaleDelegationController').address(proxyAddress);
+  const DelegationController = getContractsFactory('eth').getContract('SkaleDelegationController').instance();
+  DelegationController.address = proxyAddress;
 
   /**
    * This allows the delegator to cancel the PENDING delegation before the validator approves 
    * or before the start of the next Epoch.
    * If a delegation is already in the DELEGATED or COMPLETED state, this method can not be called.
    */
-  const { data, amount, address } = DelegationController.methods().cancelPendingDelegation.call({
+  const { data, amount } = DelegationController.methods().cancelPendingDelegation.call({
     delegationId: idOfDelegation,
   });
-  const transaction = await bitGoWallet.send({ data, amount, address, walletPassphrase });
+  const transaction = await bitGoWallet.send({ data, amount, address: DelegationController.address, walletPassphrase });
   console.dir(transaction);
 
 }

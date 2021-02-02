@@ -1,5 +1,5 @@
 import { BitGo } from 'bitgo';
-import { getContractsFactory } from '../../../src/index';
+import { getContractsFactory } from '../../../src/index2';
 
 
 async function sendBitGoTx(): Promise<void> {
@@ -10,7 +10,8 @@ async function sendBitGoTx(): Promise<void> {
   const bitGoWallet = await baseCoin.wallets().get({ id: 'wallet id' });
 
   const proxyAddress = '0x06dD71dAb27C1A3e0B172d53735f00Bf1a66Eb79';
-  const DelegationController = getContractsFactory('eth').getContract('SkaleDelegationController').address(proxyAddress);
+  const DelegationController = getContractsFactory('eth').getContract('SkaleDelegationController').instance();
+  DelegationController.address = proxyAddress;
 
   const delegations = [];
   /**
@@ -19,7 +20,7 @@ async function sendBitGoTx(): Promise<void> {
    *
    * First get Total amount of delegations for the holder
    */
-  let { data, amount, address } = DelegationController.methods().getDelegationsByHolderLength.call({
+  let { data, amount } = DelegationController.methods().getDelegationsByHolderLength.call({
     holder: bitGoWallet.getAddress(),
   });
 
@@ -29,12 +30,12 @@ async function sendBitGoTx(): Promise<void> {
   for (let index = 0; index < parseInt(data, 10); index++) {
     const delegation = { info: {}, state: {} };
 
-    const delegationId = ({ data, amount, address } = DelegationController.methods().delegationsByHolder.call({
+    const delegationId = ({ data, amount } = DelegationController.methods().delegationsByHolder.call({
       address: bitGoWallet.getAddress(),
       index: index,
     }));
 
-    const delegationInfo = ({ data, amount, address } = DelegationController.methods().getDelegation.call({
+    const delegationInfo = ({ data, amount } = DelegationController.methods().getDelegation.call({
       delegationId: delegationId,
     }));
 
@@ -53,7 +54,7 @@ async function sendBitGoTx(): Promise<void> {
 
     delegations.push(delegation);
   }
-
+  const address = DelegationController.address;
   console.log(data, amount, address);
 
 }

@@ -1,5 +1,5 @@
 import { BitGo } from 'bitgo';
-import { getContractsFactory } from '../../../src/index';
+import { getContractsFactory } from '../../../src/index2';
 
 
 async function sendBitGoTx(): Promise<void> {
@@ -11,13 +11,14 @@ async function sendBitGoTx(): Promise<void> {
   const walletPassphrase = 'password';
 
   const proxyAddress = '0x840C8122433A5AA7ad60C1Bcdc36AB9DcCF761a5';
-  const ValidatorService = getContractsFactory('eth').getContract('SkaleValidatorService').address(proxyAddress);
+  const ValidatorService = getContractsFactory('eth').getContract('SkaleValidatorService').instance();
+  ValidatorService.address = proxyAddress;
 
   /**
    * List all of the trusted validators that are registered within the SKALE Network.
    */
-  const { data, amount, address } = ValidatorService.methods().getTrustedValidators.call({});
-  const transaction = await bitGoWallet.send({ data, amount, address, walletPassphrase });
+  const { data, amount } = ValidatorService.methods().getTrustedValidators.call({});
+  const transaction = await bitGoWallet.send({ data, amount, address: ValidatorService.address, walletPassphrase });
   console.dir(transaction);
 
 }

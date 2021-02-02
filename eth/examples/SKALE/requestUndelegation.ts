@@ -1,5 +1,5 @@
 import { BitGo } from 'bitgo';
-import { getContractsFactory } from '../../../src/index';
+import { getContractsFactory } from '../../../src/index2';
 
 
 async function sendBitGoTx(): Promise<void> {
@@ -14,17 +14,18 @@ async function sendBitGoTx(): Promise<void> {
   const idOfDelegation = 'ID of delegation to undelegate';
 
   const proxyAddress = '0x06dD71dAb27C1A3e0B172d53735f00Bf1a66Eb79';
-  const DelegationController = getContractsFactory('eth').getContract('SkaleDelegationController').address(proxyAddress);
+  const DelegationController = getContractsFactory('eth').getContract('SkaleDelegationController').instance();
+  DelegationController.address = proxyAddress;
 
   /**
    * After the epoch starts all delegations that are accepted turns to DELEGATED state.
    * Token holders (delegators) can request undelegation once the delegation is in the DELEGATED state
    * But only their delegations will be “undelegated” once their delegation period is over.
    */
-  const { data, amount, address } = DelegationController.methods().requestUndelegation.call({
+  const { data, amount } = DelegationController.methods().requestUndelegation.call({
     delegationId: idOfDelegation,
   });
-  const transaction = await bitGoWallet.send({ data, amount, address, walletPassphrase });
+  const transaction = await bitGoWallet.send({ data, amount, address: DelegationController.address, walletPassphrase });
   console.dir(transaction);
 
 }

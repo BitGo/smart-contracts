@@ -1,5 +1,5 @@
 import { BitGo } from 'bitgo';
-import { getContractsFactory } from '../../../src/index';
+import { getContractsFactory } from '../../../src/index2';
 
 
 async function sendBitGoTx(): Promise<void> {
@@ -17,18 +17,19 @@ async function sendBitGoTx(): Promise<void> {
   const descriptionAboutDelegation = 'description or summary about the delegation';
 
   const proxyAddress = '0x06dD71dAb27C1A3e0B172d53735f00Bf1a66Eb79';
-  const DelegationController = getContractsFactory('eth').getContract('SkaleDelegationController').address(proxyAddress);
+  const DelegationController = getContractsFactory('eth').getContract('SkaleDelegationController').instance();
+  DelegationController.address = proxyAddress;
 
   /**
    * Sending a proposal to delegate SKL tokens to the validator.
    */
-  const { data, amount, address } = DelegationController.methods().delegate.call({
+  const { data, amount } = DelegationController.methods().delegate.call({
     validatorId: idOfValidator,
     amount: amounttoDelegate,
     delegationPeriod: proposedDelegationPeriod,
     info: descriptionAboutDelegation,
   });
-  const transaction = await bitGoWallet.send({ data, amount, address, walletPassphrase });
+  const transaction = await bitGoWallet.send({ data, amount, address: DelegationController.address, walletPassphrase });
   console.dir(transaction);
 
 }

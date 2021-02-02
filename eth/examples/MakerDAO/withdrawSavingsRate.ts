@@ -1,6 +1,6 @@
-import { getContractsFactory } from '../../../src/index';
+import { getContractsFactory } from '../../../src/index2';
 
-const dsrManager = getContractsFactory('eth').getContract('DsrManager');
+const dsrManager = getContractsFactory('eth').getContract('DsrManager').instance();
 
 // TODO: Set your own address here -- this is the address who can withdraw DAI from the DSR
 const ownerAddress = '0x0000000000000000000000000000000000000000';
@@ -12,7 +12,7 @@ const ownerAddress = '0x0000000000000000000000000000000000000000';
 
 // Withdraw all DAI From the DSR
 
-const { data, amount, address } = dsrManager.methods()
+const { data, amount } = dsrManager.methods()
   .exitAll.call({
     dst: ownerAddress,
   });
@@ -20,4 +20,4 @@ const { data, amount, address } = dsrManager.methods()
 console.log(`\nTo withdraw all DAI from the DSR`);
 console.log(`Data: ${data}`);
 console.log(`Amount: ${amount} ETH`);
-console.log(`To: ${address}`);
+console.log(`To: ${dsrManager.address}`);
