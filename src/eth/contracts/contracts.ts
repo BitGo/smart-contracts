@@ -2,7 +2,7 @@ import { EthMethod } from '../methods/methods';
 import { ContractReader } from '../../base/contracts/contractInstances';
 import { ensureExist } from '../../util/ensure';
 import { Contract, Instance } from '../../base/contracts/contracts';
-import { Methods, MethodsImpl } from '../../base/methods/methods';
+import { MethodDefinition, Methods, MethodsImpl } from '../../base/methods/methods';
 
 export class EthContract implements Contract<EthMethod> {
   static readonly ABI_DIR = '../../../eth/abis';
@@ -21,5 +21,9 @@ export class EthContract implements Contract<EthMethod> {
     name = name ? name.toLowerCase() : this.DEFAULT_INSTANCE_KEY;
     const instance = this._contractInstances.find((i) => i.name === name);
     return ensureExist(instance, `Unknown instance: ${name}`);
+  }
+
+  listMethods(): MethodDefinition[] {
+    return this.instance().explain().filter(method => method.type === 'function');
   }
 }

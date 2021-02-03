@@ -7,4 +7,5 @@ import { Decoder } from './decoder/decoder';
 export interface Factory<T extends Contract<any>, D extends Decoder<any>> {
   getContract(name: string): T;
   getDecoder(): D;
+  listContractTypes(): string[];
 }

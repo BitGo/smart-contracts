@@ -3,6 +3,13 @@ import { ensure } from '../../util/ensure';
 import * as ethUtil from 'ethereumjs-util';
 import { Method, MethodDefinition, Parameter } from '../../base/methods/methods';
 
+export interface EthMethodDefinition extends MethodDefinition {
+  constant: boolean;
+  payable: boolean;
+  inputs: Parameter[];
+  outputs?: Parameter[];
+}
+
 export class EthMethod implements Method {
   private _id: string;
   constant: boolean;
@@ -43,10 +50,14 @@ export class EthMethod implements Method {
     };
   }
 
-  explain(): MethodDefinition {
+  explain(): EthMethodDefinition {
     return {
       name: this.name,
       type: this.type,
+      constant: this.constant,
+      payable: this.payable,
+      inputs: this.inputs,
+      outputs: this.outputs,
     };
   }
 

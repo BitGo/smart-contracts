@@ -1,4 +1,4 @@
-import { BaseMethodContainerMap, Method, Methods } from '../methods/methods';
+import { BaseMethodContainerMap, Method, MethodDefinition, Methods } from '../methods/methods';
 
 /**
  * This defines the base abstraction of contracts
@@ -6,6 +6,7 @@ import { BaseMethodContainerMap, Method, Methods } from '../methods/methods';
 export interface Contract<T extends Method> {
   name: string;
   instance(name?: string): Instance<T, Methods<T>>;
+  listMethods(): MethodDefinition[];
 }
 
 /**
@@ -17,6 +18,7 @@ export interface Instance<M extends Method, T extends Methods<M>> {
   methodsHandler: T
 
   methods(): BaseMethodContainerMap<M>;
+  explain(): MethodDefinition[];
 }
 
 export class InstanceImpl<M extends Method, T extends Methods<M>> implements Instance<M, T> {
@@ -32,5 +34,9 @@ export class InstanceImpl<M extends Method, T extends Methods<M>> implements Ins
 
   methods(): BaseMethodContainerMap<M> {
     return this.methodsHandler.container;
+  }
+
+  explain(): MethodDefinition[] {
+    return this.methodsHandler.explain();
   }
 }
