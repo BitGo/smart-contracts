@@ -24,8 +24,9 @@ const { data, amount, address } = cDAI.methods().mint.call({ mintAmount: '100000
 Users can specify an instance of the contract protocol by address instead of name
 ```js
 import { getContractsFactory } from '@bitgo/eth-contracts';
-const cDAI = getContractsFactory('eth').getContract('Compound').address('0x5d3a536e4d6dbd6114cc1ead35777bab948e3643');
-const { data, amount, address } = cDAI.methods().mint.call({ mintAmount: '1000000000' });
+const cDAI = getContractsFactory('eth').getContract('Compound').instance()
+cDai.address = '0x5d3a536e4d6dbd6114cc1ead35777bab948e3643';
+const { data } = cDAI.methods().mint.call({ mintAmount: '1000000000' });
 ```
 
 The decoder can parse call data and output a human-readable explanation of a given contract call.
@@ -97,18 +98,19 @@ const types = getContractsFactory('eth').getContract('StandardERC20').methods();
 // response: { transfer: { call: <function to build transfer> }, approve: { call: <function to build approve> } }
 ```
 
-**getName()** -- get contract name
+**.name** -- get contract name property
 ```js
 import { getContractsFactory } from '@bitgo/eth-contracts';
-const types = getContractsFactory('eth').getContract('StandardERC20').getName();
+const types = getContractsFactory('eth').getContract('StandardERC20').name;
 // response: StandardERC20
 ```
 
-**address()** -- set contract address
+**.address** -- set contract address property to the contract instance
 ```js
 import { getContractsFactory } from '@bitgo/eth-contracts';
-const types = getContractsFactory('eth').getContract('StandardERC20').address('0x5d3a536e4d6dbd6114cc1ead35777bab948e3643');
-// response: Contract with address set
+const types = getContractsFactory('eth').getContract('StandardERC20').instance();
+type.address = '0x5d3a536e4d6dbd6114cc1ead35777bab948e3643';
+// response: Contract intance with address set
 ```
 
 **instance()** -- set contract instance
@@ -126,10 +128,11 @@ This library supports a limited number of smart contract protocols, as it mainta
 - MakerDAO -- [Examples](./eth/examples/MakerDAO)
 
 ## Adding a new ABI type
-This library is quite extensible to new protocols -- if there are other contract types that you would like to use, 
+This library is quite extensible to new chains and protocols -- if there are other contract types that you would like to use, 
 feel free to submit a PR adding them. To do so, make the following changes:
-- Add the JSON ABI to `abis` directory, named `[ProtocolName].json`
-- Add the ProtocolName and addresses for various instances of the protocol in `config/instances.json`
-    - For example, Compound protocol has cDAI, cUSDC, etc.
+- Add a new supported chain creating the directory `chainName` at the root level of the project, for example eth, trx, etc. 
+- Add the JSON ABI to `chainName/abis` directory, named `[ProtocolName].json`.
+- Add the ProtocolName and addresses for various instances of the protocol in `chainName/config/instances.json`
+    - For example, Compound protocol has cDAI, cUSDC, etc for eth chain.
 - Add the protocol to the README above
-- Add some example usages in the `examples` directory
+- Add some example usages in the `chainName/examples` directory
