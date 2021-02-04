@@ -3,6 +3,7 @@ import * as fs from 'fs';
 import { Contract } from '../../../src/base/contracts/contracts';
 import { Parameter, MethodDefinition, MethodResponse } from '../../../src/base/methods/methods';
 import { EthContract } from '../../../src/eth/contracts/contracts';
+import { EthMethodDefinition } from '../../../src/eth/methods/methods';
 import { ContractInstances } from '../../../src/base/contracts/contractInstances';
 import { getContractsFactory } from '../../../src';
 
@@ -41,10 +42,11 @@ describe('Contract', () => {
      */
     const testFuzzedContractMethods = (contract: Contract<any>, callback: (response: MethodResponse) => void, args?: any) => {
       const allMethods = contract.listMethods();
-      // TODO: Fix MethodDefinition generic for each chain (https://bitgoinc.atlassian.net/browse/STLX-1617)
-      allMethods.forEach((methodDefinition: any) => {
-        const params = methodDefinition.inputs;
-        const name = methodDefinition.name;
+      allMethods.forEach((methodDefinition: MethodDefinition) => {
+      // TODO: Fix returned MethodDefinition type for each chain (https://bitgoinc.atlassian.net/browse/STLX-1617)
+        const castedMethodResponse = methodDefinition as EthMethodDefinition;
+        const params = castedMethodResponse.inputs;
+        const name = castedMethodResponse.name;
 
         for (let i = 0; i < FUZZING_REPETITIONS; i++) {
           const args: { [key: string]: any } = {};
@@ -89,12 +91,13 @@ describe('Contract', () => {
         it('Should fail when given no parameters to a function that requires them', () => {
           // Since methods can overload each other we have to double check that it actually has only no params
           const methodsWithoutParameters: Set<string> = new Set();
-          // TODO: Fix MethodDefinition generic for each chain (https://bitgoinc.atlassian.net/browse/STLX-1617)
           const methodsWithParameters: MethodDefinition[] = contract.listMethods()
-            .filter((method: any) => {
-              const noParams = method.inputs.length === 0;
+            .filter((method: MethodDefinition) => {
+              // TODO: Fix returned MethodDefinition type for each chain (https://bitgoinc.atlassian.net/browse/STLX-1617)
+              const castedMethod = method as EthMethodDefinition;
+              const noParams = castedMethod.inputs.length === 0;
               if (noParams) {
-                methodsWithoutParameters.add(method.name);
+                methodsWithoutParameters.add(castedMethod.name);
               }
               return !noParams;
             })
