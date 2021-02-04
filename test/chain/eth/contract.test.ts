@@ -15,7 +15,7 @@ describe('Contract', () => {
   const chainName = 'eth';
   const ethContracts = getContractsFactory(chainName);
 
-  describe('Static ABIs', () => {
+  describe('Test Contracts ABIs', () => {
 
     let instanceConfig: { [key: string]: ContractInstances };
 
@@ -39,7 +39,7 @@ describe('Contract', () => {
      * @param contract the contract to run methods from
      * @param callback Callback to run on the response from calling each method with fuzzed inputs
      */
-    const testFuzzedContractMethods = (contract: Contract<any>, callback: (response: MethodResponse) => void) => {
+    const testFuzzedContractMethods = (contract: Contract<any>, callback: (response: MethodResponse) => void, args?: any) => {
       const allMethods = contract.listMethods();
       // TODO: Fix MethodDefinition generic for each chain (https://bitgoinc.atlassian.net/browse/STLX-1617)
       allMethods.forEach((methodDefinition: any) => {
@@ -51,8 +51,13 @@ describe('Contract', () => {
           params.forEach((param: Parameter) => {
             args[param.name] = getSolidityParameter(param.type);
           });
+          const contractInstance = contract.instance(args.instanceName || 'default');
 
-          callback(contract.instance().methods()[name].call(args));
+          if (args.address) {
+            contractInstance.address = args.address;
+          }
+
+          callback(contractInstance.methods()[name].call(args));
         }
       });
     };
@@ -118,75 +123,68 @@ describe('Contract', () => {
           });
         });
 
-        // xit('Should succeed with custom address instances', () => {
-        //   const instanceAddress = getSolidityParameter('address');
-        //   contract = contract.address(instanceAddress);
-        //   testFuzzedContractMethods(contract, ({ data, address, amount }) => {
-        //     expect(data).toBeDefined();
-        //     expect(amount).toBeDefined();
-        //     expect(address).toEqual(instanceAddress);
-        //   });
-        // });
+        it('Should succeed with custom address instances', () => {
+          const instanceAddress = getSolidityParameter('address');
+          testFuzzedContractMethods(contract, ({ data }) => {
+            expect(data).toBeDefined();
+          }, { address: instanceAddress });
+        });
 
-        // xit('Should succeed with instances referenced by name', () => {
-        //   const instanceName = getRandomInstanceName();
-        //   if (instanceName) {
-        //     const instanceAddress = instanceConfig[contract.getName()][instanceName];
-        //     contract = contract.instance(instanceName);
-        //     testFuzzedContractMethods(contract, ({ data, address, amount }) => {
-        //       expect(data).toBeDefined();
-        //       expect(amount).toBeDefined();
-        //       expect(address).toEqual(instanceAddress);
-        //     });
-        //   }
-        // });
+        it('Should succeed with instances referenced by name', () => {
+          const instanceName = getRandomInstanceName();
+          if (instanceName) {
+            // const instanceAddress = instanceConfig[contract.name][instanceName];
+            testFuzzedContractMethods(contract, ({ data }) => {
+              expect(data).toBeDefined();
+            }, { instanceName });
+          }
+        });
+      });
+    });
+  });
+  describe('Eth Contracts using factory method', () => {
+    let supportedEthContracts: string[];
+
+    before(() => {
+      supportedEthContracts = ethContracts.listContractTypes();
+    });
+
+    it('Should create a valid contract instance for each supported eth contract', () => {
+      supportedEthContracts.forEach(contract => {
+        const contractInstance = ethContracts.getContract(contract);
+        expect(contractInstance).toHaveProperty('name');
+        expect(contractInstance).toHaveProperty('_contractReader');
+        expect(contractInstance).toHaveProperty('_contractInstances');
+        expect(contractInstance.name).toEqual(contract);
       });
     });
 
-    describe('Eth Contracts using factory method', () => {
-      let supportedEthContracts: string[];
-
-      before(() => {
-        supportedEthContracts = ethContracts.listContractTypes();
-      });
-
-      it('Should create a valid contract instance for each supported eth contract', () => {
-        supportedEthContracts.forEach(contract => {
-          const contractInstance = ethContracts.getContract(contract);
-          expect(contractInstance).toHaveProperty('name');
-          expect(contractInstance).toHaveProperty('_contractReader');
-          expect(contractInstance).toHaveProperty('_contractInstances');
-          expect(contractInstance.name).toEqual(contract);
-        });
-      });
-
-      it('Should fail to create a unknown token instance', () => {
-        const contractName = 'StandardERC20';
-        const tokenName = 'invalid';
-        expect(() => ethContracts.getContract(contractName).instance(tokenName)).toThrowError(`Unknown instance: ${tokenName}`);
-      });
-
-      it('Should exists a default instance for each eth contract type', () => {
-        ethContracts.listContractTypes().forEach((contractName) => {
-          const contractInstance = ethContracts.getContract(contractName).instance();
-          expect(contractInstance).toHaveProperty('name');
-          expect(contractInstance).toHaveProperty('address');
-          expect(contractInstance.name).toEqual('default');
-        });
-      });
-
-      it('Should call successfully an existing method in a contract', () => {
-        const contractName = 'StandardERC20';
-        const tokenName = 'DAI';
-        const recipient = '0xadd62287c10d90f65fd3bf8bf94183df115c030a';
-        const tokenAmount = 1e18; // 1 DAI
-        const daiContract = ethContracts.getContract(contractName).instance(tokenName);
-        const callMethodResponse = daiContract.methods().approve.call({ _spender: recipient, _value: tokenAmount.toString(10) });
-        expect(daiContract).toHaveProperty('address');
-        expect(callMethodResponse).toHaveProperty('data');
-        expect(callMethodResponse).toHaveProperty('amount');
-      });
-
+    it('Should fail to create a unknown token instance', () => {
+      const contractName = 'StandardERC20';
+      const tokenName = 'invalid';
+      expect(() => ethContracts.getContract(contractName).instance(tokenName)).toThrowError(`Unknown instance: ${tokenName}`);
     });
+
+    it('Should exists a default instance for each eth contract type', () => {
+      ethContracts.listContractTypes().forEach((contractName) => {
+        const contractInstance = ethContracts.getContract(contractName).instance();
+        expect(contractInstance).toHaveProperty('name');
+        expect(contractInstance).toHaveProperty('address');
+        expect(contractInstance.name).toEqual('default');
+      });
+    });
+
+    it('Should call successfully an existing method in a contract', () => {
+      const contractName = 'StandardERC20';
+      const tokenName = 'DAI';
+      const recipient = '0xadd62287c10d90f65fd3bf8bf94183df115c030a';
+      const tokenAmount = 1e18; // 1 DAI
+      const daiContract = ethContracts.getContract(contractName).instance(tokenName);
+      const callMethodResponse = daiContract.methods().approve.call({ _spender: recipient, _value: tokenAmount.toString(10) });
+      expect(daiContract).toHaveProperty('address');
+      expect(callMethodResponse).toHaveProperty('data');
+      expect(callMethodResponse).toHaveProperty('amount');
+    });
+
   });
 });
