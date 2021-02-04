@@ -1,6 +1,6 @@
-# Ethereum Contract SDK
+# Smart Contract SDK
 
-A simple library for building Ethereum smart contract interactions. When offline, or away from a web3 wallet, smart 
+A simple library for building smart contract interactions. When offline, or away from a web3 wallet, smart 
 contract interaction is quite difficult. This is because it requires special transaction data that defines 
 a function call on a smart contract. This library intends to improve this experience by providing a simple interface
 for common smart contract function calls. It also aims to be extensible to a wide variety of contracts.
@@ -16,22 +16,23 @@ npm i @bitgo/eth-contracts
 
 The basic usage enables users to specify contracts by name and build transaction data from them.
 ```js
-import { Contract } from '@bitgo/eth-contracts';
-const cDAI = new Contract('Compound').instance('cDAI');
+import { getContractsFactory } from '@bitgo/eth-contracts';
+const cDAI = getContractsFactory('eth').getContract('Compound').instance('cDAI');
 const { data, amount, address } = cDAI.methods().mint.call({ mintAmount: '1000000000' });
 ```
 
 Users can specify an instance of the contract protocol by address instead of name
 ```js
-import { Contract } from '@bitgo/eth-contracts';
-const cDAI = new Contract('Compound').address('0x5d3a536e4d6dbd6114cc1ead35777bab948e3643');
-const { data, amount, address } = cDAI.methods().mint.call({ mintAmount: '1000000000' });
+import { getContractsFactory } from '@bitgo/eth-contracts';
+const cDAI = getContractsFactory('eth').getContract('Compound').instance()
+cDai.address = '0x5d3a536e4d6dbd6114cc1ead35777bab948e3643';
+const { data } = cDAI.methods().mint.call({ mintAmount: '1000000000' });
 ```
 
 The decoder can parse call data and output a human-readable explanation of a given contract call.
 ```js
-import { Decoder } from '@bitgo/eth-contracts';
-const decoder = new Decoder();
+import { getContractsFactory } from '@bitgo/eth-contracts';
+const decoder = getContractsFactory('eth').getDecoder();
 decoder.decode(Buffer.from('a9059cbb00000000000000000000000010d4f942617a231eb1430c88fe43c8c2050437d90000000000000000000000000000000000000000000000000000000000002710', 'hex'));
 { methodId: '0xa9059cbb',
   name: 'transfer',
@@ -52,7 +53,7 @@ integration alongside the Bitgo SDK.
 ### Example Usage with BitGo
 
 ```js
-import { Contract } from '@bitgo/eth-contracts';
+import { getContractsFactory } from '@bitgo/eth-contracts';
 
 import { BitGo, Coin } from 'bitgo';
 
@@ -61,7 +62,7 @@ async function sendBitGoTx() {
     const baseCoin = bitGo.coin('eth');
     const bitGoWallet = await baseCoin.wallets().get({ id: '5941ce2db42fcbc70717e5a898fd1595' });
 
-    const cDAI = new Contract('Compound').instance('cDAI');
+    const cDAI = getContractsFactory('eth').getContract('Compound').instance('cDAI');
     
     const transaction = await bitGoWallet.sendMany({
       recipients: cDAI.methods().mint.call({ mintAmount: '1000000000' }),
@@ -78,52 +79,60 @@ sendBitGoTx();
 #### Contract
 **listContractTypes()** -- get the available contract types.
 ```js
-const types = Contract.listContractTypes();
+import { getContractsFactory } from '@bitgo/eth-contracts';
+const types = getContractsFactory('eth').listContractTypes();
 // response: ['Compound', 'StandardERC20']
 ```
 
 **listMethods()** -- get the available contract methods.
 ```js
-const types = new Contract('StandardERC20').listMethods();
+import { getContractsFactory } from '@bitgo/eth-contracts';
+const types = getContractsFactory('eth').getContract('StandardERC20').listMethods();
 // response: [{ name: 'transfer', inputs: [...], outputs: [...] }, { name: 'approve', ... }]
 ```
 
 **methods()** -- get contract method builder objects
 ```js
-const types = new Contract('StandardERC20').methods();
+import { getContractsFactory } from '@bitgo/eth-contracts';
+const types = getContractsFactory('eth').getContract('StandardERC20').methods();
 // response: { transfer: { call: <function to build transfer> }, approve: { call: <function to build approve> } }
 ```
 
-**getName()** -- get contract name
+**.name** -- get contract name property
 ```js
-const types = new Contract('StandardERC20').getName();
+import { getContractsFactory } from '@bitgo/eth-contracts';
+const types = getContractsFactory('eth').getContract('StandardERC20').name;
 // response: StandardERC20
 ```
 
-**address()** -- set contract address
+**.address** -- set contract address property to the contract instance
 ```js
-const types = new Contract('StandardERC20').address('0x5d3a536e4d6dbd6114cc1ead35777bab948e3643');
-// response: Contract with address set
+import { getContractsFactory } from '@bitgo/eth-contracts';
+const types = getContractsFactory('eth').getContract('StandardERC20').instance();
+type.address = '0x5d3a536e4d6dbd6114cc1ead35777bab948e3643';
+// response: Contract intance with address set
 ```
 
 **instance()** -- set contract instance
 ```js
-const types = new Contract('StandardERC20').instance('DAI');
+import { getContractsFactory } from '@bitgo/eth-contracts';
+const types = getContractsFactory('eth').getContract('StandardERC20').instance('DAI');
 // response: Contract with DAI address set
 ```
 
 ## Supported Protocols:
 
 This library supports a limited number of smart contract protocols, as it maintains solidity ABIs locally. 
-- Compound -- [Examples](./examples/Compound)
-- StandardERC20 -- [Examples](./examples/StandardERC20)
-- MakerDAO -- [Examples](./examples/MakerDAO)
+- Compound -- [Examples](./eth/examples/Compound)
+- StandardERC20 -- [Examples](./eth/examples/StandardERC20)
+- MakerDAO -- [Examples](./eth/examples/MakerDAO)
 
 ## Adding a new ABI type
-This library is quite extensible to new protocols -- if there are other contract types that you would like to use, 
+This library is quite extensible to new chains and protocols -- if there are other contract types that you would like to use, 
 feel free to submit a PR adding them. To do so, make the following changes:
-- Add the JSON ABI to `abis` directory, named `[ProtocolName].json`
-- Add the ProtocolName and addresses for various instances of the protocol in `config/instances.json`
-    - For example, Compound protocol has cDAI, cUSDC, etc.
+- Add a new supported chain creating the directory `chainName` at the root level of the project, for example eth, trx, etc. 
+- Add the JSON ABI to `chainName/abis` directory, named `[ProtocolName].json`.
+- Add the ProtocolName and addresses for various instances of the protocol in `chainName/config/instances.json`
+    - For example, Compound protocol has cDAI, cUSDC, etc for eth chain.
 - Add the protocol to the README above
-- Add some example usages in the `examples` directory
+- Add some example usages in the `chainName/examples` directory
