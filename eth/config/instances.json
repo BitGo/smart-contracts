@@ -1,6 +1,6 @@
 {
   "StandardERC20": {
-    "WBTC": "0x2260fac5e5542a773aa44fbcfedf7c193bc2c599",
+    "WBTC-ETH": "0x2260fac5e5542a773aa44fbcfedf7c193bc2c599",
     "WXRP": "0xda7e5a3841550a5ba271dcc76a885af902142dfc",
     "OMG": "0xd26114cd6ee289accf82350c8d8487fedb8a0c07",
     "REP": "0x1985365e9f78359a9b6ad760e32412f4a445e862",

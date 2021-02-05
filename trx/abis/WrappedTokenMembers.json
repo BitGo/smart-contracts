@@ -1,0 +1,134 @@
+{
+  "entrys": [
+    {
+      "outputs": [{ "type": "bool" }],
+      "inputs": [{ "name": "merchant", "type": "address" }],
+      "name": "removeMerchant",
+      "stateMutability": "Nonpayable",
+      "type": "Function"
+    },
+    {
+      "inputs": [{ "name": "_token", "type": "address" }],
+      "name": "reclaimToken",
+      "stateMutability": "Nonpayable",
+      "type": "Function"
+    },
+    {
+      "outputs": [{ "type": "bool" }],
+      "constant": true,
+      "inputs": [{ "name": "addr", "type": "address" }],
+      "name": "isMerchant",
+      "stateMutability": "View",
+      "type": "Function"
+    },
+    {
+      "outputs": [{ "type": "bool" }],
+      "constant": true,
+      "inputs": [{ "name": "addr", "type": "address" }],
+      "name": "isCustodian",
+      "stateMutability": "View",
+      "type": "Function"
+    },
+    {
+      "outputs": [{ "type": "address" }],
+      "constant": true,
+      "name": "custodian",
+      "stateMutability": "View",
+      "type": "Function"
+    },
+    {
+      "outputs": [{ "type": "bool" }],
+      "inputs": [{ "name": "_custodian", "type": "address" }],
+      "name": "setCustodian",
+      "stateMutability": "Nonpayable",
+      "type": "Function"
+    },
+    {
+      "name": "claimOwnership",
+      "stateMutability": "Nonpayable",
+      "type": "Function"
+    },
+    {
+      "outputs": [{ "type": "address" }],
+      "constant": true,
+      "inputs": [{ "name": "index", "type": "uint256" }],
+      "name": "getMerchant",
+      "stateMutability": "View",
+      "type": "Function"
+    },
+    {
+      "name": "renounceOwnership",
+      "stateMutability": "Nonpayable",
+      "type": "Function"
+    },
+    {
+      "outputs": [{ "type": "address" }],
+      "constant": true,
+      "name": "owner",
+      "stateMutability": "View",
+      "type": "Function"
+    },
+    {
+      "outputs": [{ "type": "bool" }],
+      "inputs": [{ "name": "merchant", "type": "address" }],
+      "name": "addMerchant",
+      "stateMutability": "Nonpayable",
+      "type": "Function"
+    },
+    {
+      "outputs": [{ "type": "address[]" }],
+      "constant": true,
+      "name": "getMerchants",
+      "stateMutability": "View",
+      "type": "Function"
+    },
+    {
+      "outputs": [{ "type": "address" }],
+      "constant": true,
+      "name": "pendingOwner",
+      "stateMutability": "View",
+      "type": "Function"
+    },
+    {
+      "inputs": [{ "name": "newOwner", "type": "address" }],
+      "name": "transferOwnership",
+      "stateMutability": "Nonpayable",
+      "type": "Function"
+    },
+    {
+      "inputs": [{ "name": "_owner", "type": "address" }],
+      "stateMutability": "Nonpayable",
+      "type": "Constructor"
+    },
+    {
+      "inputs": [{ "indexed": true, "name": "custodian", "type": "address" }],
+      "name": "CustodianSet",
+      "type": "Event"
+    },
+    {
+      "inputs": [{ "indexed": true, "name": "merchant", "type": "address" }],
+      "name": "MerchantAdd",
+      "type": "Event"
+    },
+    {
+      "inputs": [{ "indexed": true, "name": "merchant", "type": "address" }],
+      "name": "MerchantRemove",
+      "type": "Event"
+    },
+    {
+      "inputs": [
+        { "indexed": true, "name": "previousOwner", "type": "address" }
+      ],
+      "name": "OwnershipRenounced",
+      "type": "Event"
+    },
+    {
+      "inputs": [
+        { "indexed": true, "name": "previousOwner", "type": "address" },
+        { "indexed": true, "name": "newOwner", "type": "address" }
+      ],
+      "name": "OwnershipTransferred",
+      "type": "Event"
+    }
+  ]
+}
