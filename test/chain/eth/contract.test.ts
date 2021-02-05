@@ -1,16 +1,12 @@
 const expect = require('expect'); // tslint:disable-line
 import * as fs from 'fs';
 import { Contract } from '../../../src/base/contracts/contracts';
-import { Parameter, MethodDefinition, MethodResponse } from '../../../src/base/methods/methods';
+import { MethodDefinition } from '../../../src/base/methods/methods';
 import { EthContract } from '../../../src/eth/contracts/contracts';
 import { EthMethodDefinition } from '../../../src/eth/methods/methods';
 import { ContractInstance } from '../../../src/base/contracts/contractInstances';
 import { getContractsFactory } from '../../../src';
-
-// import { EthMethodABI, Parameter } from '../../../src/base/iface';
-import { getKnownSolidityTypes, getSolidityParameter } from '../../testutil';
-
-const FUZZING_REPETITIONS = 5;
+import { getKnownSolidityTypes, getSolidityParameter, testFuzzedContractMethods } from '../../testutil';
 
 describe('Contract', () => {
   const chainName = 'eth';
@@ -31,36 +27,6 @@ describe('Contract', () => {
     const testStaticContracts = (callback: (contract: Contract<any>, instanceName?: string) => void) => {
       ethContracts.listContractTypes().forEach((abiFileName) => {
         callback(ethContracts.getContract(abiFileName));
-      });
-    };
-
-    /**
-     * Test every method on the given contract, using fuzzed inputs.
-     * Runs tests provided in `callback` on the responses from each fuzzed method
-     * @param contract the contract to run methods from
-     * @param callback Callback to run on the response from calling each method with fuzzed inputs
-     */
-    const testFuzzedContractMethods = (contract: Contract<any>, callback: (response: MethodResponse) => void, args?: any) => {
-      const allMethods = contract.listMethods();
-      allMethods.forEach((methodDefinition: MethodDefinition) => {
-      // TODO: Fix returned MethodDefinition type for each chain (https://bitgoinc.atlassian.net/browse/STLX-1617)
-        const castedMethodResponse = methodDefinition as EthMethodDefinition;
-        const params = castedMethodResponse.inputs;
-        const name = castedMethodResponse.name;
-
-        for (let i = 0; i < FUZZING_REPETITIONS; i++) {
-          const args: { [key: string]: any } = {};
-          params.forEach((param: Parameter) => {
-            args[param.name] = getSolidityParameter(param.type);
-          });
-          const contractInstance = contract.instance(args.instanceName || 'default');
-
-          if (args.address) {
-            contractInstance.address = args.address;
-          }
-
-          callback(contractInstance.methods()[name].call(args));
-        }
       });
     };
 
@@ -113,22 +79,22 @@ describe('Contract', () => {
             .filter((method: any) => method.inputs.length === 0);
 
           methodsWithoutParameters.forEach((method: MethodDefinition) => {
-            getKnownSolidityTypes().forEach((type) => {
-              const { data } = contract.instance().methods()[method.name].call({ unexpectedParam: getSolidityParameter(type) });
+            getKnownSolidityTypes(chainName).forEach((type) => {
+              const { data } = contract.instance().methods()[method.name].call({ unexpectedParam: getSolidityParameter(chainName, type) });
               expect(data).toBeDefined();
             });
           });
         });
 
         it('Should succeed when given expected parameters', () => {
-          testFuzzedContractMethods(contract, ({ data }) => {
+          testFuzzedContractMethods(chainName, contract, ({ data }) => {
             expect(data).toBeDefined();
           });
         });
 
         it('Should succeed with custom address instances', () => {
-          const instanceAddress = getSolidityParameter('address');
-          testFuzzedContractMethods(contract, ({ data }) => {
+          const instanceAddress = getSolidityParameter(chainName, 'address');
+          testFuzzedContractMethods(chainName, contract, ({ data }) => {
             expect(data).toBeDefined();
           }, { address: instanceAddress });
         });
@@ -137,7 +103,7 @@ describe('Contract', () => {
           const instanceName = getRandomInstanceName();
           if (instanceName) {
             // const instanceAddress = instanceConfig[contract.name][instanceName];
-            testFuzzedContractMethods(contract, ({ data }) => {
+            testFuzzedContractMethods(chainName, contract, ({ data }) => {
               expect(data).toBeDefined();
             }, { instanceName });
           }
