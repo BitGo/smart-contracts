@@ -1,0 +1,228 @@
+{
+  "entrys": [
+    {
+      "outputs": [{ "type": "bool" }],
+      "constant": true,
+      "name": "mintingFinished",
+      "stateMutability": "View",
+      "type": "Function"
+    },
+    {
+      "outputs": [{ "type": "string" }],
+      "constant": true,
+      "name": "name",
+      "stateMutability": "View",
+      "type": "Function"
+    },
+    {
+      "outputs": [{ "type": "bool" }],
+      "inputs": [
+        { "name": "_spender", "type": "address" },
+        { "name": "_value", "type": "uint256" }
+      ],
+      "name": "approve",
+      "stateMutability": "Nonpayable",
+      "type": "Function"
+    },
+    {
+      "inputs": [{ "name": "_token", "type": "address" }],
+      "name": "reclaimToken",
+      "stateMutability": "Nonpayable",
+      "type": "Function"
+    },
+    {
+      "outputs": [{ "type": "uint256" }],
+      "constant": true,
+      "name": "totalSupply",
+      "stateMutability": "View",
+      "type": "Function"
+    },
+    {
+      "outputs": [{ "type": "bool" }],
+      "inputs": [
+        { "name": "_from", "type": "address" },
+        { "name": "_to", "type": "address" },
+        { "name": "_value", "type": "uint256" }
+      ],
+      "name": "transferFrom",
+      "stateMutability": "Nonpayable",
+      "type": "Function"
+    },
+    {
+      "outputs": [{ "type": "uint8" }],
+      "constant": true,
+      "name": "decimals",
+      "stateMutability": "View",
+      "type": "Function"
+    },
+    { "name": "unpause", "stateMutability": "Nonpayable", "type": "Function" },
+    {
+      "outputs": [{ "type": "bool" }],
+      "inputs": [
+        { "name": "_to", "type": "address" },
+        { "name": "_amount", "type": "uint256" }
+      ],
+      "name": "mint",
+      "stateMutability": "Nonpayable",
+      "type": "Function"
+    },
+    {
+      "inputs": [{ "name": "value", "type": "uint256" }],
+      "name": "burn",
+      "stateMutability": "Nonpayable",
+      "type": "Function"
+    },
+    {
+      "name": "claimOwnership",
+      "stateMutability": "Nonpayable",
+      "type": "Function"
+    },
+    {
+      "outputs": [{ "type": "bool" }],
+      "constant": true,
+      "name": "paused",
+      "stateMutability": "View",
+      "type": "Function"
+    },
+    {
+      "outputs": [{ "name": "success", "type": "bool" }],
+      "inputs": [
+        { "name": "_spender", "type": "address" },
+        { "name": "_subtractedValue", "type": "uint256" }
+      ],
+      "name": "decreaseApproval",
+      "stateMutability": "Nonpayable",
+      "type": "Function"
+    },
+    {
+      "outputs": [{ "type": "uint256" }],
+      "constant": true,
+      "inputs": [{ "name": "_owner", "type": "address" }],
+      "name": "balanceOf",
+      "stateMutability": "View",
+      "type": "Function"
+    },
+    {
+      "name": "renounceOwnership",
+      "stateMutability": "Nonpayable",
+      "type": "Function"
+    },
+    {
+      "outputs": [{ "type": "bool" }],
+      "name": "finishMinting",
+      "stateMutability": "Nonpayable",
+      "type": "Function"
+    },
+    { "name": "pause", "stateMutability": "Nonpayable", "type": "Function" },
+    {
+      "outputs": [{ "type": "address" }],
+      "constant": true,
+      "name": "owner",
+      "stateMutability": "View",
+      "type": "Function"
+    },
+    {
+      "outputs": [{ "type": "string" }],
+      "constant": true,
+      "name": "symbol",
+      "stateMutability": "View",
+      "type": "Function"
+    },
+    {
+      "outputs": [{ "type": "bool" }],
+      "inputs": [
+        { "name": "_to", "type": "address" },
+        { "name": "_value", "type": "uint256" }
+      ],
+      "name": "transfer",
+      "stateMutability": "Nonpayable",
+      "type": "Function"
+    },
+    {
+      "outputs": [{ "name": "success", "type": "bool" }],
+      "inputs": [
+        { "name": "_spender", "type": "address" },
+        { "name": "_addedValue", "type": "uint256" }
+      ],
+      "name": "increaseApproval",
+      "stateMutability": "Nonpayable",
+      "type": "Function"
+    },
+    {
+      "outputs": [{ "type": "uint256" }],
+      "constant": true,
+      "inputs": [
+        { "name": "_owner", "type": "address" },
+        { "name": "_spender", "type": "address" }
+      ],
+      "name": "allowance",
+      "stateMutability": "View",
+      "type": "Function"
+    },
+    {
+      "outputs": [{ "type": "address" }],
+      "constant": true,
+      "name": "pendingOwner",
+      "stateMutability": "View",
+      "type": "Function"
+    },
+    {
+      "inputs": [{ "name": "newOwner", "type": "address" }],
+      "name": "transferOwnership",
+      "stateMutability": "Nonpayable",
+      "type": "Function"
+    },
+    { "name": "Pause", "type": "Event" },
+    { "name": "Unpause", "type": "Event" },
+    {
+      "inputs": [
+        { "indexed": true, "name": "burner", "type": "address" },
+        { "name": "value", "type": "uint256" }
+      ],
+      "name": "Burn",
+      "type": "Event"
+    },
+    {
+      "inputs": [
+        { "indexed": true, "name": "to", "type": "address" },
+        { "name": "amount", "type": "uint256" }
+      ],
+      "name": "Mint",
+      "type": "Event"
+    },
+    { "name": "MintFinished", "type": "Event" },
+    {
+      "inputs": [
+        { "indexed": true, "name": "previousOwner", "type": "address" }
+      ],
+      "name": "OwnershipRenounced",
+      "type": "Event"
+    },
+    {
+      "inputs": [
+        { "indexed": true, "name": "previousOwner", "type": "address" },
+        { "indexed": true, "name": "newOwner", "type": "address" }
+      ],
+      "name": "OwnershipTransferred",
+      "type": "Event"
+    },
+    {
+      "inputs": [
+        { "indexed": true, "name": "owner", "type": "address" },
+        { "indexed": true, "name": "spender", "type": "address" },
+        { "name": "value", "type": "uint256" }
+      ],
+      "name": "Approval",
+      "type": "Event"
+    },
+    {
+      "inputs": [
+        { "indexed": true, "name": "from", "type": "address" },
+        { "indexed": true, "name": "to", "type": "address" },
+        { "name": "value", "type": "uint256" }
+      ],
+      "name": "Transfer",
+      "type": "Event"
+    }
+  ]
+}
