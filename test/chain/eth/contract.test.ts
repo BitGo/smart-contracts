@@ -59,7 +59,7 @@ describe('Contract', () => {
           const methodsWithoutParameters: Set<string> = new Set();
           const methodsWithParameters: MethodDefinition[] = contract.listMethods()
             .filter((method: MethodDefinition) => {
-              // TODO: Fix returned MethodDefinition type for each chain (https://bitgoinc.atlassian.net/browse/STLX-1617)
+              // TODO(STLX-1617): Fix returned MethodDefinition type for each chain
               const castedMethod = method as EthMethodDefinition;
               const noParams = castedMethod.inputs.length === 0;
               if (noParams) {

@@ -28,8 +28,9 @@ export class TrxDecoder implements Decoder<FunctionCallExplanation> {
       const jsonTronAbi = getJsonAbi(contractName, TrxContract.ABI_DIR, TrxContract.ACCESS_ABI_VALUES);
 
       for (const methodAbi of jsonTronAbi) {
-        if (methodAbi.inputs) {
+        if (methodAbi.type === 'Function') {
           const name = methodAbi.name;
+          methodAbi.inputs = methodAbi.inputs ? methodAbi.inputs : [];
           const types = methodAbi.inputs.map((input: { type: any; }) => input.type);
           const methodIdString = bufferToHex(methodID(name, types));
 
