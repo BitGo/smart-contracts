@@ -1,0 +1,207 @@
+{
+  "entrys": [
+    {
+      "inputs": [{ "name": "_token", "type": "address" }],
+      "name": "reclaimToken",
+      "stateMutability": "Nonpayable",
+      "type": "Function"
+    },
+    {
+      "outputs": [{ "type": "bool" }],
+      "constant": true,
+      "inputs": [{ "name": "addr", "type": "address" }],
+      "name": "isMerchant",
+      "stateMutability": "View",
+      "type": "Function"
+    },
+    {
+      "outputs": [{ "type": "address" }],
+      "constant": true,
+      "name": "getToken",
+      "stateMutability": "View",
+      "type": "Function"
+    },
+    {
+      "outputs": [{ "type": "bool" }],
+      "inputs": [{ "name": "contractToOwn", "type": "address" }],
+      "name": "callClaimOwnership",
+      "stateMutability": "Nonpayable",
+      "type": "Function"
+    },
+    {
+      "outputs": [{ "type": "bool" }],
+      "constant": true,
+      "inputs": [{ "name": "addr", "type": "address" }],
+      "name": "isCustodian",
+      "stateMutability": "View",
+      "type": "Function"
+    },
+    {
+      "outputs": [{ "type": "bool" }],
+      "name": "unpause",
+      "stateMutability": "Nonpayable",
+      "type": "Function"
+    },
+    {
+      "outputs": [{ "type": "bool" }],
+      "inputs": [
+        { "name": "to", "type": "address" },
+        { "name": "amount", "type": "uint256" }
+      ],
+      "name": "mint",
+      "stateMutability": "Nonpayable",
+      "type": "Function"
+    },
+    {
+      "outputs": [{ "type": "bool" }],
+      "inputs": [{ "name": "value", "type": "uint256" }],
+      "name": "burn",
+      "stateMutability": "Nonpayable",
+      "type": "Function"
+    },
+    {
+      "outputs": [{ "type": "bool" }],
+      "inputs": [
+        { "name": "ownedContract", "type": "address" },
+        { "name": "_token", "type": "address" }
+      ],
+      "name": "callReclaimToken",
+      "stateMutability": "Nonpayable",
+      "type": "Function"
+    },
+    {
+      "name": "claimOwnership",
+      "stateMutability": "Nonpayable",
+      "type": "Function"
+    },
+    {
+      "outputs": [{ "type": "bool" }],
+      "inputs": [{ "name": "_factory", "type": "address" }],
+      "name": "setFactory",
+      "stateMutability": "Nonpayable",
+      "type": "Function"
+    },
+    {
+      "name": "renounceOwnership",
+      "stateMutability": "Nonpayable",
+      "type": "Function"
+    },
+    {
+      "outputs": [{ "type": "bool" }],
+      "name": "pause",
+      "stateMutability": "Nonpayable",
+      "type": "Function"
+    },
+    {
+      "outputs": [{ "type": "address" }],
+      "constant": true,
+      "name": "owner",
+      "stateMutability": "View",
+      "type": "Function"
+    },
+    {
+      "outputs": [{ "type": "address" }],
+      "constant": true,
+      "name": "members",
+      "stateMutability": "View",
+      "type": "Function"
+    },
+    {
+      "outputs": [{ "type": "address" }],
+      "constant": true,
+      "name": "factory",
+      "stateMutability": "View",
+      "type": "Function"
+    },
+    {
+      "outputs": [{ "type": "address" }],
+      "constant": true,
+      "name": "pendingOwner",
+      "stateMutability": "View",
+      "type": "Function"
+    },
+    {
+      "outputs": [{ "type": "bool" }],
+      "inputs": [
+        { "name": "ownedContract", "type": "address" },
+        { "name": "newOwner", "type": "address" }
+      ],
+      "name": "callTransferOwnership",
+      "stateMutability": "Nonpayable",
+      "type": "Function"
+    },
+    {
+      "inputs": [{ "name": "newOwner", "type": "address" }],
+      "name": "transferOwnership",
+      "stateMutability": "Nonpayable",
+      "type": "Function"
+    },
+    {
+      "outputs": [{ "type": "bool" }],
+      "inputs": [{ "name": "_members", "type": "address" }],
+      "name": "setMembers",
+      "stateMutability": "Nonpayable",
+      "type": "Function"
+    },
+    {
+      "outputs": [{ "type": "address" }],
+      "constant": true,
+      "name": "token",
+      "stateMutability": "View",
+      "type": "Function"
+    },
+    {
+      "inputs": [{ "name": "_token", "type": "address" }],
+      "stateMutability": "Nonpayable",
+      "type": "Constructor"
+    },
+    {
+      "inputs": [{ "indexed": true, "name": "members", "type": "address" }],
+      "name": "MembersSet",
+      "type": "Event"
+    },
+    {
+      "inputs": [{ "indexed": true, "name": "factory", "type": "address" }],
+      "name": "FactorySet",
+      "type": "Event"
+    },
+    { "name": "Paused", "type": "Event" },
+    { "name": "Unpaused", "type": "Event" },
+    {
+      "inputs": [
+        { "name": "ownedContract", "type": "address" },
+        { "name": "newOwner", "type": "address" }
+      ],
+      "name": "CalledTransferOwnership",
+      "type": "Event"
+    },
+    {
+      "inputs": [{ "name": "contractToOwn", "type": "address" }],
+      "name": "CalledClaimOwnership",
+      "type": "Event"
+    },
+    {
+      "inputs": [
+        { "name": "ownedContract", "type": "address" },
+        { "name": "_token", "type": "address" }
+      ],
+      "name": "CalledReclaimToken",
+      "type": "Event"
+    },
+    {
+      "inputs": [
+        { "indexed": true, "name": "previousOwner", "type": "address" }
+      ],
+      "name": "OwnershipRenounced",
+      "type": "Event"
+    },
+    {
+      "inputs": [
+        { "indexed": true, "name": "previousOwner", "type": "address" },
+        { "indexed": true, "name": "newOwner", "type": "address" }
+      ],
+      "name": "OwnershipTransferred",
+      "type": "Event"
+    }
+  ]
+}
