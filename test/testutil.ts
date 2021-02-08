@@ -3,6 +3,7 @@ import BigNumber from 'bignumber.js';
 import { Contract } from '../src/base/contracts/contracts';
 import { Parameter, MethodResponse } from '../src/base/methods/methods';
 const tronweb = require('tronweb');
+const keccak256 = require('keccak256');
 
 const generateNumber = (max: number) => {
   return (): string => {
@@ -46,12 +47,6 @@ const generateFromOptions = (options: any[]) => {
   };
 };
 
-const generateTrxAddress = () => {
-  return () => {
-    return tronweb.utils.accounts.generateAccount().address.base58;
-  };
-};
-
 const solidityTypes: { [key: string]: any } = {
   eth: {
     uint: generateNumber(2e8),
@@ -85,10 +80,9 @@ const solidityTypes: { [key: string]: any } = {
     uint256: generateNumber(2e16),
     int256: generateSignedInteger(2e8),
     bool: generateFromOptions([true, false]),
-    address: generateTrxAddress(),
-    bytes32: () => '0xe56b297abc4ac59b0416123b2b0cc43f68e8932b84df04350fad7d27d6ff349a',
+    address: () => tronweb.utils.accounts.generateAccount().address.base58, // generate valid tron address
+    bytes32: () => `0x${keccak256().toString('hex')}`, // generate valid bytes32 hash
     string: generateFromOptions(['asdfadsf', 'hello world', 'test']),
-    ['address[]']: generateHexStringArray(40, 1),
   },
 };
 
