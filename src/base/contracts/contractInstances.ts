@@ -1,5 +1,5 @@
 import fs from 'fs';
-import { ensure } from '../../util/ensure';
+import { ensure, ensureExist } from '../../util/ensure';
 import { isValidJSON } from '../../util/json';
 import { Instance, InstanceImpl } from './contracts';
 import { Method, MethodClass, MethodDefinition, MethodsClass, Methods } from '../methods/methods';
@@ -15,6 +15,25 @@ export function listContractTypes(abiDirPath: string): string[] {
     return fileName.replace('.json', '');
   });
 }
+
+/**
+ * Return specific ABI as JSON
+ * @param contractName The name of the contract to read the ABI for
+ * @param accessAbiValues Access values to the ABI, some contracts has sub levels to access the ABI, e.g Tron has {"entrys" : [..ABI]}
+ * 
+ */
+export function getJsonAbi(contractName: string, abiDirPath : string, accessAbiValues : string[] = []) {
+  const jsonAbi = fs.readFileSync(path.join( __dirname, `${abiDirPath}/${contractName}.json`), 'utf-8');
+  ensure(isValidJSON(jsonAbi), `Invalid JSON: ${jsonAbi}`);
+  let parsedJsonAbi = JSON.parse(jsonAbi);
+  if (accessAbiValues) {
+    accessAbiValues.forEach(field => {
+      parsedJsonAbi = parsedJsonAbi[field];
+    });
+  }
+  return ensureExist(parsedJsonAbi, `Invalid JSON field`);
+}
+
 
 export class ContractReader<TMethod extends Method, TMethods extends Methods<TMethod>> {
   protected readonly abiDirPath: string;
@@ -43,20 +62,26 @@ export class ContractReader<TMethod extends Method, TMethods extends Methods<TMe
   /**
    * Read in and parse config for instances of this contract type
    * @param contractName The name of the contract to read the config for
+   * @param accessAbiValues Some contracts has sub levels to access the ABI, e.g Tron has {"entrys" : [..ABI]}
    */
-  readContractInstances(contractName: string): Instance<TMethod, TMethods>[] {
+  readContractInstances(contractName: string, accessAbiValues : string[] = []): Instance<TMethod, TMethods>[] {
     const instances = this.getInstances(contractName);
-    const contract = this.getContract(contractName, listContractTypes(this.abiDirPath));
+    const contract = this.getContract(contractName, listContractTypes(this.abiDirPath), accessAbiValues);
 
     // Save them with the instance names lowercased, for easier lookup
     return this.parse(instances, contract);
   }
 
-  private getContract(contractName: string, contractTypesList: string[]) {
+
+  /**
+   * Return the contract specific ABI
+   * @param contractName The name of the contract to 
+   * @param contractTypesList 
+   * @param accessAbiValues Access values to the ABI, some contracts has sub levels to access the ABI, e.g Tron has {"entrys" : [..ABI]}
+   */
+  public getContract(contractName: string, contractTypesList: string[], accessAbiValues : string[] = []) {
     ensure(contractTypesList.includes(contractName), `Unknown contract: ${contractName}`);
-    const jsonAbi = fs.readFileSync(path.join( __dirname, `${this.abiDirPath}/${contractName}.json`), 'utf-8');
-    ensure(isValidJSON(jsonAbi), `Invalid JSON: ${jsonAbi}`);
-    return JSON.parse(jsonAbi);
+    return getJsonAbi(contractName, this.abiDirPath, accessAbiValues);
   }
 
   private getInstances(contractName: string) {
