@@ -1,5 +1,8 @@
 import { ensure } from '../src/util/ensure';
 import BigNumber from 'bignumber.js';
+import { Contract } from '../src/base/contracts/contracts';
+import { Parameter, MethodResponse } from '../src/base/methods/methods';
+const tronweb = require('tronweb');
 
 const generateNumber = (max: number) => {
   return (): string => {
@@ -43,34 +46,92 @@ const generateFromOptions = (options: any[]) => {
   };
 };
 
-const solidityTypes: { [key: string]: any } = {
-  uint: generateNumber(2e8),
-  uint8: generateNumber(2e2),
-  uint16: generateNumber(2e4),
-  uint32: generateNumber(2e8),
-  uint64: generateNumber(2e8),
-  uint128: generateNumber(2e8),
-  uint256: generateNumber(2e16),
-  int256: generateSignedInteger(2e8),
-  bool: generateFromOptions([true, false]),
-  address: generateHexString(40),
-  bytes: generateHexString(32),
-  bytes1: generateHexString(2),
-  bytes2: generateHexString(4),
-  bytes3: generateHexString(6),
-  bytes4: generateHexString(8),
-  bytes8: generateHexString(16),
-  bytes16: generateHexString(32),
-  bytes32: generateHexString(64),
-  string: generateFromOptions(['asdfadsf', 'hello world', 'test']),
-  ['address[]']: generateHexStringArray(40, 1),
+const generateTrxAddress = () => {
+  return () => {
+    return tronweb.utils.accounts.generateAccount().address.base58;
+  };
 };
 
-export function getKnownSolidityTypes(): string[] {
-  return Object.keys(solidityTypes);
+const generateTrxHexString = (length: number): () => string => {
+  return () => {
+    ensure(length % 2 === 0, `Invalid hex length: ${length}`);
+    let result = '0x';
+    for (let i = 0; i < length / 2; i++) {
+      const byte = new BigNumber(generateNumber(256)());
+      result += tronweb.utils.bytes.byte2hexStr(byte.toNumber());
+    }
+    return result;
+  };
+};
+
+const solidityTypes: { [key: string]: any } = {
+  eth: {
+    uint: generateNumber(2e8),
+    uint8: generateNumber(2e2),
+    uint16: generateNumber(2e4),
+    uint32: generateNumber(2e8),
+    uint64: generateNumber(2e8),
+    uint128: generateNumber(2e8),
+    uint256: generateNumber(2e16),
+    int256: generateSignedInteger(2e8),
+    bool: generateFromOptions([true, false]),
+    address: generateHexString(40),
+    bytes: generateHexString(32),
+    bytes1: generateHexString(2),
+    bytes2: generateHexString(4),
+    bytes3: generateHexString(6),
+    bytes4: generateHexString(8),
+    bytes8: generateHexString(16),
+    bytes16: generateHexString(32),
+    bytes32: generateHexString(64),
+    string: generateFromOptions(['asdfadsf', 'hello world', 'test']),
+    ['address[]']: generateHexStringArray(40, 1),
+  },
+  trx: {
+    uint: generateNumber(2e8),
+    uint8: generateNumber(2e2),
+    uint16: generateNumber(2e4),
+    uint32: generateNumber(2e8),
+    uint64: generateNumber(2e8),
+    uint128: generateNumber(2e8),
+    uint256: generateNumber(2e16),
+    int256: generateSignedInteger(2e8),
+    bool: generateFromOptions([true, false]),
+    address: generateTrxAddress(), // generate valid tron address
+    bytes32: generateTrxHexString(64),
+    string: generateFromOptions(['asdfadsf', 'hello world', 'test']),
+  },
+};
+
+export function getKnownSolidityTypes(chainName: string): string[] {
+  return Object.keys(solidityTypes[chainName]);
 }
 
-export function getSolidityParameter(type: string): any {
-  ensure(solidityTypes[type], `Unknown type: ${type}`);
-  return solidityTypes[type]();
+export function getSolidityParameter(chainName: string, type: string): any {
+  ensure(solidityTypes[chainName][type], `Unknown type: ${type}`);
+  return solidityTypes[chainName][type]();
 }
+
+export function testFuzzedContractMethods (chainName:string, contract: Contract<any>, callback: (response: MethodResponse) => void, args?: any) {
+  const allMethods = contract.listMethods();
+  const FUZZING_REPETITIONS = 5;
+  allMethods.forEach((methodDefinition: any) => {
+    const params = methodDefinition.inputs;
+    const name = methodDefinition.name;
+
+    for (let i = 0; i < FUZZING_REPETITIONS; i++) {
+      const args: { [key: string]: any } = {};
+      params.forEach((param: Parameter) => {
+        args[param.name] = getSolidityParameter(chainName, param.type);
+      });
+      const contractInstance = contract.instance(args.instanceName || 'default');
+
+      if (args.address) {
+        contractInstance.address = args.address;
+      }
+
+      callback(contractInstance.methods()[name].call(args));
+    }
+  });
+}
+

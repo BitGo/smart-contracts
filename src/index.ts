@@ -2,11 +2,13 @@ import { Decoder, FunctionCallExplanation } from './base/decoder/decoder';
 import { Contract } from './base/contracts/contracts';
 import { Method } from './base/methods/methods';
 import { EthFactory } from './eth/factory';
+import { TrxFactory } from './trx/factory';
 import { Factory } from './base/factory';
 
 
 const factoryMap : any = {
   eth: EthFactory,
+  trx: TrxFactory,
 };
 
 /**
