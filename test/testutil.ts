@@ -39,7 +39,7 @@ const generateHexStringArray = (strLength: number, arrLength: number): () => str
 
 const generateFromOptions = (options: any[]) => {
   return () => {
-    return options[parseInt(generateNumber(options.length)())];
+    return options[Number(generateNumber(options.length)())];
   };
 };
 
