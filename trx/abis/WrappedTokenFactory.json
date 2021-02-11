@@ -1,0 +1,335 @@
+{
+  "entrys": [
+    {
+      "outputs": [{ "type": "string" }],
+      "constant": true,
+      "inputs": [{ "type": "address" }],
+      "name": "custodianDepositAddress",
+      "stateMutability": "View",
+      "type": "Function"
+    },
+    {
+      "inputs": [{ "name": "_token", "type": "address" }],
+      "name": "reclaimToken",
+      "stateMutability": "Nonpayable",
+      "type": "Function"
+    },
+    {
+      "outputs": [{ "type": "bool" }],
+      "inputs": [{ "name": "requestHash", "type": "bytes32" }],
+      "name": "confirmMintRequest",
+      "stateMutability": "Nonpayable",
+      "type": "Function"
+    },
+    {
+      "outputs": [{ "name": "length", "type": "uint256" }],
+      "constant": true,
+      "name": "getMintRequestsLength",
+      "stateMutability": "View",
+      "type": "Function"
+    },
+    {
+      "outputs": [{ "type": "bool" }],
+      "inputs": [{ "name": "depositAddress", "type": "string" }],
+      "name": "setMerchantDepositAddress",
+      "stateMutability": "Nonpayable",
+      "type": "Function"
+    },
+    {
+      "outputs": [
+        { "name": "requester", "type": "address" },
+        { "name": "amount", "type": "uint256" },
+        { "name": "depositAddress", "type": "string" },
+        { "name": "txid", "type": "string" },
+        { "name": "nonce", "type": "uint256" },
+        { "name": "timestamp", "type": "uint256" },
+        { "name": "status", "type": "uint8" }
+      ],
+      "constant": true,
+      "inputs": [{ "type": "uint256" }],
+      "name": "mintRequests",
+      "stateMutability": "View",
+      "type": "Function"
+    },
+    {
+      "outputs": [{ "type": "bool" }],
+      "inputs": [{ "name": "amount", "type": "uint256" }],
+      "name": "burn",
+      "stateMutability": "Nonpayable",
+      "type": "Function"
+    },
+    {
+      "name": "claimOwnership",
+      "stateMutability": "Nonpayable",
+      "type": "Function"
+    },
+    {
+      "outputs": [{ "type": "string" }],
+      "constant": true,
+      "inputs": [{ "type": "address" }],
+      "name": "merchantDepositAddress",
+      "stateMutability": "View",
+      "type": "Function"
+    },
+    {
+      "outputs": [
+        { "name": "requester", "type": "address" },
+        { "name": "amount", "type": "uint256" },
+        { "name": "depositAddress", "type": "string" },
+        { "name": "txid", "type": "string" },
+        { "name": "nonce", "type": "uint256" },
+        { "name": "timestamp", "type": "uint256" },
+        { "name": "status", "type": "uint8" }
+      ],
+      "constant": true,
+      "inputs": [{ "type": "uint256" }],
+      "name": "burnRequests",
+      "stateMutability": "View",
+      "type": "Function"
+    },
+    {
+      "name": "renounceOwnership",
+      "stateMutability": "Nonpayable",
+      "type": "Function"
+    },
+    {
+      "outputs": [{ "name": "length", "type": "uint256" }],
+      "constant": true,
+      "name": "getBurnRequestsLength",
+      "stateMutability": "View",
+      "type": "Function"
+    },
+    {
+      "outputs": [{ "type": "bool" }],
+      "inputs": [
+        { "name": "merchant", "type": "address" },
+        { "name": "depositAddress", "type": "string" }
+      ],
+      "name": "setCustodianDepositAddress",
+      "stateMutability": "Nonpayable",
+      "type": "Function"
+    },
+    {
+      "outputs": [{ "type": "bool" }],
+      "inputs": [{ "name": "requestHash", "type": "bytes32" }],
+      "name": "rejectMintRequest",
+      "stateMutability": "Nonpayable",
+      "type": "Function"
+    },
+    {
+      "outputs": [{ "type": "address" }],
+      "constant": true,
+      "name": "owner",
+      "stateMutability": "View",
+      "type": "Function"
+    },
+    {
+      "outputs": [{ "type": "bool" }],
+      "inputs": [
+        { "name": "amount", "type": "uint256" },
+        { "name": "txid", "type": "string" },
+        { "name": "depositAddress", "type": "string" }
+      ],
+      "name": "addMintRequest",
+      "stateMutability": "Nonpayable",
+      "type": "Function"
+    },
+    {
+      "outputs": [{ "type": "bool" }],
+      "inputs": [
+        { "name": "requestHash", "type": "bytes32" },
+        { "name": "txid", "type": "string" }
+      ],
+      "name": "confirmBurnRequest",
+      "stateMutability": "Nonpayable",
+      "type": "Function"
+    },
+    {
+      "outputs": [{ "type": "uint256" }],
+      "constant": true,
+      "inputs": [{ "type": "bytes32" }],
+      "name": "mintRequestNonce",
+      "stateMutability": "View",
+      "type": "Function"
+    },
+    {
+      "outputs": [
+        { "name": "requestNonce", "type": "uint256" },
+        { "name": "requester", "type": "address" },
+        { "name": "amount", "type": "uint256" },
+        { "name": "depositAddress", "type": "string" },
+        { "name": "txid", "type": "string" },
+        { "name": "timestamp", "type": "uint256" },
+        { "name": "status", "type": "string" },
+        { "name": "requestHash", "type": "bytes32" }
+      ],
+      "constant": true,
+      "inputs": [{ "name": "nonce", "type": "uint256" }],
+      "name": "getMintRequest",
+      "stateMutability": "View",
+      "type": "Function"
+    },
+    {
+      "outputs": [{ "type": "bool" }],
+      "inputs": [{ "name": "requestHash", "type": "bytes32" }],
+      "name": "cancelMintRequest",
+      "stateMutability": "Nonpayable",
+      "type": "Function"
+    },
+    {
+      "outputs": [{ "type": "uint256" }],
+      "constant": true,
+      "inputs": [{ "type": "bytes32" }],
+      "name": "burnRequestNonce",
+      "stateMutability": "View",
+      "type": "Function"
+    },
+    {
+      "outputs": [
+        { "name": "requestNonce", "type": "uint256" },
+        { "name": "requester", "type": "address" },
+        { "name": "amount", "type": "uint256" },
+        { "name": "depositAddress", "type": "string" },
+        { "name": "txid", "type": "string" },
+        { "name": "timestamp", "type": "uint256" },
+        { "name": "status", "type": "string" },
+        { "name": "requestHash", "type": "bytes32" }
+      ],
+      "constant": true,
+      "inputs": [{ "name": "nonce", "type": "uint256" }],
+      "name": "getBurnRequest",
+      "stateMutability": "View",
+      "type": "Function"
+    },
+    {
+      "outputs": [{ "type": "address" }],
+      "constant": true,
+      "name": "pendingOwner",
+      "stateMutability": "View",
+      "type": "Function"
+    },
+    {
+      "inputs": [{ "name": "newOwner", "type": "address" }],
+      "name": "transferOwnership",
+      "stateMutability": "Nonpayable",
+      "type": "Function"
+    },
+    {
+      "outputs": [{ "type": "address" }],
+      "constant": true,
+      "name": "controller",
+      "stateMutability": "View",
+      "type": "Function"
+    },
+    {
+      "inputs": [{ "name": "_controller", "type": "address" }],
+      "stateMutability": "Nonpayable",
+      "type": "Constructor"
+    },
+    {
+      "inputs": [
+        { "indexed": true, "name": "merchant", "type": "address" },
+        { "indexed": true, "name": "sender", "type": "address" },
+        { "name": "depositAddress", "type": "string" }
+      ],
+      "name": "CustodianDepositAddressSet",
+      "type": "Event"
+    },
+    {
+      "inputs": [
+        { "indexed": true, "name": "merchant", "type": "address" },
+        { "name": "depositAddress", "type": "string" }
+      ],
+      "name": "MerchantDepositAddressSet",
+      "type": "Event"
+    },
+    {
+      "inputs": [
+        { "indexed": true, "name": "nonce", "type": "uint256" },
+        { "indexed": true, "name": "requester", "type": "address" },
+        { "name": "amount", "type": "uint256" },
+        { "name": "depositAddress", "type": "string" },
+        { "name": "txid", "type": "string" },
+        { "name": "timestamp", "type": "uint256" },
+        { "name": "requestHash", "type": "bytes32" }
+      ],
+      "name": "MintRequestAdd",
+      "type": "Event"
+    },
+    {
+      "inputs": [
+        { "indexed": true, "name": "nonce", "type": "uint256" },
+        { "indexed": true, "name": "requester", "type": "address" },
+        { "name": "requestHash", "type": "bytes32" }
+      ],
+      "name": "MintRequestCancel",
+      "type": "Event"
+    },
+    {
+      "inputs": [
+        { "indexed": true, "name": "nonce", "type": "uint256" },
+        { "indexed": true, "name": "requester", "type": "address" },
+        { "name": "amount", "type": "uint256" },
+        { "name": "depositAddress", "type": "string" },
+        { "name": "txid", "type": "string" },
+        { "name": "timestamp", "type": "uint256" },
+        { "name": "requestHash", "type": "bytes32" }
+      ],
+      "name": "MintConfirmed",
+      "type": "Event"
+    },
+    {
+      "inputs": [
+        { "indexed": true, "name": "nonce", "type": "uint256" },
+        { "indexed": true, "name": "requester", "type": "address" },
+        { "name": "amount", "type": "uint256" },
+        { "name": "depositAddress", "type": "string" },
+        { "name": "txid", "type": "string" },
+        { "name": "timestamp", "type": "uint256" },
+        { "name": "requestHash", "type": "bytes32" }
+      ],
+      "name": "MintRejected",
+      "type": "Event"
+    },
+    {
+      "inputs": [
+        { "indexed": true, "name": "nonce", "type": "uint256" },
+        { "indexed": true, "name": "requester", "type": "address" },
+        { "name": "amount", "type": "uint256" },
+        { "name": "depositAddress", "type": "string" },
+        { "name": "timestamp", "type": "uint256" },
+        { "name": "requestHash", "type": "bytes32" }
+      ],
+      "name": "Burned",
+      "type": "Event"
+    },
+    {
+      "inputs": [
+        { "indexed": true, "name": "nonce", "type": "uint256" },
+        { "indexed": true, "name": "requester", "type": "address" },
+        { "name": "amount", "type": "uint256" },
+        { "name": "depositAddress", "type": "string" },
+        { "name": "txid", "type": "string" },
+        { "name": "timestamp", "type": "uint256" },
+        { "name": "inputRequestHash", "type": "bytes32" }
+      ],
+      "name": "BurnConfirmed",
+      "type": "Event"
+    },
+    {
+      "inputs": [
+        { "indexed": true, "name": "previousOwner", "type": "address" }
+      ],
+      "name": "OwnershipRenounced",
+      "type": "Event"
+    },
+    {
+      "inputs": [
+        { "indexed": true, "name": "previousOwner", "type": "address" },
+        { "indexed": true, "name": "newOwner", "type": "address" }
+      ],
+      "name": "OwnershipTransferred",
+      "type": "Event"
+    }
+  ]
+}

@@ -11,25 +11,59 @@ for common smart contract function calls. It also aims to be extensible to a wid
 npm i @bitgo/eth-contracts
 ```
 
+## Supported Chains
+
+* eth
+* trx
+
+
 ## Example Usage
 
-
+***
 The basic usage enables users to specify contracts by name and build transaction data from them.
+<br />
+
+##### Ethereum example
 ```js
 import { getContractsFactory } from '@bitgo/eth-contracts';
 const cDAI = getContractsFactory('eth').getContract('Compound').instance('cDAI');
 const { data, amount, address } = cDAI.methods().mint.call({ mintAmount: '1000000000' });
 ```
 
+<br />
+
+##### Tron example
+```js
+import { getContractsFactory } from '@bitgo/eth-contracts';
+const cWbtcEth = getContractsFactory('trx').getContract('WrappedToken').instance('WBTC-TRON');
+const { data, amount } = cWbtcEth.methods().transfer.call({ _to: 'TGeT2sfMYcjx3ra2HhQUvMyBcVhjBc1Lbk', _value: '100' });
+```
+***
+<br />
+
 Users can specify an instance of the contract protocol by address instead of name
+##### Ethereum example
 ```js
 import { getContractsFactory } from '@bitgo/eth-contracts';
 const cDAI = getContractsFactory('eth').getContract('Compound').instance()
 cDai.address = '0x5d3a536e4d6dbd6114cc1ead35777bab948e3643';
 const { data } = cDAI.methods().mint.call({ mintAmount: '1000000000' });
 ```
+<br />
 
+##### Tron example
+```js
+import { getContractsFactory } from '@bitgo/eth-contracts';
+const cDAI = getContractsFactory('trx').getContract('WrappedToken').instance()
+cWbtcEth.address = 'TXpw8XeWYeTUd4quDskoUqeQPowRh4jY65';
+const { data } = cWbtcEth.methods().transfer.call({ _to: 'TGeT2sfMYcjx3ra2HhQUvMyBcVhjBc1Lbk', _value: '100' };
+```
+
+***
 The decoder can parse call data and output a human-readable explanation of a given contract call.
+<br />
+
+##### Ethereum example
 ```js
 import { getContractsFactory } from '@bitgo/eth-contracts';
 const decoder = getContractsFactory('eth').getDecoder();
@@ -41,6 +75,23 @@ decoder.decode(Buffer.from('a9059cbb00000000000000000000000010d4f942617a231eb143
        type: 'address',
        value: '0x10d4f942617a231eb1430c88fe43c8c2050437d9' },
      { name: '_value', type: 'uint256', value: 10000 } ],
+  contractName: 'StandardERC20' }
+```
+<br />
+
+##### Tron example
+```js
+import { getContractsFactory } from '@bitgo/eth-contracts';
+const decoder = getContractsFactory('trx').getDecoder();
+decoder.decode(Buffer.from('a9059cbb000000000000000000000000efc230e125c24de35f6290afcafa28d50b43653600000000000000000000000000000000000000000000000000000000000003e8', 'hex'));
+// result
+{ methodId: '0xa9059cbb',
+  name: 'transfer',
+  args:
+   [ { name: '_to',
+       type: 'address',
+       value: 'TXpw8XeWYeTUd4quDskoUqeQPowRh4jY65' },
+     { name: '_value', type: 'uint256', value: '1000' } ],
   contractName: 'StandardERC20' }
 ```
 
@@ -123,9 +174,13 @@ const types = getContractsFactory('eth').getContract('StandardERC20').instance('
 ## Supported Protocols:
 
 This library supports a limited number of smart contract protocols, as it maintains solidity ABIs locally. 
-- Compound -- [Examples](./eth/examples/Compound)
-- StandardERC20 -- [Examples](./eth/examples/StandardERC20)
-- MakerDAO -- [Examples](./eth/examples/MakerDAO)
+
+* On ethereum chain
+  - Compound -- [Examples](./eth/examples/Compound)
+  - StandardERC20 -- [Examples](./eth/examples/StandardERC20)
+  - MakerDAO -- [Examples](./eth/examples/MakerDAO)
+* On tron chain
+  - WrappedToken - [Examples](./trx/examples/WrappedToken)
 
 ## Adding a new ABI type
 This library is quite extensible to new chains and protocols -- if there are other contract types that you would like to use, 

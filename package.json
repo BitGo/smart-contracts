@@ -26,6 +26,7 @@
     "eslint": "^7.9.0",
     "ethereumjs-abi": "0.6.8",
     "ethereumjs-util": "6.2.0",
+    "tronweb": "^2.7.2",
     "typescript": "3.4.5",
     "bignumber.js": "^9.0.1"
   },
