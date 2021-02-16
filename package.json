@@ -1,5 +1,5 @@
 {
-  "name": "@bitgo/eth-contracts",
+  "name": "@bitgo/smart-contracts",
   "version": "2.0.0",
   "description": "A library to build Ethereum smart contract function calls.",
   "main": "dist/index.js",
@@ -14,12 +14,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/bitgo/eth-contracts.git"
+    "url": "git+https://github.com/bitgo/smart-contracts.git"
   },
   "bugs": {
-    "url": "https://github.com/bitgo/eth-contracts/issues"
+    "url": "https://github.com/bitgo/smart-contracts/issues"
   },
-  "homepage": "https://github.com/bitgo/eth-contracts#readme",
+  "homepage": "https://github.com/bitgo/smart-contracts#readme",
   "dependencies": {
     "@typescript-eslint/eslint-plugin": "^4.2.0",
     "@typescript-eslint/parser": "^4.2.0",
