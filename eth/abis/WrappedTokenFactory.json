@@ -1,0 +1,390 @@
+[
+  {
+    "constant": false,
+    "inputs": [{ "name": "_token", "type": "address" }],
+    "name": "reclaimToken",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [{ "name": "requestHash", "type": "bytes32" }],
+    "name": "confirmMintRequest",
+    "outputs": [{ "name": "", "type": "bool" }],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "getMintRequestsLength",
+    "outputs": [{ "name": "length", "type": "uint256" }],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [{ "name": "btcDepositAddress", "type": "string" }],
+    "name": "setMerchantBtcDepositAddress",
+    "outputs": [{ "name": "", "type": "bool" }],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [{ "name": "", "type": "uint256" }],
+    "name": "mintRequests",
+    "outputs": [
+      { "name": "requester", "type": "address" },
+      { "name": "amount", "type": "uint256" },
+      { "name": "btcDepositAddress", "type": "string" },
+      { "name": "btcTxid", "type": "string" },
+      { "name": "nonce", "type": "uint256" },
+      { "name": "timestamp", "type": "uint256" },
+      { "name": "status", "type": "uint8" }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [{ "name": "amount", "type": "uint256" }],
+    "name": "burn",
+    "outputs": [{ "name": "", "type": "bool" }],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [],
+    "name": "claimOwnership",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [{ "name": "", "type": "uint256" }],
+    "name": "burnRequests",
+    "outputs": [
+      { "name": "requester", "type": "address" },
+      { "name": "amount", "type": "uint256" },
+      { "name": "btcDepositAddress", "type": "string" },
+      { "name": "btcTxid", "type": "string" },
+      { "name": "nonce", "type": "uint256" },
+      { "name": "timestamp", "type": "uint256" },
+      { "name": "status", "type": "uint8" }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      { "name": "merchant", "type": "address" },
+      { "name": "btcDepositAddress", "type": "string" }
+    ],
+    "name": "setCustodianBtcDepositAddress",
+    "outputs": [{ "name": "", "type": "bool" }],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [],
+    "name": "renounceOwnership",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "getBurnRequestsLength",
+    "outputs": [{ "name": "length", "type": "uint256" }],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [{ "name": "", "type": "address" }],
+    "name": "custodianBtcDepositAddress",
+    "outputs": [{ "name": "", "type": "string" }],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [{ "name": "requestHash", "type": "bytes32" }],
+    "name": "rejectMintRequest",
+    "outputs": [{ "name": "", "type": "bool" }],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "owner",
+    "outputs": [{ "name": "", "type": "address" }],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      { "name": "amount", "type": "uint256" },
+      { "name": "btcTxid", "type": "string" },
+      { "name": "btcDepositAddress", "type": "string" }
+    ],
+    "name": "addMintRequest",
+    "outputs": [{ "name": "", "type": "bool" }],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      { "name": "requestHash", "type": "bytes32" },
+      { "name": "btcTxid", "type": "string" }
+    ],
+    "name": "confirmBurnRequest",
+    "outputs": [{ "name": "", "type": "bool" }],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [{ "name": "", "type": "bytes32" }],
+    "name": "mintRequestNonce",
+    "outputs": [{ "name": "", "type": "uint256" }],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [{ "name": "nonce", "type": "uint256" }],
+    "name": "getMintRequest",
+    "outputs": [
+      { "name": "requestNonce", "type": "uint256" },
+      { "name": "requester", "type": "address" },
+      { "name": "amount", "type": "uint256" },
+      { "name": "btcDepositAddress", "type": "string" },
+      { "name": "btcTxid", "type": "string" },
+      { "name": "timestamp", "type": "uint256" },
+      { "name": "status", "type": "string" },
+      { "name": "requestHash", "type": "bytes32" }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [{ "name": "requestHash", "type": "bytes32" }],
+    "name": "cancelMintRequest",
+    "outputs": [{ "name": "", "type": "bool" }],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [{ "name": "", "type": "bytes32" }],
+    "name": "burnRequestNonce",
+    "outputs": [{ "name": "", "type": "uint256" }],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [{ "name": "", "type": "address" }],
+    "name": "merchantBtcDepositAddress",
+    "outputs": [{ "name": "", "type": "string" }],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [{ "name": "nonce", "type": "uint256" }],
+    "name": "getBurnRequest",
+    "outputs": [
+      { "name": "requestNonce", "type": "uint256" },
+      { "name": "requester", "type": "address" },
+      { "name": "amount", "type": "uint256" },
+      { "name": "btcDepositAddress", "type": "string" },
+      { "name": "btcTxid", "type": "string" },
+      { "name": "timestamp", "type": "uint256" },
+      { "name": "status", "type": "string" },
+      { "name": "requestHash", "type": "bytes32" }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "pendingOwner",
+    "outputs": [{ "name": "", "type": "address" }],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [{ "name": "newOwner", "type": "address" }],
+    "name": "transferOwnership",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "controller",
+    "outputs": [{ "name": "", "type": "address" }],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "name": "_controller", "type": "address" }],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "constructor"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      { "indexed": true, "name": "merchant", "type": "address" },
+      { "indexed": true, "name": "sender", "type": "address" },
+      { "indexed": false, "name": "btcDepositAddress", "type": "string" }
+    ],
+    "name": "CustodianBtcDepositAddressSet",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      { "indexed": true, "name": "merchant", "type": "address" },
+      { "indexed": false, "name": "btcDepositAddress", "type": "string" }
+    ],
+    "name": "MerchantBtcDepositAddressSet",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      { "indexed": true, "name": "nonce", "type": "uint256" },
+      { "indexed": true, "name": "requester", "type": "address" },
+      { "indexed": false, "name": "amount", "type": "uint256" },
+      { "indexed": false, "name": "btcDepositAddress", "type": "string" },
+      { "indexed": false, "name": "btcTxid", "type": "string" },
+      { "indexed": false, "name": "timestamp", "type": "uint256" },
+      { "indexed": false, "name": "requestHash", "type": "bytes32" }
+    ],
+    "name": "MintRequestAdd",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      { "indexed": true, "name": "nonce", "type": "uint256" },
+      { "indexed": true, "name": "requester", "type": "address" },
+      { "indexed": false, "name": "requestHash", "type": "bytes32" }
+    ],
+    "name": "MintRequestCancel",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      { "indexed": true, "name": "nonce", "type": "uint256" },
+      { "indexed": true, "name": "requester", "type": "address" },
+      { "indexed": false, "name": "amount", "type": "uint256" },
+      { "indexed": false, "name": "btcDepositAddress", "type": "string" },
+      { "indexed": false, "name": "btcTxid", "type": "string" },
+      { "indexed": false, "name": "timestamp", "type": "uint256" },
+      { "indexed": false, "name": "requestHash", "type": "bytes32" }
+    ],
+    "name": "MintConfirmed",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      { "indexed": true, "name": "nonce", "type": "uint256" },
+      { "indexed": true, "name": "requester", "type": "address" },
+      { "indexed": false, "name": "amount", "type": "uint256" },
+      { "indexed": false, "name": "btcDepositAddress", "type": "string" },
+      { "indexed": false, "name": "btcTxid", "type": "string" },
+      { "indexed": false, "name": "timestamp", "type": "uint256" },
+      { "indexed": false, "name": "requestHash", "type": "bytes32" }
+    ],
+    "name": "MintRejected",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      { "indexed": true, "name": "nonce", "type": "uint256" },
+      { "indexed": true, "name": "requester", "type": "address" },
+      { "indexed": false, "name": "amount", "type": "uint256" },
+      { "indexed": false, "name": "btcDepositAddress", "type": "string" },
+      { "indexed": false, "name": "timestamp", "type": "uint256" },
+      { "indexed": false, "name": "requestHash", "type": "bytes32" }
+    ],
+    "name": "Burned",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      { "indexed": true, "name": "nonce", "type": "uint256" },
+      { "indexed": true, "name": "requester", "type": "address" },
+      { "indexed": false, "name": "amount", "type": "uint256" },
+      { "indexed": false, "name": "btcDepositAddress", "type": "string" },
+      { "indexed": false, "name": "btcTxid", "type": "string" },
+      { "indexed": false, "name": "timestamp", "type": "uint256" },
+      { "indexed": false, "name": "inputRequestHash", "type": "bytes32" }
+    ],
+    "name": "BurnConfirmed",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [{ "indexed": true, "name": "previousOwner", "type": "address" }],
+    "name": "OwnershipRenounced",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      { "indexed": true, "name": "previousOwner", "type": "address" },
+      { "indexed": true, "name": "newOwner", "type": "address" }
+    ],
+    "name": "OwnershipTransferred",
+    "type": "event"
+  }
+]
