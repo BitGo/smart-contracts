@@ -35,7 +35,7 @@ const { data, amount, address } = cDAI.methods().mint.call({ mintAmount: '100000
 ##### Tron example
 ```js
 import { getContractsFactory } from '@bitgo/smart-contracts';
-const cWbtcEth = getContractsFactory('trx').getContract('WrappedToken').instance('WBTC-TRON');
+const cWbtcEth = getContractsFactory('trx').getContract('WrappedToken').instance('WBTC');
 const { data, amount } = cWbtcEth.methods().transfer.call({ _to: 'TGeT2sfMYcjx3ra2HhQUvMyBcVhjBc1Lbk', _value: '100' });
 ```
 ***

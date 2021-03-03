@@ -1,18 +1,18 @@
 {
   "WrappedToken": {
-    "WBTC-TRON": "TXpw8XeWYeTUd4quDskoUqeQPowRh4jY65",
-    "WETH-TRON": "TXWkP3jLBqRGojUih1ShzNyDaN5Csnebok"
+    "WBTC": "TXpw8XeWYeTUd4quDskoUqeQPowRh4jY65",
+    "WETH": "TXWkP3jLBqRGojUih1ShzNyDaN5Csnebok"
   },
   "WrappedTokenFactory":{
-    "WBTC-TRON": "TBm9acNsw9WSqZyf5gRD42kzLrZ7TwMpZd",
-    "WETH-TRON": "TKCzLPPxsZdEGT7DfY6yNSiQntosswuBvy"
+    "WBTC": "TBm9acNsw9WSqZyf5gRD42kzLrZ7TwMpZd",
+    "WETH": "TKCzLPPxsZdEGT7DfY6yNSiQntosswuBvy"
   },
   "WrappedTokenController":{
-    "WBTC-TRON": "TUS7kU3eBz8jbDMamrVaU1suuYbt3mVnx3",
-    "WETH-TRON": "TAtZzUrFfBPcTXMkV1RrtBzaw9YbeNuErj"
+    "WBTC": "TUS7kU3eBz8jbDMamrVaU1suuYbt3mVnx3",
+    "WETH": "TAtZzUrFfBPcTXMkV1RrtBzaw9YbeNuErj"
   },
   "WrappedTokenMembers":{
-    "WBTC-TRON": "TEBKzUc6a2tCLuQQR3qaa29juQ3xh3GBYL",
-    "WETH-TRON": "TFQv9DPAgdBcsRGaWTi4fn1GjJjPruNVMg"
+    "WBTC": "TEBKzUc6a2tCLuQQR3qaa29juQ3xh3GBYL",
+    "WETH": "TFQv9DPAgdBcsRGaWTi4fn1GjJjPruNVMg"
   }
 }

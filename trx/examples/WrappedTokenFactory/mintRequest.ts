@@ -1,7 +1,7 @@
 import { getContractsFactory } from '../../../src/index';
 /** This example should provide just a methoid */
 
-const tokenName = 'WBTC-TRON';
+const tokenName = 'WBTC';
 
 const contract = getContractsFactory('trx').getContract('WrappedTokenFactory').instance(tokenName);
 
