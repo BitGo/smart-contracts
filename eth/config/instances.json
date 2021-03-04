@@ -1,6 +1,5 @@
 {
   "StandardERC20": {
-    "WBTC": "0x2260fac5e5542a773aa44fbcfedf7c193bc2c599",
     "WXRP": "0xda7e5a3841550a5ba271dcc76a885af902142dfc",
     "OMG": "0xd26114cd6ee289accf82350c8d8487fedb8a0c07",
     "REP": "0x1985365e9f78359a9b6ad760e32412f4a445e862",
@@ -11,6 +10,18 @@
     "USDC": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
     "DAI": "0x6b175474e89094c44da98b954eedeac495271d0f",
     "SAI": "0x89d24a6b4ccb1b6faa2625fe562bdd9a23260359"
+  },
+  "WrappedToken": {
+    "WBTC": "0x2260fac5e5542a773aa44fbcfedf7c193bc2c599"
+  },
+  "WrappedTokenFactory":{
+    "WBTC": "0xe5a5f138005e19a3e6d0fe68b039397eeef2322b"
+  },
+  "WrappedTokenController":{
+    "WBTC": "0xCA06411bd7a7296d7dbdd0050DFc846E95fEBEB7"
+  },
+  "WrappedTokenMembers":{
+    "WBTC": "0x3e8640574aa764763291eD733672D3A105107ac5"
   },
   "Compound": {
     "CUSDC": "0x39aa39c021dfbae8fac545936693ac917d5e7563",

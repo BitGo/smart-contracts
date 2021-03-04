@@ -12,7 +12,7 @@ const testCases: TestCase[] = [
   {
     data: '0xa9059cbb00000000000000000000000010d4f942617a231eb1430c88fe43c8c2050437d90000000000000000000000000000000000000000000000000000000000002710',
     expected: {
-      contractName: 'StandardERC20',
+      contractName: 'WrappedToken',
       name: 'transfer',
       methodId: '0xa9059cbb',
       args: [

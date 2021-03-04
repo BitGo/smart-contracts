@@ -1,6 +1,6 @@
 import { getContractsFactory } from '../../../src/index';
 
-const tokenName = 'WBTC-TRON';
+const tokenName = 'WBTC';
 const recipient = 'TGeT2sfMYcjx3ra2HhQUvMyBcVhjBc1Lbk';
 const tokenAmount = 1e8; // 1 WBTC on Tron
 
