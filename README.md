@@ -179,6 +179,7 @@ This library supports a limited number of smart contract protocols, as it mainta
   - Compound -- [Examples](./eth/examples/Compound)
   - StandardERC20 -- [Examples](./eth/examples/StandardERC20)
   - MakerDAO -- [Examples](./eth/examples/MakerDAO)
+  - Aave -- [Examples](./eth/examples/Aave)
 * On tron chain
   - WrappedToken - [Examples](./trx/examples/WrappedToken)
 
