@@ -16,6 +16,11 @@ console.log('encoded', response);
 
 const decoder = getContractsFactory('trx').getDecoder();
 
-const data = response.data.slice(2);
-const decoded = decoder.decode(Buffer.from(data, 'hex'));
-console.log(`\n AddMintRequest decoded : cbce51775299bc0b2c87bd0724d6c1e72f7d2d3f0f82c68c1ec0155772a5c9b4 \n`, decoded);
+const data = response.data;
+console.log(10, data );
+/** Decode with string data */
+const decodedFromString = decoder.decode(data);
+console.log(`\n AddMintRequest decoded from string: \n`, decodedFromString);
+/** Decode with Buffer data*/
+const decodedFromBuffer = decoder.decode(Buffer.from(data.slice(2), 'hex'));
+console.log(`\n AddMintRequest decoded from Buffer: \n`, decodedFromBuffer);

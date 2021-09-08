@@ -4,8 +4,9 @@ import { Decoder, FunctionCallExplanation } from '../../base/decoder/decoder';
 import { formatValue } from './types';
 import { ensure } from '../../util/ensure';
 import { TrxMethod } from '../methods/methods';
-import { getJsonAbi, listContractTypes } from '../../base/contracts/contractInstances';
+import { getAbiContract, listContractTypes } from '../../base/contracts/contractInstances';
 import { TrxContract } from '../contracts/contracts';
+import { parseToBuffer } from '../../../src/util/string';
 // TronWeb does not use ES Modules so we must use require
 const TronWeb = require('tronweb');
 
@@ -24,8 +25,8 @@ export class TrxDecoder implements Decoder<FunctionCallExplanation> {
   private loadMethods(): MethodIdMapping {
     const result: MethodIdMapping = {};
 
-    for (const contractName of listContractTypes(TrxContract.ABI_DIR)) {
-      const jsonTronAbi = getJsonAbi(contractName, TrxContract.ABI_DIR, TrxContract.ACCESS_ABI_VALUES);
+    for (const contractName of listContractTypes(TrxContract.chainName)) {
+      const jsonTronAbi = getAbiContract(contractName, TrxContract.chainName, TrxContract.ACCESS_ABI_VALUES);
 
       for (const methodAbi of jsonTronAbi) {
         if (methodAbi.type === 'Function') {
@@ -48,7 +49,10 @@ export class TrxDecoder implements Decoder<FunctionCallExplanation> {
   protected readonly methodsById: MethodIdMapping;
 
 
-  public decode(data: Buffer): FunctionCallExplanation {
+  public decode(data: Buffer | string ): FunctionCallExplanation {
+    if (typeof data === 'string') {
+      data = parseToBuffer(data);
+    }
     const methodId = bufferToHex(data.slice(0, 4));
     ensure(this.methodsById[methodId], `Unknown method: ${methodId}`);
 
@@ -59,7 +63,7 @@ export class TrxDecoder implements Decoder<FunctionCallExplanation> {
     const abiEncodedArgs = bufferToHex(data);
     const decodedArguments = TronWeb.utils.abi.decodeParams(names, types, abiEncodedArgs, true);
 
-    const args = [];
+    const args: any[] = [];
     for (let i = 0; i < inputs.length; i++) {
       const { name, type } = inputs[i];
       const decodedArgument = decodedArguments[name];
