@@ -1,6 +1,8 @@
-examples/
-test/
-.eslintrc.json
+/eth/
+/src/
+/test/
+/trx/
 .drone.yml
+.eslintrc.json
 tsconfig.json
 

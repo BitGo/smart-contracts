@@ -9,12 +9,13 @@
       "es5",
       "es2017"
     ],
-    "noImplicitAny": true,
+    "noImplicitAny": false,
     "strictNullChecks": true,
     "moduleResolution": "node",
     "sourceMap": true,
     "outDir": "dist",
-    "baseUrl": ".",
+    "resolveJsonModule": true,
+    "baseUrl": "./",
     "paths": {
       "*": [
         "node_modules/*",

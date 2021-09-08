@@ -12,3 +12,9 @@ console.log(`To transfer ${tokenAmount} ${tokenName} to ${recipient}:\n`);
 console.log(`Data: ${data}`);
 console.log(`Amount: ${amount} ETH`);
 console.log(`To: ${daiContract.address}`);
+
+const decoder = getContractsFactory('eth').getDecoder();
+
+const wbtcData = data.slice(2);
+const decoded = decoder.decode(Buffer.from(wbtcData, 'hex'));
+console.log(`\nTransfer decoded : \n`, decoded);

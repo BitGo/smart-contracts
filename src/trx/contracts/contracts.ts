@@ -5,8 +5,7 @@ import { Contract, Instance } from '../../base/contracts/contracts';
 import { MethodDefinition, Methods, MethodsImpl } from '../../base/methods/methods';
 
 export class TrxContract implements Contract<TrxMethod> {
-  static readonly ABI_DIR = '../../../trx/abis';
-  static readonly CONFIG_DIR = '../../../trx/config';
+  static readonly chainName = 'trx';
   private readonly DEFAULT_INSTANCE_KEY = 'default';
   static readonly ACCESS_ABI_VALUES = ['entrys'];
   _contractInstances: Instance<TrxMethod, Methods<TrxMethod>>[];
@@ -14,7 +13,7 @@ export class TrxContract implements Contract<TrxMethod> {
 
   constructor(readonly name: string) {
     this._contractReader = new ContractReader<TrxMethod
-      , Methods<TrxMethod>>(TrxContract.ABI_DIR, TrxContract.CONFIG_DIR, this.DEFAULT_INSTANCE_KEY, MethodsImpl, TrxMethod);
+      , Methods<TrxMethod>>(TrxContract.chainName, this.DEFAULT_INSTANCE_KEY, MethodsImpl, TrxMethod);
     this._contractInstances = this._contractReader.readContractInstances(name, TrxContract.ACCESS_ABI_VALUES );
   }
 

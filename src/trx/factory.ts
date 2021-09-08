@@ -3,6 +3,7 @@ import { listContractTypes } from '../base/contracts/contractInstances';
 
 import { TrxDecoder } from './decoder/decoder';
 import { Factory } from '../base/factory';
+
 export class TrxFactory implements Factory<TrxContract, TrxDecoder> {
   getContract(name: string): TrxContract {
     return new TrxContract(name);
@@ -13,6 +14,6 @@ export class TrxFactory implements Factory<TrxContract, TrxDecoder> {
   }
 
   listContractTypes(): string[] {
-    return listContractTypes(TrxContract.ABI_DIR);
+    return listContractTypes(TrxContract.chainName);
   }
 }

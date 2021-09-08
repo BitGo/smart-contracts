@@ -1,6 +1,6 @@
 
 export interface Decoder<TCallExplanation extends CallExplanation> {
-  decode(data: Buffer): TCallExplanation;
+  decode(data: Buffer | string): TCallExplanation;
 }
 
 export interface CallExplanation {

@@ -19,6 +19,10 @@ export function isArray (type: string): boolean {
   return type.includes('[]') && type.lastIndexOf(']') === type.length - 1;
 }
 
+export function isHex(data: string): boolean {
+  return /^([0-9a-f])+$/.test(data);
+}
+
 /**
  * Take an array type and return the subtype that it is an array of
  * i.e. uint256[][] would return uint256[], and uint256[] would return uint256
