@@ -187,6 +187,7 @@ This library is quite extensible to new chains and protocols -- if there are oth
 feel free to submit a PR adding them. To do so, make the following changes:
 - Add a new supported chain creating the directory `chainName` at the root level of the project, for example eth, trx, etc. 
 - Add the JSON ABI to `chainName/abis` directory, named `[ProtocolName].json`.
+- Add the new contract the index.ts on `chainName/abis`.
 - Add the ProtocolName and addresses for various instances of the protocol in `chainName/config/instances.json`
     - For example, Compound protocol has cDAI, cUSDC, etc for eth chain.
 - Add the protocol to the README above

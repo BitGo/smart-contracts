@@ -89,6 +89,12 @@ describe('Decoder', () => {
     }
   });
 
+  it('Should be able to decode various function calls with a string hex data', function() {
+    for (const { data, expected } of testCases) {
+      expect(decoder.decode(data)).toEqual(expected);
+    }
+  });
+
   it('Should fail to decode an unknown function call', function() {
     for (const data of failCases) {
       expect(() => decoder.decode(Buffer.from(stripHexPrefix(data), 'hex'))).toThrow('Unknown method');

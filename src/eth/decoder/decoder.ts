@@ -4,13 +4,9 @@ import { Decoder, FunctionCallExplanation } from '../../base/decoder/decoder';
 import { formatValue } from './types';
 import { ensure } from '../../util/ensure';
 import { EthMethod } from '../methods/methods';
-import { listContractTypes } from '../../base/contracts/contractInstances';
+import { listContractTypes, contracts } from '../../base/contracts/contractInstances';
 import { EthContract } from '../contracts/contracts';
-
-import * as fs from 'fs';
-import * as path from 'path';
-import { isValidJSON } from '../../util/json';
-
+import { parseToBuffer } from '../../../src/util/string';
 
 export interface MethodData {
   abi: EthMethod;
@@ -26,12 +22,10 @@ export class EthDecoder implements Decoder<FunctionCallExplanation> {
   private loadMethods(): MethodIdMapping {
     const result: MethodIdMapping = {};
 
-    for (const contractName of listContractTypes(EthContract.ABI_DIR)) {
-      const abi = fs.readFileSync(path.join( __dirname, `${EthContract.ABI_DIR}/${contractName}.json`), 'utf-8');
-      ensure(isValidJSON(abi), `Invalid JSON: ${abi}`);
-      const jsonAbi = JSON.parse(abi);
+    for (const contractName of listContractTypes(EthContract.chainName)) {
+      const abi = contracts[EthContract.chainName][contractName];
 
-      for (const methodAbi of jsonAbi) {
+      for (const methodAbi of abi) {
         if (methodAbi.inputs) {
           const name = methodAbi.name;
           const types = methodAbi.inputs.map((input: { type: any; }) => input.type);
@@ -51,8 +45,11 @@ export class EthDecoder implements Decoder<FunctionCallExplanation> {
   
   protected readonly methodsById: MethodIdMapping;
 
-
-  public decode(data: Buffer): FunctionCallExplanation {
+  public decode(data: Buffer | string): FunctionCallExplanation {
+    if (typeof data === 'string') {
+      data = parseToBuffer(data);
+    }
+    
     const methodId = bufferToHex(data.slice(0, 4));
     const abiEncodedArguments = data.slice(4);
     ensure(this.methodsById[methodId], `Unknown method: ${methodId}`);
@@ -62,7 +59,7 @@ export class EthDecoder implements Decoder<FunctionCallExplanation> {
 
     const decodedArguments = rawDecode(types, abiEncodedArguments);
 
-    const args = [];
+    const args: any[] = [];
     for (let i = 0; i < inputs.length; i++) {
       const { name, type } = inputs[i];
       const decodedArgument = decodedArguments[i];

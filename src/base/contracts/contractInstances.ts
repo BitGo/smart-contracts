@@ -1,59 +1,59 @@
-import fs from 'fs';
 import { ensure, ensureExist } from '../../util/ensure';
-import { isValidJSON } from '../../util/json';
 import { Instance, InstanceImpl } from './contracts';
 import { Method, MethodClass, MethodDefinition, MethodsClass, Methods } from '../methods/methods';
-import path from 'path';
+
+import EthAbiContracts from '../../../eth/abis';
+import TrxAbiContracts from '../../../trx/abis';
+
+import EthInstances from '../../../eth/config/instances.json';
+import TrxInstances from '../../../trx/config/instances.json';
+
+
+export const contracts = { eth: EthAbiContracts, trx: TrxAbiContracts };
+export const instances = { eth: EthInstances, trx: TrxInstances };
 
 /**
  * List the names of the available ABI definitions.
  * These are stored locally as JSON ABI definition files
  */
-export function listContractTypes(abiDirPath: string): string[] {
-  return fs.readdirSync(path.join( __dirname, abiDirPath)).map((fileName: string) => {
-    ensure(fileName.endsWith('.json'), `Malformed JSON abi filename: ${fileName}`);
-    return fileName.replace('.json', '');
-  });
+export function listContractTypes(chainName: string): string[] {
+  return Object.keys(contracts[chainName]);
 }
 
 /**
- * Return specific ABI as JSON
+ * Return specific ABI
  * @param contractName The name of the contract to read the ABI for
+ * @param chainName The name of the chain to read the ABI for
  * @param accessAbiValues Access values to the ABI, some contracts has sub levels to access the ABI, e.g Tron has {"entrys" : [..ABI]}
  * 
  */
-export function getJsonAbi(contractName: string, abiDirPath : string, accessAbiValues : string[] = []) {
-  const jsonAbi = fs.readFileSync(path.join( __dirname, `${abiDirPath}/${contractName}.json`), 'utf-8');
-  ensure(isValidJSON(jsonAbi), `Invalid JSON: ${jsonAbi}`);
-  let parsedJsonAbi = JSON.parse(jsonAbi);
+export function getAbiContract(contractName: string, chainName: string, accessAbiValues : string[] = []) {
+  let contract = contracts[chainName][contractName];
   if (accessAbiValues) {
     accessAbiValues.forEach(field => {
-      parsedJsonAbi = parsedJsonAbi[field];
+      contract = contract[field];
     });
   }
-  return ensureExist(parsedJsonAbi, `Invalid JSON field`);
+  return ensureExist(contract, `Invalid JSON field`);
 }
 
 
 export class ContractReader<TMethod extends Method, TMethods extends Methods<TMethod>> {
-  protected readonly abiDirPath: string;
-  protected readonly configDirPath: string;
+  protected readonly chainName: string;
   protected readonly defaultInstanceKey: string;
   private readonly methodsClass: MethodsClass<TMethod, TMethods>;
   private readonly methodClass: MethodClass<TMethod>;
 
   constructor(
-    abiDirPath: string,
-    configDirPath: string,
+    chainName: string,
     defaultInstanceKey: string,
     methodsClass: MethodsClass<TMethod, TMethods>,
     methodClass: MethodClass<TMethod>,
   ) {
-    if (!abiDirPath || !configDirPath || !defaultInstanceKey) {
+    if (!chainName || !defaultInstanceKey) {
       throw new Error('Default chain params not defined.');
     }
-    this.abiDirPath = abiDirPath;
-    this.configDirPath = configDirPath;
+    this.chainName = chainName;
     this.defaultInstanceKey = defaultInstanceKey;
     this.methodsClass = methodsClass;
     this.methodClass = methodClass;
@@ -65,8 +65,8 @@ export class ContractReader<TMethod extends Method, TMethods extends Methods<TMe
    * @param accessAbiValues Some contracts has sub levels to access the ABI, e.g Tron has {"entrys" : [..ABI]}
    */
   readContractInstances(contractName: string, accessAbiValues : string[] = []): Instance<TMethod, TMethods>[] {
-    const instances = this.getInstances(contractName);
-    const contract = this.getContract(contractName, listContractTypes(this.abiDirPath), accessAbiValues);
+    const instances = this.getInstances(contractName, this.chainName);
+    const contract = this.getContract(contractName, listContractTypes(this.chainName), accessAbiValues);
 
     // Save them with the instance names lowercased, for easier lookup
     return this.parse(instances, contract);
@@ -81,15 +81,13 @@ export class ContractReader<TMethod extends Method, TMethods extends Methods<TMe
    */
   public getContract(contractName: string, contractTypesList: string[], accessAbiValues : string[] = []) {
     ensure(contractTypesList.includes(contractName), `Unknown contract: ${contractName}`);
-    return getJsonAbi(contractName, this.abiDirPath, accessAbiValues);
+    return getAbiContract(contractName, this.chainName, accessAbiValues);
   }
 
-  private getInstances(contractName: string) {
-    const config = fs.readFileSync(require.resolve(`${this.configDirPath}/instances.json`), 'utf-8');
-    ensure(isValidJSON(config), `Invalid JSON: ${config}`);
-    const parsedConfig = JSON.parse(config);
-    ensure(parsedConfig[contractName], `Unknown contract: ${contractName}`);
-    return parsedConfig[contractName];
+  private getInstances(contractName: string, chainName: string) {
+    const config = instances[chainName];
+    ensure(config[contractName], `Unknown contract: ${contractName}`);
+    return config[contractName];
   }
 
   private parse(parsedConfig: {[key: string]: string}, contract: MethodDefinition[]): Instance<TMethod, TMethods>[] {
