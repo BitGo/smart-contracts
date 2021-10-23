@@ -64,6 +64,18 @@ const generateTrxHexString = (length: number): () => string => {
   };
 };
 
+const generateEthAddress = () => {
+  return () => {
+    return '0x61E64B5224f88944222c4Aa7CCE1809c17106De5';
+  };
+};
+
+const generateIntArrray = (arr:string[]) => {
+  return () => {
+    return arr;
+  };
+};
+
 const solidityTypes: { [key: string]: any } = {
   eth: {
     uint: generateNumber(2e8),
@@ -75,7 +87,7 @@ const solidityTypes: { [key: string]: any } = {
     uint256: generateNumber(2e16),
     int256: generateSignedInteger(2e8),
     bool: generateFromOptions([true, false]),
-    address: generateHexString(40),
+    address: generateEthAddress(),
     bytes: generateHexString(32),
     bytes1: generateHexString(2),
     bytes2: generateHexString(4),
@@ -86,6 +98,12 @@ const solidityTypes: { [key: string]: any } = {
     bytes32: generateHexString(64),
     string: generateFromOptions(['asdfadsf', 'hello world', 'test']),
     ['address[]']: generateHexStringArray(40, 1),
+    ['uint8[]']: generateIntArrray([generateNumber(2e2)(), generateNumber(2e2)()]),
+    ['uint256[]']: generateIntArrray([generateNumber(2e16)(), generateNumber(2e8)()]),
+    ['bytes[]']: generateHexStringArray(40, 1),
+    uint24: generateNumber(2e4),
+    uint160: generateNumber(2e8),
+    int24: generateNumber(2e4),
   },
   trx: {
     uint: generateNumber(2e8),
@@ -120,16 +138,25 @@ export function testFuzzedContractMethods (chainName:string, contract: Contract<
     const name = methodDefinition.name;
 
     for (let i = 0; i < FUZZING_REPETITIONS; i++) {
-      const args: { [key: string]: any } = {};
+      let args: { [key: string]: any } = {};
       params.forEach((param: Parameter) => {
-        args[param.name] = getSolidityParameter(chainName, param.type);
+        if (param.type === 'tuple') {
+          const obj :{[key: string]: any} = {};
+          param.components.forEach((key:{name: string, type: string}) => {
+            obj[key.name] = getSolidityParameter(chainName, key.type);
+          });
+          args = obj;
+        } else {
+          args[param.name] = getSolidityParameter(chainName, param.type);
+        }
+       
       });
       const contractInstance = contract.instance(args.instanceName || 'default');
 
       if (args.address) {
         contractInstance.address = args.address;
       }
-
+      
       callback(contractInstance.methods()[name].call(args));
     }
   });
