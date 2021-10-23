@@ -8,8 +8,10 @@
     "ZRX": "0xe41d2489571d322189246dafa5ebde1f4699f498",
     "KNC": "0xdd974d5c2e2928dea5f71b9825b8b646686bd200",
     "USDC": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
-    "DAI": "0x6b175474e89094c44da98b954eedeac495271d0f",
-    "SAI": "0x89d24a6b4ccb1b6faa2625fe562bdd9a23260359"
+    "DAI": "0x6B175474E89094C44Da98b954EedeAC495271d0F",
+    "SAI": "0x89d24a6b4ccb1b6faa2625fe562bdd9a23260359",
+    "UNI": "0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984",
+    "USDT": "0xdac17f958d2ee523a2206206994597c13d831ec7"
   },
   "WrappedToken": {
     "WBTC": "0x2260fac5e5542a773aa44fbcfedf7c193bc2c599"
@@ -76,5 +78,21 @@
   "ForwarderFactory": {
   },
   "WalletFactory": {
+  },
+  "UniswapV2SwapRouter": {
+    "default": "0x7a250d5630b4cf539739df2c5dacb4c659f2488d"
+  },
+  "UniswapV3SwapRouter": {
+    "default": "0xe592427a0aece92de3edee1f18e0157c05861564"
+  },
+  "UniswapV3NonfungiblePositionManager":{
+    "default": "0xC36442b4a4522E871399CD717aBDD847Ab11FE88"
+  },
+  "SushiswapV2Router02":{
+    "default": "0xd9e1cE17f2641f24aE83637ab66a2cca9C378B9F"
+  },
+  "KashiPairMediumRiskV1":{
+    "default": "0x2cBA6Ab6574646Badc84F0544d05059e57a5dc42"
+
   }
 }
