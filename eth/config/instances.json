@@ -88,7 +88,7 @@
   "UniswapV3NonfungiblePositionManager":{
     "default": "0xC36442b4a4522E871399CD717aBDD847Ab11FE88"
   },
-  "SushiswapV2Router02":{
+  "SushiswapV2Router":{
     "default": "0xd9e1cE17f2641f24aE83637ab66a2cca9C378B9F"
   },
   "KashiPairMediumRiskV1":{

@@ -6,20 +6,17 @@ import { BitGo } from 'bitgo';
 
 async function sendBitGoTx() {
   const DAIContractAddress = '0x6B175474E89094C44Da98b954EedeAC495271d0F';
-  const amountOutMin = '5604703456315089187';
-
+  const amountOutMin = 50e17;
   const wrappedEtherContractAddress = '0xd0A1E359811322d97991E03f863a0C30C2cF029C';
-
   const toAddress = 'walletAddress';
-
   const swapRouter = getContractsFactory('eth').getContract('UniswapV2SwapRouter').instance();
-
   const path = [wrappedEtherContractAddress, DAIContractAddress];
-  const deadline = '1633626644';
-  const txInput = swapRouter.methods().swapExactETHForTokens.
-call({ amountOutMin: amountOutMin, path: path, to: toAddress, deadline: deadline });
+  const deadline = 'deadline';
+  const ethAmount = 1e16;
 
-  txInput.amount = '10000000000000000';
+  const txInput = swapRouter.methods().swapExactETHForTokens.
+call({ amountOutMin: amountOutMin.toString(10), path: path, to: toAddress, deadline: deadline });
+  txInput.amount = ethAmount.toString(10);
   console.log(`To swap ETH to DAI with  UniwapV2Router contract, send:`);
   console.log(`Data: ${txInput.data}`);
   console.log(`Amount: ${txInput.amount}`);

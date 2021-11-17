@@ -1,33 +1,14 @@
 import { getContractsFactory } from '../../../src/index';
 import { BitGo } from 'bitgo';
+import * as utils from '../utils';
+import ethers from 'ethers';
+import * as ethUtil from 'ethereumjs-util';
 // Example to lend USDT in Kashi
 
 async function sendBitGoTx() {
   const bitGo = new BitGo({ env: 'test', accessToken: 'accesstoken' });
   const baseCoin = bitGo.coin('teth');
   const bitGoWallet = await baseCoin.wallets().get({ id: 'walletId' });
-
-  const token = 'USDT';
-  const bentoBoxV1ContractAddress = '0xF5BCE5077908a1b7370B9ae04AdC565EBd643966';
-  //approve USDT
-  const tokenContract = getContractsFactory('eth')
-    .getContract('StandardERC20')
-    .instance(token);
-
-  const value = '115792089237316195423570985008687907853269984665640564039457584007913129639935';
-  let { data, amount } = tokenContract.methods().approve.call({
-    _spender: bentoBoxV1ContractAddress,
-    _value: value,
-  });
-
-  let transaction = await bitGoWallet.send({
-    data: data,
-    amount: amount,
-    address: tokenContract.address,
-    walletPassphrase: 'walletPassphrase',
-  });
-
-  // lend USDT in Kashi
   
   /*
    * 24 ACTION_BENTO_SETAPPROVAL ParamNames user, _masterContract, approved, v, r, s. ABI encoding address, address, bool, uint8, bytes32, bytes32
@@ -56,20 +37,95 @@ async function sendBitGoTx() {
    */
   const actions = ['24', '20', '1'];
   const values = ['0', '0', '0'];
-  
-  const datas = ['dataForAction24', 'dataForAction20', 'dataForAction1'];
+  const sampleWalletAddress = '0x6c31cdbf161bad81f9eceb107d757cb85f2dbcab';
+  const masterContract = '0x2cba6ab6574646badc84f0544d05059e57a5dc42';
+  const approved = true;
+  const nonce = 'nonce';
+  const kashiApprovalHash = utils.getKashiApprovalHash(
+    sampleWalletAddress,
+    masterContract,
+    approved,
+    nonce,
+  );
+
+  const bentoBoxV1ContractAddress =
+    '0xF5BCE5077908a1b7370B9ae04AdC565EBd643966';
+  const kashiBorrowContractAddress =
+    '0x2cba6ab6574646badc84f0544d05059e57a5dc42';
+  const chainId = 1;
+  const domainSeperatorHash = utils.getKashiDomainSeperatorHash(
+    chainId,
+    bentoBoxV1ContractAddress,
+  );
+  const digest = utils.getMasterContractApprovalHash(
+    domainSeperatorHash,
+    kashiApprovalHash,
+  );
+
+  const privateKeyHex = 'privateKeyHex';
+  const privkey = Buffer.from(privateKeyHex.replace(/^0x/i, ''), 'hex');
+  const signature = ethUtil.ecsign(digest, privkey);
+
+  let dataForAction24 = utils.stripHexPrefix(
+    ethers.utils.hexZeroPad(sampleWalletAddress, 32),
+  );
+  dataForAction24 += utils.stripHexPrefix(
+    ethers.utils.hexZeroPad(kashiBorrowContractAddress, 32),
+  );
+  dataForAction24 += utils.stripHexPrefix(ethers.utils.hexZeroPad('0x1', 32));
+  dataForAction24 += utils.stripHexPrefix(
+    ethers.utils.hexZeroPad(ethers.utils.hexlify(signature.v), 32),
+  );
+  dataForAction24 += utils.stripHexPrefix(
+    ethers.utils.hexZeroPad(signature.r.toString('hex'), 32),
+  );
+  dataForAction24 += utils.stripHexPrefix(
+    ethers.utils.hexZeroPad(signature.s.toString('hex'), 32),
+  );
+
+  const amountToDeposit = 1e18;
+  let dataForAction20 = utils.stripHexPrefix(ethers.utils.hexZeroPad('0x', 32));
+  dataForAction20 += utils.stripHexPrefix(
+    ethers.utils.hexZeroPad(sampleWalletAddress, 32),
+  );
+  dataForAction20 += utils.stripHexPrefix(
+    ethers.utils.hexZeroPad(
+      ethUtil.addHexPrefix(amountToDeposit.toString(16)),
+      32,
+    ),
+  );
+  const share = 0;
+  dataForAction20 += utils.stripHexPrefix(
+    ethers.utils.hexZeroPad(ethUtil.addHexPrefix(share.toString(16)), 32),
+  );
+
+  let dataForAction1 = utils.stripHexPrefix(
+    ethers.utils.hexZeroPad(
+      ethUtil.addHexPrefix(utils.MAX_VALUE_SHARE.toString(16)),
+      32,
+    ),
+  );
+  dataForAction1 += utils.stripHexPrefix(
+    ethers.utils.hexZeroPad(sampleWalletAddress, 32),
+  );
+  const skim = 0;
+  dataForAction1 += utils.stripHexPrefix(
+    ethers.utils.hexZeroPad(skim.toString(16), 32),
+  );
+
+  const datas = [ethUtil.addHexPrefix(dataForAction24), ethUtil.addHexPrefix(dataForAction20), ethUtil.addHexPrefix(dataForAction1)];
   const lendContract = getContractsFactory('eth')
   .getContract('KashiPairMediumRiskV1')
   .instance();
 
 
-  ({ data, amount } = lendContract.methods().cook.call({
+  const { data, amount } = lendContract.methods().cook.call({
     actions,
     values,
     datas,
-  }));
+  });
 
-  transaction = await bitGoWallet.send({
+  const transaction = await bitGoWallet.send({
     data: data,
     amount: amount,
     address: lendContract.address,
