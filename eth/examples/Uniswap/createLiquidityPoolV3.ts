@@ -6,18 +6,15 @@ async function sendBitGoTx() {
   const token1 = 'DAI';
   const token0ContractAddress = '0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984';
   const token1ContractAddress = '0x6B175474E89094C44Da98b954EedeAC495271d0F';
-
   const walletAddress = '0x6f32a7e465d50f61df96dfffc5bfb6d4059c7cd6';
-
   const fee = '3000';
-
   const tickLower = '-887220';
   const tickUpper = '887220';
-  const amount0Desired = '14789861394480592';
-  const amount1Desired = '49999999999999998309';
-  const amount0Min = '14753024820732246';
-  const amount1Min = '49874843358150006642';
-  const deadline = '1634103700';
+  const amount0Desired = 148e14;
+  const amount1Desired = 499e17;
+  const amount0Min = 147e14;
+  const amount1Min = 498e17;
+  const deadline = 'deadline';
 
   const bitGo = new BitGo({ env: 'test', accessToken: 'accesstoken' });
   const baseCoin = bitGo.coin('teth');
@@ -33,7 +30,7 @@ async function sendBitGoTx() {
 
   let { data, amount } = token0Contract.methods().approve.call({
     _spender: liquidityPoolContract.address,
-    _value: amount0Desired,
+    _value: amount0Desired.toString(10),
   });
 
   //  we need to approve the amount of UNI for the liquidityPool contract to control
@@ -56,7 +53,7 @@ async function sendBitGoTx() {
 
   ({ data, amount } = token1Contract.methods().approve.call({
     _spender: liquidityPoolContract.address,
-    _value: amount1Desired,
+    _value: amount1Desired.toString(10),
   }));
 
   //we need to approve the amount of DAI for the liquidityPool contract to control
@@ -79,10 +76,10 @@ async function sendBitGoTx() {
     fee: fee,
     tickLower: tickLower,
     tickUpper: tickUpper,
-    amount0Desired: amount0Desired,
-    amount1Desired: amount1Desired,
-    amount0Min: amount0Min,
-    amount1Min: amount1Min,
+    amount0Desired: amount0Desired.toString(10),
+    amount1Desired: amount1Desired.toString(10),
+    amount0Min: amount0Min.toString(10),
+    amount1Min: amount1Min.toString(10),
     recipient: walletAddress,
     deadline: deadline,
   }));

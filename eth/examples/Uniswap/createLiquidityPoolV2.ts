@@ -4,12 +4,11 @@ import { BitGo } from 'bitgo';
 //create DAI/ETH Liquidity Pool
 async function sendBitGoTx() {
   const token = 'DAI';
-  const tokenContractAddress = '0x6B175474E89094C44Da98b954EedeAC495271d0F';
-  const walletAddress = '0x61E64B5224f88944222c4Aa7CCE1809c17106De5';
-  const amountTokenDesired = '54179865003497273176';
-  const amountTokenMin = '53908965678479786810';
-  const amountETHMin = '9950000000000000';
-  const deadline = '1633453844';
+  const walletAddress = 'wallet address';
+  const amountTokenDesired = 54e18;
+  const amountTokenMin = 53e18;
+  const amountETHMin = 995e13;
+  const deadline = 'deadline';
 
   const bitGo = new BitGo({ env: 'test', accessToken:
   'accesstoken' });
@@ -30,7 +29,7 @@ async function sendBitGoTx() {
 
   let { data, amount } = tokenContract.methods().approve.call({
     _spender: liquidityPoolContract.address,
-    _value: amountTokenDesired,
+    _value: amountTokenDesired.toString(10),
   });
 
   let transaction = await bitGoWallet.send({
@@ -46,10 +45,10 @@ async function sendBitGoTx() {
   
 
   ({ data, amount } = liquidityPoolContract.methods().addLiquidityETH.call({
-    token: tokenContractAddress,
-    amountTokenDesired,
-    amountTokenMin,
-    amountETHMin,
+    token: tokenContract.address,
+    amountTokenDesired: amountTokenDesired.toString(10),
+    amountTokenMin: amountTokenMin.toString(10),
+    amountETHMin: amountETHMin.toString(10),
     to: walletAddress,
     deadline,
   }));

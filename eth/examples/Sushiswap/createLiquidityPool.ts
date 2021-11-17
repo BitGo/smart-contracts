@@ -4,18 +4,12 @@ import { BitGo } from 'bitgo';
 async function sendBitGoTx() {
   const tokenA = 'DAI';
   const tokenB = 'UNI';
-
-  const tokenAContractAddress = '0x6B175474E89094C44Da98b954EedeAC495271d0F';
-  const tokenBContractAddress = '0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984';
-
-  const walletAddress = '0x61E64B5224f88944222c4Aa7CCE1809c17106De5';
-
-  const amountADesired = '100000000000000000000';
-  const amountBDesired = '25462061812432604';
-
-  const amountAMin = '99500000000000000000';
-  const amountBMin = '25334751503370441';
-  const deadline = '1633453844';
+  const walletAddress = 'wallet addresses';
+  const amountADesired = 100e18; // amount of DAI desired
+  const amountBDesired = 250e14; // amount of UNI desired
+  const amountAMin = 995e17; //minimum amout of DAI 
+  const amountBMin = 254e14; // minimum amout of UNI
+  const deadline = 'deadline';
 
   const bitGo = new BitGo({ env: 'test', accessToken:
   'accesstoken' });
@@ -26,8 +20,8 @@ async function sendBitGoTx() {
 
 
   const liquidityPoolContract = getContractsFactory('eth')
-.getContract('SushiswapV2Router02')
-.instance('default');
+.getContract('SushiswapV2Router')
+.instance();
 
   const tokenAContract = getContractsFactory('eth')
   .getContract('StandardERC20')
@@ -35,7 +29,7 @@ async function sendBitGoTx() {
 
   let { data, amount } = tokenAContract.methods().approve.call({
     _spender: liquidityPoolContract.address,
-    _value: amountADesired,
+    _value: amountADesired.toString(10),
   });
 
   let transaction = await bitGoWallet.send({
@@ -56,7 +50,7 @@ async function sendBitGoTx() {
 
   ({ data, amount } = tokenBContract.methods().approve.call({
     _spender: liquidityPoolContract.address,
-    _value: amountBDesired,
+    _value: amountBDesired.toString(10),
   }));
 
   transaction = await bitGoWallet.send({
@@ -72,12 +66,12 @@ async function sendBitGoTx() {
   console.log(`Amount: ${amount}`);
 
   ({ data, amount } = liquidityPoolContract.methods().addLiquidity.call({
-    tokenA: tokenAContractAddress,
-    tokenB: tokenBContractAddress,
-    amountADesired: amountADesired,
-    amountBDesired: amountBDesired,
-    amountAMin: amountAMin,
-    amountBMin: amountBMin,
+    tokenA: tokenAContract.address,
+    tokenB: tokenBContract.address,
+    amountADesired: amountADesired.toString(10),
+    amountBDesired: amountBDesired.toString(10),
+    amountAMin: amountAMin.toString(10),
+    amountBMin: amountBMin.toString(10),
     to: walletAddress,
     deadline: deadline,
   }));
