@@ -22,7 +22,11 @@ import WrappedToken from './WrappedToken.json';
 import WrappedTokenController from './WrappedTokenController.json';
 import WrappedTokenFactory from './WrappedTokenFactory.json';
 import WrappedTokenMembers from './WrappedTokenMembers.json';
-
+import UniswapV2SwapRouter from './UniswapV2SwapRouter.json';
+import UniswapV3SwapRouter from './UniswapV3SwapRouter.json';
+import UniswapV3NonfungiblePositionManager from './UniswapV3NonfungiblePositionManager.json';
+import SushiswapV2Router from './SushiswapV2Router.json';
+import KashiPairMediumRiskV1 from './KashiPairMediumRiskV1.json';
 export default {
   Compound,
   CompoundComptroller,
@@ -43,6 +47,11 @@ export default {
   StandardERC20,
   WalletFactory,
   WalletSimple,
+  UniswapV2SwapRouter,
+  UniswapV3SwapRouter,
+  UniswapV3NonfungiblePositionManager,
+  SushiswapV2Router,
+  KashiPairMediumRiskV1,
   WrappedToken,
   WrappedTokenController,
   WrappedTokenFactory,
