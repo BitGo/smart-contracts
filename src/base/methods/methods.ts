@@ -2,6 +2,7 @@ export type MethodsClass<TMethod extends Method, TMethods extends Methods<TMetho
 export type MethodClass<TMethod extends Method> = new(...args: any[]) => TMethod;
 
 export interface Parameter {
+  components: any;
   name: string
   type: string;
 }

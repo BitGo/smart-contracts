@@ -2,7 +2,7 @@ import * as abi from 'ethereumjs-abi';
 import { ensure } from '../../util/ensure';
 import * as ethUtil from 'ethereumjs-util';
 import { Method, MethodDefinition, Parameter } from '../../base/methods/methods';
-
+import * as ethers from 'ethers';
 export interface EthMethodDefinition extends MethodDefinition {
   constant: boolean;
   payable: boolean;
@@ -38,14 +38,36 @@ export class EthMethod implements Method {
   call(params: { [key: string]: any }): any {
     const types: string[] = [];
     const values: string[] = [];
-    this.inputs.forEach((input: Parameter) => {
-      ensure(params[input.name] !== undefined, `Missing required parameter: ${input.name}`);
-      values.push(params[input.name]);
-      types.push(input.type);
+    let data = '';
+    this.inputs.forEach((input) => {
+      if (Array.isArray(input.components)) {
+        let tuple = 'tuple(';
+        input.components.forEach(component => {
+          ensure(params[component.name] !== undefined, `Missing required parameter: ${component.name}`);
+          tuple += component.type + ',';
+          values.push(params[component.name]);
+        });
+        tuple = tuple.slice(0, -1);
+        tuple += ')';
+        
+        types.push(tuple);
+        const abiElement = 'function ' + this.name + '(' + tuple + ')';
+        const iface = new ethers.utils.Interface([abiElement]);
+        const methodId = iface.functions[this.name].sighash;
+        data = methodId + ethers.utils.defaultAbiCoder.encode(types, [values]).slice(2);
+            
+      } else {
+        ensure(params[input.name] !== undefined, `Missing required parameter: ${input.name}`);
+        values.push(params[input.name]);
+        types.push(input.type);
+        data = ethUtil.addHexPrefix(this.id + abi.rawEncode(types, values).toString('hex'));
+
+      }
+     
     });
 
     return {
-      data: ethUtil.addHexPrefix(this.id + abi.rawEncode(types, values).toString('hex')),
+      data,
       amount: '0',
     };
   }
