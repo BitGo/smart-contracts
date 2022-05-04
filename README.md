@@ -14,7 +14,7 @@ npm i @bitgo/smart-contracts
 ## Supported Chains
 
 * eth
-* trx
+* trx 
 
 
 ## Example Usage
