@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/bitgo/smart-contracts#readme",
   "dependencies": {
+    "ethers": "4.0.48",
     "bignumber.js": "^9.0.1",
     "ethereumjs-abi": "0.6.8",
     "ethereumjs-util": "6.2.0",
