@@ -14,7 +14,8 @@
     "USDT": "0xdac17f958d2ee523a2206206994597c13d831ec7"
   },
   "WrappedToken": {
-    "WBTC": "0x2260fac5e5542a773aa44fbcfedf7c193bc2c599"
+    "WBTC": "0x2260fac5e5542a773aa44fbcfedf7c193bc2c599",
+    "WDOGE": "0x8aa9381b2544b48c26f3b850F6e07E2c5161EB3e"
   },
   "WrappedTokenFactory":{
     "WBTC": "0xe5a5f138005e19a3e6d0fe68b039397eeef2322b"
@@ -23,7 +24,14 @@
     "WBTC": "0xCA06411bd7a7296d7dbdd0050DFc846E95fEBEB7"
   },
   "WrappedTokenMembers":{
-    "WBTC": "0x3e8640574aa764763291eD733672D3A105107ac5"
+    "WBTC": "0x3e8640574aa764763291eD733672D3A105107ac5",
+    "WDOGE": "0x78749C8E1af46cA85bEE4AE566F0Fe9a324ac531"
+  },
+  "WrappedTokenFactoryV1":{
+    "WDOGE": "0x62084120c6006956dDa975B89C07b7d68b6D61E0"
+  },
+  "WrappedTokenControllerV1":{
+    "WDOGE": "0xaF9f0d1CE262d70be64346cBa74706230951f067"
   },
   "Compound": {
     "CUSDC": "0x39aa39c021dfbae8fac545936693ac917d5e7563",

@@ -27,6 +27,8 @@ import UniswapV3SwapRouter from './UniswapV3SwapRouter.json';
 import UniswapV3NonfungiblePositionManager from './UniswapV3NonfungiblePositionManager.json';
 import SushiswapV2Router from './SushiswapV2Router.json';
 import KashiPairMediumRiskV1 from './KashiPairMediumRiskV1.json';
+import WrappedTokenControllerV1 from './WrappedTokenControllerV1.json'
+import WrappedTokenFactoryV1 from './WrappedTokenFactoryV1.json'
 export default {
   Compound,
   CompoundComptroller,
@@ -56,5 +58,7 @@ export default {
   WrappedTokenController,
   WrappedTokenFactory,
   WrappedTokenMembers,
+  WrappedTokenControllerV1,
+  WrappedTokenFactoryV1,
 };
 
