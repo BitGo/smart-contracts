@@ -34,7 +34,7 @@
     "@types/mocha": "5.2.7",
     "@typescript-eslint/eslint-plugin": "^4.31.0",
     "@typescript-eslint/parser": "^4.31.0",
-    "bitgo": "11.1.1",
+    "bitgo": "16.2.1",
     "eslint": "^7.32.0",
     "expect": "24.9.0",
     "mocha": "6.2.2",
