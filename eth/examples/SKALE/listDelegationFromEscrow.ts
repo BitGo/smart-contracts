@@ -27,7 +27,7 @@ async function sendBitGoTx(): Promise<void> {
   DelegationController.address = delegationControllerAddress;
   const delegations = [];
   /**
-   * List all of the delegations for th token holder's Escrow contract.
+   * List all of the delegations for the token holder's Escrow contract.
    * This will return the states of each of the delegation requests sent.
    *
    * First get Total amount of delegations for the holder

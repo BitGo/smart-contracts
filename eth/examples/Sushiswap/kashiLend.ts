@@ -12,7 +12,7 @@ async function sendBitGoTx() {
   
   /*
    * 24 ACTION_BENTO_SETAPPROVAL ParamNames user, _masterContract, approved, v, r, s. ABI encoding address, address, bool, uint8, bytes32, bytes32
-   * for information in v, r, s visit https://github.com/ethereum/EIPs/blob/master/EIPS/eip-155.md
+   * for information on v, r, s, visit https://github.com/ethereum/EIPs/blob/master/EIPS/eip-155.md
    * userAddress= walletAddress
    * _masterContract=KashiPairMediumRiskV1 contract Address
    * example dataForAction24 ='0x

@@ -24,7 +24,7 @@ export function listContractTypes(chainName: string): string[] {
  * Return specific ABI
  * @param contractName The name of the contract to read the ABI for
  * @param chainName The name of the chain to read the ABI for
- * @param accessAbiValues Access values to the ABI, some contracts has sub levels to access the ABI, e.g Tron has {"entrys" : [..ABI]}
+ * @param accessAbiValues Access values to the ABI, some contracts have sub levels to access the ABI, e.g. Tron has {"entrys" : [..ABI]}
  * 
  */
 export function getAbiContract(contractName: string, chainName: string, accessAbiValues : string[] = []) {
@@ -62,7 +62,7 @@ export class ContractReader<TMethod extends Method, TMethods extends Methods<TMe
   /**
    * Read in and parse config for instances of this contract type
    * @param contractName The name of the contract to read the config for
-   * @param accessAbiValues Some contracts has sub levels to access the ABI, e.g Tron has {"entrys" : [..ABI]}
+   * @param accessAbiValues Some contracts have sub levels to access the ABI, e.g. Tron has {"entrys" : [..ABI]}
    */
   readContractInstances(contractName: string, accessAbiValues : string[] = []): Instance<TMethod, TMethods>[] {
     const instances = this.getInstances(contractName, this.chainName);
@@ -77,7 +77,7 @@ export class ContractReader<TMethod extends Method, TMethods extends Methods<TMe
    * Return the contract specific ABI
    * @param contractName The name of the contract to 
    * @param contractTypesList 
-   * @param accessAbiValues Access values to the ABI, some contracts has sub levels to access the ABI, e.g Tron has {"entrys" : [..ABI]}
+   * @param accessAbiValues Access values to the ABI, some contracts have sub levels to access the ABI, e.g. Tron has {"entrys" : [..ABI]}
    */
   public getContract(contractName: string, contractTypesList: string[], accessAbiValues : string[] = []) {
     ensure(contractTypesList.includes(contractName), `Unknown contract: ${contractName}`);
@@ -99,7 +99,7 @@ export class ContractReader<TMethod extends Method, TMethods extends Methods<TMe
       result.push(new InstanceImpl<TMethod, TMethods>(instanceName.toLowerCase(), new this.methodsClass(methodList), address));
     });
 
-    // If no exists a default intance create one
+    // If no default instance exists, create one
     if (!Object.keys(parsedConfig).some((instanceName: string) => instanceName === 'default')) {
       result.push(new InstanceImpl<TMethod, TMethods>('default', new this.methodsClass(methodList)));
     }

@@ -6,8 +6,8 @@ const daiToken = getContractsFactory('eth').getContract('StandardERC20').instanc
 
 async function sendBitGoTx(): Promise<void> {
   /*
-   * This assume you already have a CDP at Maker from our example createCDP
-   * It also assume you already have a CDP setup
+   * This assumes you already have a CDP at Maker from our example createCDP
+   * It also assumes you already have a CDP setup
    * step 1 - Approve the number of tokens you would like the proxy to access
    */
 

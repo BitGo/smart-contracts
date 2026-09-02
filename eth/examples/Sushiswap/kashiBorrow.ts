@@ -11,7 +11,7 @@ async function sendBitGoTx() {
   const bitGoWallet = await baseCoin.wallets().get({ id: 'walletId' });
   /*
    * 24 ACTION_BENTO_SETAPPROVAL ParamNames user, _masterContract, approved, v, r, s. ABI encoding address, address, bool, uint8, bytes32, bytes32
-   * for information in v, r, s visit https://github.com/ethereum/EIPs/blob/master/EIPS/eip-155.md
+   * for information on v, r, s, visit https://github.com/ethereum/EIPs/blob/master/EIPS/eip-155.md
    * example dataForAction24 ='0x
    * 0000000000000000000000006c31cdbf161bad81f9eceb107d757cb85f2dbcab (wallet Address)
    * 0000000000000000000000002cba6ab6574646badc84f0544d05059e57a5dc42 (KashiPairMediumRiskV1 contract Address)
