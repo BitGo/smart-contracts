@@ -7,8 +7,8 @@ async function sendBitGoTx() {
   const walletAddress = 'wallet addresses';
   const amountADesired = 100e18; // amount of DAI desired
   const amountBDesired = 250e14; // amount of UNI desired
-  const amountAMin = 995e17; //minimum amout of DAI 
-  const amountBMin = 254e14; // minimum amout of UNI
+  const amountAMin = 995e17; //minimum amount of DAI 
+  const amountBMin = 254e14; // minimum amount of UNI
   const deadline = 'deadline';
 
   const bitGo = new BitGo({ env: 'test', accessToken:

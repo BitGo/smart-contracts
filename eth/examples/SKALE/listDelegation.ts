@@ -15,7 +15,7 @@ async function sendBitGoTx(): Promise<void> {
 
   const delegations = [];
   /**
-   * List all of the delegations for th token holder (delegator).
+   * List all of the delegations for the token holder (delegator).
    * This will return the states of each of the delegation requests sent.
    *
    * First get Total amount of delegations for the holder
